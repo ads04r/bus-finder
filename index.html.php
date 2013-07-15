@@ -19,8 +19,6 @@ foreach($f as $l)
 }
 
 
-$mobileuri = "http://data.southampton.ac.uk/bus-finder/?view=mob";
-
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -58,56 +56,4 @@ $mobileuri = "http://data.southampton.ac.uk/bus-finder/?view=mob";
 </html><?
 
 exit();
-
-?>
-
-		<h1>Southampton Bus Finder</h1>
-
-		<div style='float:right; width:300px; text-align:center; border-left: solid 1px #CFCFCF; margin-left: 16px;'>
-			<div>Use this handy QRCode to use this tool on your mobile device...</div>
-			<a href="<? print($mobileuri); ?>">
-				<img src="<? print("http://splashurl.net/qr.png?s=6&q=" . urlencode($mobileuri)); ?>" />
-			</a>
-		</div>
-
-		<p style="width: 100%; display: block;">
-			This is a tool that really shows off the power of linked open data. From here you can search for anything within the boundaries of
-			Southampton and find a direct bus, if one exists. The service uses bus route data collected from the council, information on notable
-			things in Southampton which is pulled from <a href="http://dbpedia.org/">DBPedia</a>, and information on food-serving outlets in
-			Southampton which we get from the <a href="http://ratings.food.gov.uk/\">Food Standards Agency</a>.
-		</p>
-
-		<form action="./search.html" method="POST">
-		<table>
-			<tr>
-				<td>Your current location:</td>
-				<td>
-					<select size="1" name="locsel" id="locsel">
-
-<?
-
-$sp = file("./config/startpoints.csv");
-$i = 1;
-foreach($sp as $l)
-{
-	$a = explode(",", trim($l));
-	print("\t\t\t\t\t\t<option value=\"" . $i . "\">" . $a[0] . "</option>\n");
-	$i++;
-}
-
-?>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>Your destination:</td>
-				<td><input type="text" id="searchfield" name="searchfield"></td>
-			</tr>
-			<tr>
-				<td colspan="2"><input type="hidden" id="searchuri" name="searchuri" value=""><input type="submit" value="Find a bus"></td>
-			</tr>
-		</table>
-		</form>
-
-	<?
 
