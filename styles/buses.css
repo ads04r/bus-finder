@@ -1,0 +1,164 @@
+html,body {
+	font-family: Georgia, serif;
+	font-size: 1em;
+	line-height: 1.4;
+}
+
+body {
+	background-image: url("http://marbles.ecs.soton.ac.uk/bus-finder/graphics/altbackground.jpg");
+	background-repeat: no-repeat;
+	background-position: top;
+	background-size: 100%;
+	background-color: #333333;
+}
+
+div#footer {
+	width: 100%;
+	text-align: center;
+	position: fixed;
+	bottom: 0px;
+	color: white;
+	font-size: 0.8em;
+	padding-bottom: 5px;
+	padding-top: 5px;
+	background-color: #333333;
+	z-index: 1000;
+}
+
+div#footer ul {
+	list-style: none outside none;
+	padding: 0px;
+	margin: 0px;
+}
+
+div#footer ul li {
+	display: inline;
+	list-style: none outside none;
+	border-left: solid 1px #FFFFFF;
+	padding-left: 6px;
+	padding-right: 3px;
+}
+
+div#footer ul li:nth-of-type(1) {
+	border-left: none !important;
+}
+
+div#footer ul li a {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+div#main {
+	position: absolute;
+	top: 130px;
+	height: auto !important;
+	left: 16%;
+	right: 16%;
+	bottom: -1px;
+	padding-left: 170px;
+	
+}
+
+div#main div.header {
+	height: 65px;
+	background-color: #FFFFFF;
+	font-size: 0.9em;
+	padding: 3px;
+}
+
+h1,h2,h3 {
+	 font-weight: normal;
+}
+ 
+div#main div.header h1 {
+	 display: inline;
+	 padding: 6px;
+	 font-size: 2em;
+	 line-height: 65px;
+}
+ 
+div#main div.content h2 {
+	display: block;
+	clear: both;
+	position: relative;
+	font-size: 1em;
+	background: rgba(0,0,0,0.2);
+	padding: 3px 12px;
+	margin: 0px -12px;
+}
+
+div#main div.content {
+	height: auto !important;
+	overflow-y: hidden;
+	padding: 0px 1em 1em;
+	background: rgba(255,255,255,0.8);
+	font-size: 0.8em;
+	z-index: 0;
+}
+
+div#main div.content div.entry {
+	width: 100%;
+	clear: both;
+	display: block;
+	position: relative;
+	font-size: 0.8em;
+	font-family: Georgia, serif;
+	line-height: 1.4;
+	height: auto !important;
+}
+
+div#main div.content div.entry {
+	border-top: 1px dashed rgb(102, 102, 102);
+}
+
+div#main div.content div.entry:nth-of-type(1) {
+	border-top: none !important;
+}
+
+div#main div.content div.entry h3 {
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+div#main div.content div.entry a {
+	float: left;
+	font-size: 1.5em;
+	margin-left: 1.1em;
+	text-indent: -1.1em;
+	color: #000000;
+	text-decoration: none;
+}
+
+div#main div.content div.entry div.time {
+	position: absolute;
+	top: 5px;
+	right: 0px;
+	width: 15em;
+	text-align: right;
+	display: inline;
+	font-size: 1.2em;
+}
+
+div#search {
+	position: fixed;
+	top: 130px;
+	height: 180px;
+	left: 16%;
+	width: 160px;
+	z-index: 1;
+}
+
+div#search .header {
+	height: 20px;
+	padding: 6px;
+	background: #FFFFFF;
+	font-size: 0.9em;
+}
+
+div#search .content {
+	overflow: hidden;
+	height: 160px;
+	background: rgba(255,255,255,0.8);
+	padding: 6px;
+	font-size: 0.8em;
+}
