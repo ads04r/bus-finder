@@ -61,7 +61,7 @@ $(document).ready(function() {
 		if(uri == 'http://id.southampton.ac.uk/site/18')
 		{
 			bl.destroy();
-			var stops = ["1980SN120102","1980SN120068","1980SN120221","1980SN120222","1980SN120979","1980SN120083","1980SN120082","1980SN120084",];
+			var stops = ["1980SN120102","1980SN120068","1980SN120221","1980SN120222","1980SN120979","1980SN120083","1980SN120082","1980SN120084"];
 			create("Southampton General Hospital", stops);
 			return false;
 		}
