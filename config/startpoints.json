@@ -1,0 +1,142 @@
+[
+   {
+      "lat" : "50.93620",
+      "lon" : "5.39680",
+      "title" : "Highfield Campus",
+      "uri" : "http://id.southampton.ac.uk/site/1",
+      "stops" : ["1980SN120134","1980HAA13668","1980SN120131","1980SN120127","1980SN120257","1980SN120256","1980SN120136","1980SN120128"]
+   },
+   {
+      "lat" : "50.928652",
+      "lon" : "5.40375",
+      "title" : "Avenue Campus",
+      "uri" : "http://id.southampton.ac.uk/site/3",
+      "stops" : ["1980SNA13670", "1980SNA09299"]
+   },
+   {
+      "lat" : "50.933185",
+      "lon" : "5.43541225",
+      "title" : "Southampton General Hospital",
+      "uri" : "http://id.southampton.ac.uk/site/18",
+      "stops" : ["1980SN120102","1980SN120068","1980SN120221","1980SN120222","1980SN120979","1980SN120083","1980SN120082","1980SN120084"]
+   },
+   {
+      "lat" : "50.8927263",
+      "lon" : "5.3946555",
+      "title" : "National Oceanography Centre",
+      "uri" : "http://id.southampton.ac.uk/site/6",
+      "stops" : []
+   },
+   {
+      "lat" : "51.065765",
+      "lon" : "5.30954",
+      "title" : "Winchester School of Art",
+      "uri" : "http://id.southampton.ac.uk/site/4",
+      "stops" : []
+   },
+   {
+      "lat" : "50.950775",
+      "lon" : "5.362974",
+      "title" : "Southampton Airport (Parkway)",
+      "uri" : "http://id.southampton.ac.uk/point-of-service/rail-soa",
+      "stops" : []
+   },
+   {
+      "lat" : "50.9075",
+      "lon" : "5.4141",
+      "title" : "Southampton Central Station",
+      "uri" : "http://id.southampton.ac.uk/point-of-service/rail-sou",
+      "stops" : []
+   },
+   {
+      "lat" : "50.962158",
+      "lon" : "5.424618",
+      "title" : "The University of Southampton Science Park",
+      "uri" : "http://id.southampton.ac.uk/site/5",
+      "stops" : []
+   },
+   {
+      "lat" : "50.9369483",
+      "lon" : "5.3765588",
+      "title" : "Stoneham Hall",
+      "uri" : "http://id.southampton.ac.uk/site/65",
+      "stops" : []
+   },
+   {
+      "lat" : "50.943504",
+      "lon" : "5.401615",
+      "title" : "Glen Eyre Hall",
+      "uri" : "http://id.southampton.ac.uk/site/57",
+      "stops" : []
+   },
+   {
+      "lat" : "50.941608",
+      "lon" : "5.403273",
+      "title" : "Chamberlain Hall",
+      "uri" : "http://id.southampton.ac.uk/site/59",
+      "stops" : []
+   },
+   {
+      "lat" : "50.938297",
+      "lon" : "5.377164",
+      "title" : "Montefiore Hall",
+      "uri" : "http://id.southampton.ac.uk/site/64",
+      "stops" : []
+   },
+   {
+      "lat" : "50.945885",
+      "lon" : "5.390811",
+      "title" : "Bencraft Hall",
+      "uri" : "http://id.southampton.ac.uk/site/62",
+      "stops" : []
+   },
+   {
+      "lat" : "50.930084",
+      "lon" : "5.402286",
+      "title" : "Highfield Hall",
+      "uri" : "http://id.southampton.ac.uk/site/56",
+      "stops" : []
+   },
+   {
+      "lat" : "50.94146",
+      "lon" : "5.402248",
+      "title" : "South Hill Hall",
+      "uri" : "http://id.southampton.ac.uk/site/58",
+      "stops" : []
+   },
+   {
+      "lat" : "50.937965",
+      "lon" : "5.374632",
+      "title" : "Connaught Hall",
+      "uri" : "http://id.southampton.ac.uk/site/63",
+      "stops" : []
+   },
+   {
+      "lat" : "51.0687982",
+      "lon" : "5.3000948",
+      "title" : "Erasmus Park",
+      "uri" : "http://id.southampton.ac.uk/site/70",
+      "stops" : []
+   },
+   {
+      "lat" : "50.940693",
+      "lon" : "5.401696",
+      "title" : "Hartley Grove",
+      "uri" : "http://id.southampton.ac.uk/site/60",
+      "stops" : []
+   },
+   {
+      "lat" : "50.9372223",
+      "lon" : "5.4046552",
+      "title" : "Boldrewood Campus",
+      "uri" : "http://id.southampton.ac.uk/site/2",
+      "stops" : []
+   },
+   {
+      "lat" : "50.9309864",
+      "lon" : "5.3840253",
+      "title" : "Belgrave Industrial Site",
+      "uri" : "http://id.southampton.ac.uk/site/45",
+      "stops" : []
+   }
+]
