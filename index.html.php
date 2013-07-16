@@ -38,6 +38,14 @@ foreach($f as $l)
 			<div class="header">Bus Finder</div>
 			<div class="content"><p>Type a destination.</p></div>
 		</div>
+		<div id="campusselect">
+			<div class="header">Search by site</div>
+			<div class="content"><ul id="site">
+				<li><a href="http://id.southampton.ac.uk/site/1">Highfield Campus</a></li>
+				<li><a href="http://id.southampton.ac.uk/site/3">Avenue Campus</a></li>
+				<li><a href="http://id.southampton.ac.uk/site/18">General Hospital</a></li>
+			</ul></div>
+		</div>
 		<div id="footer">
 			<ul>
 				<li><a href="http://www.southampton.ac.uk/">University homepage</a></li>

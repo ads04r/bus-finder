@@ -36,12 +36,40 @@ function drawStops( data )
 function create(title, stops)
 {
 	$("#listtitle").text(title);
+	$("#content").html("<h2>Loading bus data...</h2>");
 	bl = BusListener( stops, drawStops, function( msg ) { ; }	);
 }
 
 $(document).ready(function() {
 
+	$('#campusselect').find('a').click(function() {
+		var uri = $(this).attr('href');
+		if(uri == 'http://id.southampton.ac.uk/site/1')
+		{
+			bl.destroy();
+			var stops = ["1980SN120134","1980HAA13668","1980SN120131","1980SN120127","1980SN120257","1980SN120256","1980SN120136","1980SN120128"];
+			create("Highfield Campus", stops);
+			return false;
+		}
+		if(uri == 'http://id.southampton.ac.uk/site/3')
+		{
+			bl.destroy();
+			var stops = ["1980SNA13670", "1980SNA09299"];
+			create("Avenue Campus", stops);
+			return false;
+		}
+		if(uri == 'http://id.southampton.ac.uk/site/18')
+		{
+			bl.destroy();
+			var stops = ["1980SN120102","1980SN120068","1980SN120221","1980SN120222","1980SN120979","1980SN120083","1980SN120082","1980SN120084",];
+			create("Southampton General Hospital", stops);
+			return false;
+		}
+	});
+
 	var stops = ["1980SN120134","1980HAA13668","1980SN120131","1980SN120127","1980SN120257","1980SN120256","1980SN120136","1980SN120128"];
 	create("Highfield Campus", stops);
 	
 });
+
+

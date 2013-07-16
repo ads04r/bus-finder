@@ -157,8 +157,44 @@ div#search .header {
 
 div#search .content {
 	overflow: hidden;
+	height: 80px;
+	background: rgba(255,255,255,0.8);
+	padding: 6px;
+	font-size: 0.8em;
+}
+
+div#campusselect {
+	position: fixed;
+	top: 265px;
+	height: 180px;
+	left: 16%;
+	width: 160px;
+	z-index: 1;
+}
+
+div#campusselect .header {
+	height: 20px;
+	padding: 6px;
+	background: #FFFFFF;
+	font-size: 0.9em;
+}
+
+div#campusselect .content {
+	overflow: hidden;
 	height: 160px;
 	background: rgba(255,255,255,0.8);
 	padding: 6px;
 	font-size: 0.8em;
+}
+
+div#campusselect ul {
+	margin: 0px 0px 0px 1em;
+	text-indent: -1em;
+	padding: 3px;
+	list-style: none outside none;
+}
+
+div#campusselect ul li a {
+	text-decoration: none;
+	color: #000000;
 }

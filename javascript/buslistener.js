@@ -101,7 +101,12 @@ function BusListener( stops, callback, logFn )
 	{
 		this.getStop( this.stops[i] );
 	}
-	setInterval( updateStops, 3000 );
+	this.intv = setInterval( updateStops, 3000 );
+
+	this.destroy = function()
+	{
+		clearInterval(this.intv);
+	}
 	
 	logFn( "END" );
 
