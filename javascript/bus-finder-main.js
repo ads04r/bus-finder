@@ -36,7 +36,7 @@ function drawStops( data )
 function create(title, stops)
 {
 	$("#listtitle").text(title);
-	$("#content").html("<h2>Loading bus data...</h2>");
+	$("#main").find(".content").html("<h2>Loading bus data...</h2>");
 	bl = BusListener( stops, drawStops, function( msg ) { ; }	);
 }
 
