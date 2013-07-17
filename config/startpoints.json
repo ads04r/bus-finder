@@ -16,14 +16,14 @@
    {
       "lat" : "50.933185",
       "lon" : "5.43541225",
-      "title" : "Southampton General Hospital",
+      "title" : "General Hospital",
       "uri" : "http://id.southampton.ac.uk/site/18",
       "stops" : ["1980SN120102","1980SN120068","1980SN120221","1980SN120222","1980SN120979","1980SN120083","1980SN120082","1980SN120084"]
    },
    {
       "lat" : "50.8927263",
       "lon" : "5.3946555",
-      "title" : "National Oceanography Centre",
+      "title" : "Oceanography Centre",
       "uri" : "http://id.southampton.ac.uk/site/6",
       "stops" : []
    },
