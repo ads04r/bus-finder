@@ -1,3 +1,4 @@
+<?php  header("Content-type: text/plain"); ?>
 var bl;
 
 function drawStops( data )
@@ -14,15 +15,15 @@ function drawStops( data )
 		for( var j=0;j<jny.length;j++ )
 		{
 			var stop = data["stops"][jny[j]["stop"]];
-			
+
 			if( j==0 )
 			{
 				h += "<h2>"+label+"</h2>";
 				h += "<div>";
 			}
-			
+
 			h += '<div class="entry"><a href="' + stop['uri'] + '"><h3>' + stop['label'] + '</h3></a><div class="time">' + jny[j]["time"] + '</div></div>';
-			
+
 			if( j==(jny.length - 1) )
 			{
 				h += "</div>";
@@ -42,34 +43,53 @@ function create(title, stops)
 
 $(document).ready(function() {
 
-	$('#campusselect').find('a').click(function() {
-		var uri = $(this).attr('href');
-		if(uri == 'http://id.southampton.ac.uk/site/1')
-		{
-			bl.destroy();
-			var stops = ["1980SN120134","1980HAA13668","1980SN120131","1980SN120127","1980SN120257","1980SN120256","1980SN120136","1980SN120128"];
-			create("Highfield Campus", stops);
-			return false;
-		}
-		if(uri == 'http://id.southampton.ac.uk/site/3')
-		{
-			bl.destroy();
-			var stops = ["1980SNA13670", "1980SNA09299"];
-			create("Avenue Campus", stops);
-			return false;
-		}
-		if(uri == 'http://id.southampton.ac.uk/site/18')
-		{
-			bl.destroy();
-			var stops = ["1980SN120102","1980SN120068","1980SN120221","1980SN120222","1980SN120979","1980SN120083","1980SN120082","1980SN120084"];
-			create("Southampton General Hospital", stops);
-			return false;
+	$('#searchfield').autocomplete({
+		source: "autocomplete.json",
+		minLength: 3,
+		select: function(event, ui) {
+			var uri = ui.item.id;
+			$('#searchuri').attr('value', uri);
 		}
 	});
 
-	var stops = ["1980SN120134","1980HAA13668","1980SN120131","1980SN120127","1980SN120257","1980SN120256","1980SN120136","1980SN120128"];
-	create("Highfield Campus", stops);
-	
+	$('#campusselect').find('a').click(function() {
+		var uri = $(this).attr('href');
+
+<?
+$points = json_decode(file_get_contents("../config/startpoints.json"), true);
+$mainpoint = array();
+foreach($points as $point)
+{
+	if(count($point['stops']) < 1)
+	{
+		continue;
+	}
+	if(count($mainpoint) == 0)
+	{
+		$mainpoint = $point;
+	}
+?>
+
+		if(uri == '<? print($point['uri']); ?>')
+		{
+			bl.destroy();
+			var stops = ["<? print(implode("\",\"", $point['stops'])); ?>"];
+			$('#sourceuri').attr('value', uri);
+			create("<? print($point['title']); ?>", stops);
+			return false;
+		}
+
+<? } ?>
+
+	});
+
+<? if(count($mainpoint) > 0) { ?>
+
+	var stops = ["<? print(implode("\",\"", $mainpoint['stops'])); ?>"];
+	create("<? print($mainpoint['title']); ?>", stops);
+
+<? } ?>
+
 });
 
 

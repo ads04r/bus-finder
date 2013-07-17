@@ -6,18 +6,7 @@ global $PAGE;
 $view = "";
 @$view = $_GET['view'];
 
-$points = array();
-$f = file("./config/startpoints.csv");
-foreach($f as $l)
-{
-	$a = explode(",", trim($l));
-	$item = array();
-	$item['title'] = $a[0];
-	$item['lat'] = $a[1];
-	$item['lon'] = $a[2];
-	$points[] = $item;
-}
-
+$points = json_decode(file_get_contents("./config/startpoints.json"), true);
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -26,9 +15,10 @@ foreach($f as $l)
 		<meta http-equiv="Content-Language" content="English" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" type="text/css" href="./styles/buses.css" />
-		<link rel="stylesheet" type="text/css" href="./styles/jqueryui.css" />
+		<link rel="stylesheet" type="text/css" href="./styles/jquery-ui-1.9.2.custom.min.css" />
 		<link rel="shortcut icon" href="./favicon.png" />
 		<script type="text/javascript" src="./javascript/jquery-1.8.2.js"></script>
+		<script type="text/javascript" src="./javascript/jquery-ui-1.9.2.custom.min.js"></script>
 		<script type="text/javascript" src="./javascript/buslistener.js"></script>
 		<script type="text/javascript" src="./javascript/datadumper.js"></script>
 		<script type="text/javascript" src="./javascript/bus-finder-main.js"></script>
@@ -36,14 +26,40 @@ foreach($f as $l)
 	<body>
 		<div id="search">
 			<div class="header">Bus Finder</div>
-			<div class="content"><p>Type a destination.</p></div>
+			<div class="content">
+				<p>Type a destination.</p>
+				<input type="text" name="searchfield" id="searchfield">
+				<input type="hidden" name="searchuri" id="searchuri" value="">
+				<input type="hidden" name="sourceuri" id="sourceuri" value="<?
+
+foreach($points as $point)
+{
+	if(count($point['stops']) > 0)
+	{
+		print($point['uri']);
+		break;
+	}
+}
+
+?>">
+			</div>
 		</div>
 		<div id="campusselect">
 			<div class="header">Search by site</div>
 			<div class="content"><ul id="site">
-				<li><a href="http://id.southampton.ac.uk/site/1">Highfield Campus</a></li>
-				<li><a href="http://id.southampton.ac.uk/site/3">Avenue Campus</a></li>
-				<li><a href="http://id.southampton.ac.uk/site/18">General Hospital</a></li>
+
+<?
+
+foreach($points as $point)
+{
+	if(count($point['stops']) > 0)
+	{
+		print("				<li><a href=\"" . $point['uri'] . "\">" . $point['title'] . "</a></li>\n");
+	}
+}
+
+?>
+
 			</ul></div>
 		</div>
 		<div id="footer">

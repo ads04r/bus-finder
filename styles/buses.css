@@ -163,6 +163,12 @@ div#search .content {
 	font-size: 0.8em;
 }
 
+div#search .content input {
+	position: absolute;
+	left: 0px;
+	width: 150px;
+}
+
 div#campusselect {
 	position: fixed;
 	top: 265px;
@@ -198,3 +204,4 @@ div#campusselect ul li a {
 	text-decoration: none;
 	color: #000000;
 }
+
