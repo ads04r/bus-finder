@@ -22,13 +22,16 @@ function BusListener( stops, callback, logFn )
 	this.munging = false;
 	this.remunge = false;
 	this.getStop = function( code ) { 
-		var url = "http://bus.southampton.ac.uk/bus-stop/"+code+".json?max=20";
+		var url = "/bus-stop/"+code+".json?max=20";
 		logFn( "ajax url: "+url);
-		bl.data["timeouts"][code]=((new Date()).getTime()/1000) + 99; // default
+		bl.data["timeouts"][code]=((new Date()).getTime()/1000) + 60; // default
 		$.getJSON( url, function(info) {
 			logFn( "id: "+info["code"]+" age "+info["age"] );
 			bl.data["stops"][info["code"]] = info;
-			bl.data["timeouts"][info["code"]]=((new Date()).getTime()/1000) + info["age"];
+			if (info["age"] < 30) // If the age is over 30 then clearly there's some network issues. We don't want to overload the server(s).
+			{
+				bl.data["timeouts"][info["code"]]=(((new Date()).getTime()/1000) - info["age"]) + 30;
+			}
 			munge();
 
 		}) .fail(function( jqxhr, textStatus, error ) {
@@ -101,12 +104,7 @@ function BusListener( stops, callback, logFn )
 	{
 		this.getStop( this.stops[i] );
 	}
-	this.intv = setInterval( updateStops, 3000 );
-
-	this.destroy = function()
-	{
-		clearInterval(this.intv);
-	}
+	setInterval( updateStops, 3000 );
 	
 	logFn( "END" );
 
