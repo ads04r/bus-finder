@@ -1,4 +1,3 @@
-<?php  header("Content-type: text/plain"); ?>
 var bl;
 
 function drawStops( data )
@@ -44,51 +43,13 @@ function create(title, stops)
 $(document).ready(function() {
 
 	$('#searchfield').autocomplete({
-		source: "autocomplete.json",
+		source: "/search/autocomplete.json",
 		minLength: 3,
 		select: function(event, ui) {
 			var uri = ui.item.id;
 			$('#searchuri').attr('value', uri);
 		}
 	});
-
-	$('#campusselect').find('a').click(function() {
-		var uri = $(this).attr('href');
-
-<?
-$points = json_decode(file_get_contents("../config/startpoints.json"), true);
-$mainpoint = array();
-foreach($points as $point)
-{
-	if(count($point['stops']) < 1)
-	{
-		continue;
-	}
-	if(count($mainpoint) == 0)
-	{
-		$mainpoint = $point;
-	}
-?>
-
-		if(uri == '<? print($point['uri']); ?>')
-		{
-			bl.destroy();
-			var stops = ["<? print(implode("\",\"", $point['stops'])); ?>"];
-			$('#sourceuri').attr('value', uri);
-			create("<? print($point['title']); ?>", stops);
-			return false;
-		}
-
-<? } ?>
-
-	});
-
-<? if(count($mainpoint) > 0) { ?>
-
-	var stops = ["<? print(implode("\",\"", $mainpoint['stops'])); ?>"];
-	create("<? print($mainpoint['title']); ?>", stops);
-
-<? } ?>
 
 });
 

@@ -1,2 +1,6 @@
 RewriteEngine On
-RewriteRule ^bus-stop/(.+)\.([0-9a-zA-Z]+)$ data/stopinfo.php?id=$1&format=$2
+
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .* index.php [L,QSA]
