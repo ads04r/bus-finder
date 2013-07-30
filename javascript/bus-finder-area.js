@@ -30,14 +30,14 @@ function drawStops( data )
 		}
 	}
 
-	$("#main").find(".content").html( h );
+	$("#main").find(".place_stops").html( h );
 }
 
 function create(title, stops)
 {
 	$("#listtitle").text(title);
-	$("#main").find(".content").html("<h2>Loading bus data...</h2>");
-	bl = BusListener( stops, drawStops, function( msg ) { ; }	);
+	$("#main").find(".place_stops").html("<h2>Loading bus data...</h2>");
+	bl = BusListener( stops, drawStops, function( msg ) { ; } );
 }
 
 $(document).ready(function() {
@@ -48,6 +48,21 @@ $(document).ready(function() {
 		select: function(event, ui) {
 			var uri = ui.item.id;
 			$('#searchuri').attr('value', uri);
+		}
+	});
+
+	var url = "/area/" + $(".place_stops").attr('id') + ".json";
+	
+	$.ajax({
+		type: "GET",
+		url: url,
+		dataType: "json",
+		success: function(data) {
+			var stops = data['stops'];
+			var title = data['title'];
+			create(title, stops);
+		},
+		error: function() {
 		}
 	});
 

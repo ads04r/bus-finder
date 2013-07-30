@@ -16,6 +16,7 @@ $f3->set('sparql_endpoint', "http://sparql.data.southampton.ac.uk/");
 
 include_once("./classes/BusStop.php");
 include_once("./classes/Place.php");
+include_once("./classes/Area.php");
 
 // Render functions
 
@@ -114,6 +115,33 @@ function busRoute($f3, $params)
 
 function busArea($f3, $params)
 {
+	$area = new Area($params['areaid'], $f3->get('sparql_endpoint'));
+	@$format = $params['format'];
+	if(strcmp($format, "rdf") == 0)
+	{
+		header("Content-type: application/rdf+xml");
+		print($area->toRdf());
+		exit();
+	}
+	if(strcmp($format, "ttl") == 0)
+	{
+		header("Content-type: text/plain");
+		print($area->toTtl());
+		exit();
+	}
+	if(strcmp($format, "json") == 0)
+	{
+		header("Content-type: text/plain");
+		print($area->toJson());
+		exit();
+	}
+	$f3->set('TEMP', '/tmp');
+	$f3->set('page_title',$area->label());
+	$f3->set('page_content', '');
+	$f3->set('page_object', $area);
+	$f3->set('page_template', './templates/area.html');
+	$template = new Template;
+	echo $template->render($f3->get('brand_file'));
 }
 
 function place($f3, $params)
@@ -152,7 +180,7 @@ function place($f3, $params)
 // Routes
 
 $f3->route("GET /", "homePage");
-$f3->route("GET /area/@areaid.html", "busArea");
+$f3->route("GET /area/@areaid.@format", "busArea");
 $f3->route("GET /bus-route/@routecode.@format", "busRoute");
 $f3->route("GET /bus-stop/@stopcode.@format", "busStop");
 $f3->route("GET /bus-stop/@stopcode.@format?max=@maxrows", "busStop");

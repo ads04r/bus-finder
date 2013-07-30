@@ -24,13 +24,14 @@ class Place
 		$near_stops = nearestStops($this->uri);
 		foreach($near_stops as $stop)
 		{
-			if($stop['dist'] > 250)
+			if($stop['dist'] > 300)
 			{
 				continue;
 			}
 			$stops[] = preg_replace("|(.*)/([^/]*)|", "$2", $stop['uri']);
 		}
 		$info = array();
+		$info['id'] = "" . $this->fhrs_code;
 		$info['name'] = "" . $this->rdf->label();
 		$info['stops'] = $stops;
 		return(json_encode($info));
