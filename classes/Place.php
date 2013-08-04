@@ -8,6 +8,7 @@ class Place
 	private $rdf;
 	private $uri;
 	private $rdesc;
+	private $stops;
 
 	public function fhrsCode()
 	{
@@ -21,13 +22,9 @@ class Place
 
 	public function toJson()
 	{
-		$near_stops = nearestStops($this->uri);
+		$near_stops = $this->stops;
 		foreach($near_stops as $stop)
 		{
-			if($stop['dist'] > 300)
-			{
-				continue;
-			}
 			$stops[] = preg_replace("|(.*)/([^/]*)|", "$2", $stop['uri']);
 		}
 		$info = array();
@@ -81,6 +78,20 @@ class Place
 		$graph->ns("soton", "http://id.southampton.ac.uk/ns/");
 		$this->fhrs_code = $new_fhrs_code;
 		$this->uri = "http://ratings.food.gov.uk/business/" . $new_fhrs_code . "#subject";
+		$this->stops = array();
+
+		$near_stops = nearestStops($this->uri);
+		foreach($near_stops as $stop)
+		{
+			if($stop['dist'] > 403) // We don't care about stops over 403m away. For those interested, the average human walks at 3mph, which is 402.336 metres in 5 minutes.
+			{
+				continue;
+			}
+			$stopuri = $stop['uri'];
+			$graph->addCompressedTriple($this->uri, "foaf:based_near", $stopuri);
+			$graph->addCompressedTriple($stopuri, "rdfs:label", $stop['title']);
+			$this->stops[] = $stop;
+		}
 
 		$resource = $graph->resource($this->uri);
 		$this->rdesc = $resource->prepareDescription();

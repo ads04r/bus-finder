@@ -12,12 +12,12 @@ function updateTimes() {
 			var htmlcode = "";
 			for(var i = 0; i < stopCount; i++) {
 				s = stops[i];
-				htmlcode = htmlcode + "<tr><td>" + s.name + "</td><td>" + s.dest + "</td><td>" + s.time + "</td></tr>"
+				htmlcode = htmlcode + '<tr><td>' + s.name + '</td><td>' + s.dest + "</td><td>" + s.time + "</td></tr>"
 			}
 			if(htmlcode == '') {
 				htmlcode = "<p>Error fetching data.</p>";
 			} else {
-				htmlcode = "<table>" + htmlcode + "</table>";
+				htmlcode = '<table class="bustimetable">' + htmlcode + "</table>";
 			}
 			$('.bus_timetable').html(htmlcode);
 			if(dataAge < 30) {

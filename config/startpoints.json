@@ -1,4 +1,46 @@
 {
+   "highfield" : {
+      "lat" : "50.93620",
+      "stops" : [
+         "1980SN120134",
+         "1980HAA13668",
+         "1980SN120131",
+         "1980SN120127",
+         "1980SN120257",
+         "1980SN120256",
+         "1980SN120136",
+         "1980SN120128"
+      ],
+      "title" : "Highfield Campus",
+      "lon" : "5.39680",
+      "uri" : "http://id.southampton.ac.uk/site/1"
+   },
+   "avenue" : {
+      "lat" : "50.928652",
+      "stops" : [
+         "1980SNA13670",
+         "1980SNA09299"
+      ],
+      "title" : "Avenue Campus",
+      "lon" : "5.40375",
+      "uri" : "http://id.southampton.ac.uk/site/3"
+   },
+   "sgh" : {
+      "lat" : "50.933185",
+      "stops" : [
+         "1980SN120102",
+         "1980SN120068",
+         "1980SN120221",
+         "1980SN120222",
+         "1980SN120979",
+         "1980SN120083",
+         "1980SN120082",
+         "1980SN120084"
+      ],
+      "title" : "General Hospital",
+      "lon" : "5.43541225",
+      "uri" : "http://id.southampton.ac.uk/site/18"
+   },
    "connaught" : {
       "lat" : "50.937965",
       "stops" : [],
@@ -62,32 +104,6 @@
       "lon" : "5.424618",
       "uri" : "http://id.southampton.ac.uk/site/5"
    },
-   "sgh" : {
-      "lat" : "50.933185",
-      "stops" : [
-         "1980SN120102",
-         "1980SN120068",
-         "1980SN120221",
-         "1980SN120222",
-         "1980SN120979",
-         "1980SN120083",
-         "1980SN120082",
-         "1980SN120084"
-      ],
-      "title" : "General Hospital",
-      "lon" : "5.43541225",
-      "uri" : "http://id.southampton.ac.uk/site/18"
-   },
-   "avenue" : {
-      "lat" : "50.928652",
-      "stops" : [
-         "1980SNA13670",
-         "1980SNA09299"
-      ],
-      "title" : "Avenue Campus",
-      "lon" : "5.40375",
-      "uri" : "http://id.southampton.ac.uk/site/3"
-   },
    "belgrave" : {
       "lat" : "50.9309864",
       "stops" : [],
@@ -129,22 +145,6 @@
       "title" : "Erasmus Park",
       "lon" : "5.3000948",
       "uri" : "http://id.southampton.ac.uk/site/70"
-   },
-   "highfield" : {
-      "lat" : "50.93620",
-      "stops" : [
-         "1980SN120134",
-         "1980HAA13668",
-         "1980SN120131",
-         "1980SN120127",
-         "1980SN120257",
-         "1980SN120256",
-         "1980SN120136",
-         "1980SN120128"
-      ],
-      "title" : "Highfield Campus",
-      "lon" : "5.39680",
-      "uri" : "http://id.southampton.ac.uk/site/1"
    },
    "boldrewood" : {
       "lat" : "50.9372223",

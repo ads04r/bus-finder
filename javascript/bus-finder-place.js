@@ -21,7 +21,7 @@ function drawStops( data )
 				h += "<div>";
 			}
 
-			h += '<div class="entry"><a href="' + stop['uri'] + '"><h3>' + stop['label'] + '</h3></a><div class="time">' + jny[j]["time"] + '</div></div>';
+			h += '<div class="entry"><a href="/bus-stop/' + stop['code'] + '.html"><h3>' + stop['label'] + '</h3></a><div class="time">' + jny[j]["time"] + '</div></div>';
 
 			if( j==(jny.length - 1) )
 			{

@@ -355,3 +355,24 @@ function locSort($a, $b)
 		}
 	}
 }
+
+function getAreas()
+{
+	$json = json_decode(file_get_contents("./config/startpoints.json"), true);
+	$places = array();
+	foreach($json as $id => $place)
+	{
+		@$stops = $place['stops'];
+		if(!(is_array($stops)))
+		{
+			continue;
+		}
+		if(count($stops) == 0)
+		{
+			continue;
+		}
+		$place['url'] = "/area/" . $id . ".html";
+		$places[] = $place;
+	}
+	return($places);
+}

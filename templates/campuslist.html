@@ -1,0 +1,12 @@
+<div id="campusselect">
+<div class="header">Buses by area</div>
+<div class="content">
+
+<ul>
+  <F3:repeat group="{{ getAreas() }}" value="{{ @area }}">
+    <li><a href='{{ @area['url'] }}'>{{ @area['title'] }}</a></li>
+  </F3:repeat>
+</ul>
+
+</div>
+</div>
