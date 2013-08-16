@@ -21,6 +21,7 @@ include_once("./classes/Area.php");
 // Render functions
 
 include_once("./include/render.php");
+include_once("./include/search.php");
 
 // Routes
 

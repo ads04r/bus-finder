@@ -13,6 +13,11 @@ class Area
 		return($this->id);
 	}
 
+	function uri()
+	{
+		return($this->uri);
+	}
+
 	function label()
 	{
 		if(array_key_exists("title", $this->info))

@@ -1,5 +1,15 @@
 <?php
 
+function routeSort($a, $b)
+{
+	$op = strcmp($a['operator'], $b['operator']);
+	if($op != 0)
+	{
+		return($op);
+	}
+	return(strnatcmp($a['notation'], $b['notation']));
+}
+
 $db = sparql_connect($f3->get('sparql_endpoint'));
 if( !$db ) { print $db->errno() . ": " . $db->error(). "\n"; exit; }
 $db->ns( "rdfs","http://www.w3.org/2000/01/rdf-schema#" );
@@ -20,15 +30,14 @@ SELECT DISTINCT ?route ?label ?notation ?operator WHERE
                 ?op rdfs:label ?operator .
         }
 }
-ORDER BY ?operator ?notation
 ";
 
 $result = $db->query( $sparql, "List of Bus Routes" );
 if( !$result ) { print $db->errno() . ": " . $db->error(). "\n"; exit; }
-$data = $result->fetch_all();
+$data = (Array) $result->fetch_all();
 
 $f3->set('page_title', 'Southampton Bus Routes');
-
+usort($data, "routeSort");
 
 $lastoperator = "";
 $lastnotation = "";

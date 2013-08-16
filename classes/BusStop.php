@@ -27,6 +27,20 @@ class BusStop
 		return(json_encode($data));
 	}
 
+	public function toKml()
+	{
+		ob_start();
+		$err = $this->rdesc->handleFormat("kml");
+		$kml = ob_get_contents();
+		ob_end_clean();
+
+		if($err)
+		{
+			return($kml);
+		}
+		return("");
+	}
+
 	public function toRdf()
 	{
 		ob_start();

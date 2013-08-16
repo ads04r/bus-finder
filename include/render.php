@@ -1,41 +1,18 @@
 <?php
 
-function autocompleteJson($f3, $params)
-{
-	header("Content-type: text/plain");
-
-	@$query = $params['query'];
-	if(strlen($query) == 0)
-	{
-		$results = array();
-	} else {
-		$results = southamptonThingSearch($query);
-		if((array_key_exists("lat", $_GET)) | (array_key_exists("lon", $_GET)))
-		{
-			usort($results, "locSort");
-		}
-	}
-	$r = array();
-	foreach($results as $res)
-	{
-		$item = array();
-		$item['id'] = $res['uri'];
-		$item['label'] = $res['title'];
-		$item['value'] = $res['title'];
-		$r[] = $item;
-	}
-
-	print(json_encode($r));
-	exit();
-}
-
 function renderPage($f3, $page)
 {
+	$filename = "./docs/" . $page . ".php";
+	if(!(file_exists($filename)))
+	{
+		$f3->error(404);
+		exit();
+	}
 	$f3->set('TEMP', '/tmp');
 	$f3->set('menu_file', $f3->get('brand_file'));
 	$f3->set('page_title','Southampton Bus Information');
 	ob_start();
-	include("./docs/" . $page . ".php");
+	include($filename);
 	$content = ob_get_contents();
 	ob_end_clean();
 	$f3->set('page_content', $content);
@@ -53,18 +30,16 @@ function otherPage($f3, $params)
 	renderPage($f3, $params['pagename']);
 }
 
-function searchPage($f3, $params)
-{
-	header("Content-type: text/plain");
-	var_dump($params);
-	var_dump($_GET);
-	exit();
-}
-
 function busStop($f3, $params)
 {
 	$bs = new BusStop($params['stopcode'], $f3->get('sparql_endpoint'));
 	@$format = $params['format'];
+	if(strcmp($format, "kml") == 0)
+	{
+		header("Content-type: application/xml");
+		print($bs->toKml());
+		exit();
+	}
 	if(strcmp($format, "rdf") == 0)
 	{
 		header("Content-type: application/rdf+xml");
