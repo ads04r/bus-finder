@@ -141,6 +141,71 @@ function nearestStops($uri)
         return($r);
 }
 
+function crossRoutes($stops_from, $stops_to)
+{
+	global $sparql_endpoint;
+	$routes = array();
+	$stops = array();
+
+	foreach($stops_from as $s1)
+	{
+		$from_uri = "http://id.southampton.ac.uk/bus-stop/" . $s1;
+		foreach($stops_to as $s2)
+		{
+			$to_uri = "http://id.southampton.ac.uk/bus-stop/" . $s2;
+			$query = "
+
+				SELECT ?route ?routecode ?operatorname WHERE {
+
+				  ?routestopsource <http://id.southampton.ac.uk/ns/busStoppingAt> ?source .
+				  ?route <http://vocab.org/transit/terms/routeStop> ?routestopsource .
+				  ?routestopsource <http://vocab.org/transit/terms/sequence> ?seqsource .
+
+				  ?routestopdest <http://id.southampton.ac.uk/ns/busStoppingAt> ?dest .
+				  ?route <http://vocab.org/transit/terms/routeStop> ?routestopdest .
+				  ?routestopdest <http://vocab.org/transit/terms/sequence> ?seqdest .
+
+				  ?route <http://www.w3.org/2004/02/skos/core#notation> ?routecode .
+				  ?route <http://id.southampton.ac.uk/ns/busRouteOperator> ?operator .
+				  ?operator <http://www.w3.org/2000/01/rdf-schema#label> ?operatorname .
+
+				  FILTER ( ?source = <" . $from_uri . "> )
+				  FILTER ( ?dest = <" . $to_uri . "> )
+				  FILTER ( ?seqsource < ?seqdest )
+				}
+
+			";
+		        $result = sparql_get($sparql_endpoint, $query);
+			foreach($result as $row)
+			{
+				$uri = $row['route'];
+				if(!(array_key_exists($uri, $routes)))
+				{
+					$item = array();
+					$item['id'] = $row['routecode'];
+					$item['operator'] = $row['operatorname'];
+					$item['uri'] = $uri;
+					$routes[$uri] = $item;
+					if(!(in_array($s1, $stops)))
+					{
+						$stops[] = $s1;
+					}
+					if(!(in_array($s2, $stops)))
+					{
+						$stops[] = $s2;
+					}
+				}
+			}
+
+		}
+	}
+
+	$ret = array();
+	$ret['routes'] = $routes;
+	$ret['stops'] = $stops;
+	return($ret);
+}
+
 function findBusRoutes($lat, $lon, $target_uri)
 {
 	$neareststops_target = nearestStops($target_uri);

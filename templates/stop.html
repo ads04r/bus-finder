@@ -1,13 +1,34 @@
 <div style="background-image: url({{ @page_object->mapImage() }}); background-position: center; width: 100%; height: 200px;">&nbsp;</div>
 
 <h2>Upcoming buses</h2>
-<div class="bus_timetable" id="{{ @page_object->stopCode() }}">&nbsp;</div>
+<p>Bus times courtesy of the council, and are live unless stated otherwise.</p>
+<div class="bus_timetable" id="{{ @page_object->stopCode() }}"><noscript><p>Please enable Javascript to see the live times.</p></noscript></div>
 
 <h2>Routes</h2>
-<div class="bus_stoproutes"></div>
+<p>This is a list of all routes that serve this stop. Some routes may depend on time of day, or be affected by other factors such as road works.</p>
+<div class="bus_stoproutes">
+  <table class="busroutetable">
+    <F3:repeat group="{{ @page_object->routes() }}" value="{{ @route }}">
+      <tr>
+        <td class="routeid">{{ @route['code'] }}</td>
+        <td><a href='{{ @route['uri'] }}'>{{ @route['label'] }}</a><br><small>Service operated by {{ @route['operator'] }}</small></td>
+      </tr>
+    </F3:repeat>
+  </table>
+</div>
 
 <h2>Other Views</h2>
-<div class="bus_stopviews"></div>
+<p>We encourage re-use of our data. To this end we provide machine readable versions of this page in various formats.</p>
+<div class="bus_stopviews">
+<ul>
+  <li> <a href="/bus-stop/{{ @page_object->stopCode() }}.ttl">Turtle</a> - Turtle is a representation of RDF, the standard format for linked open data.</li>
+  <li> <a href="/bus-stop/{{ @page_object->stopCode() }}.rdf">RDF/XML</a> - RDF, represented in XML.</li>
+  <li> <a href="/bus-stop/{{ @page_object->stopCode() }}.json">JSON</a> - JavaScript Object Notation, useful when writing web applications.</li>
+</ul>
+</div>
 
 <h2>Get the Data!</h2>
-<div class="bus_stopformats"></div>
+<p>
+  If you prefer, you can visit the University of Southampton's <a href="http://data.southampton.ac.uk/">Data Site</a> to access the raw data used in the building
+  of this site. Here you will find many more datasets in the same format, and a SPARQL endpoint for querying the data from the web.
+</p>

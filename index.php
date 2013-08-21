@@ -33,7 +33,8 @@ $f3->route("GET /bus-stop/@stopcode.@format?max=@maxrows", "busStop");
 $f3->route("GET /place/@fhrs.@format", "place");
 $f3->route("GET /@pagename.html", "otherPage");
 $f3->route("GET /search/autocomplete.json?term=@query", "autocompleteJson");
-$f3->route("GET /search/submit.html?@argv", "searchPage");
+$f3->route("GET /search/finder.html", "searchPage");
+$f3->route("GET /search/finder.@format?@argv", "searchPage");
 $f3->route("GET *", function($f3) { $f3->error(404); });
 
 $f3->run();

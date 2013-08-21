@@ -2,9 +2,15 @@
 
 function searchPage($f3, $params)
 {
-	$f3->set('TEMP', '/tmp');
-	$f3->set('menu_file', $f3->get('brand_file'));
-	$f3->set('page_title','Bus Search');
+	$format = "";
+	if(array_key_exists("format", $params))
+	{
+		$format = $params['format'];
+	}
+	if(strlen($format) == 0)
+	{
+		$format = "html";
+	}
 
 	$sourceuri = "";
 	$searchuri = "";
@@ -22,14 +28,64 @@ function searchPage($f3, $params)
 		$searchfield = $_GET['searchfield'];
 	}
 
-	renderClarification($f3, $sourceuri, $searchuri, $searchfield);
+	if(count($_GET) == 0)
+	{
+		renderPage($f3, "search");
+		exit();
+	}
+
+	$f3->set('TEMP', '/tmp');
+	$f3->set('menu_file', $f3->get('brand_file'));
+	$f3->set('page_title','Bus Search');
+
+	renderClarification($f3, $sourceuri, $searchuri, $searchfield, $format);
 }
 
-function renderSearchResults($f3, $source_uri, $dest_uri)
+function nearbyStops($uri)
 {
+	$areas = getAreas();
+	foreach($areas as $area)
+	{
+		if(strcmp($area['uri'], $uri) == 0)
+		{
+			return($area['stops']);
+		}
+	}
+	$stops = nearestStops($uri);
+	$ret = array();
+	foreach($stops as $stop)
+	{
+		$ret[] = preg_replace("|(.+)/([^/]*)|", "$2", $stop['uri']);
+	}
+	return($ret);
 }
 
-function renderClarification($f3, $source_uri, $dest_uri, $query)
+function renderSearchResults($f3, $source_uri, $dest_uri, $format)
+{
+	$stops1 = nearbyStops($source_uri);
+	$stops2 = nearbyStops($dest_uri);
+	$routes = crossRoutes($stops1, $stops2);
+
+	if(strcmp($format, "json") == 0)
+	{
+		print(json_encode($routes));
+		exit();
+	}
+
+	foreach($routes['routes'] as $uri => $route)
+	{
+		//$content .= $route['operator'] . " " . $route['id'] . "<br>";
+	}
+
+	//$content .= "<h2>Live times</h2>";
+
+	$f3->set('page_content', "");
+	$f3->set('page_template', "./templates/searchresults.html");
+	$template = new Template;
+	echo $template->render($f3->get('brand_file'));
+}
+
+function renderClarification($f3, $source_uri, $dest_uri, $query, $format)
 {
 	$results = array();
 	if((strlen($dest_uri) == 0) & (strlen($query) > 0))
@@ -42,21 +98,37 @@ function renderClarification($f3, $source_uri, $dest_uri, $query)
 	}
 	if((strlen($source_uri) > 0) & (strlen($dest_uri) > 0))
 	{
-		renderSearchResults($f3, $source_uri, $dest_uri);
+		renderSearchResults($f3, $source_uri, $dest_uri, $format);
+		exit();
+	}
+
+	if(strcmp($format, "html") != 0)
+	{
+		$f3->error(404);
 		exit();
 	}
 
 	$content = "";
 
 	$content .= "<p>We need a little bit more information to continue.</p>";
-	$content .= "<form action=\"/search/submit.html\" method=\"GET\">";
+	$content .= "<form action=\"/search/finder.html\" method=\"GET\">";
 
 	if(strlen($source_uri) == 0)
 	{
+		$areas = getAreas();
+
 		$content .= "<h2>Your Location</h2>";
 		$content .= "<p>Where you currently are, or the location from where you need to get a bus.</p>";
 		$content .= "<select id=\"sourceuri\" name=\"sourceuri\" size=\"1\">";
-		$content .= "<option selected=\"selected\" value=\"http://id.southampton.ac.uk/site/1\">Highfield Campus</option>";
+		foreach($areas as $area)
+		{
+			$content .= "<option";
+			if(strcmp($area['uri'], "http://bus.southampton.ac.uk/area/highfield.html") == 0)
+			{
+				$content .= " selected=\"selected\"";
+			}
+			$content .= " value=\"" . $area['uri'] . "\">" . $area['title'] . "</option>";
+		}
 		$content .= "</select>";
 	} else {
 		$content .= "<input type=\"hidden\" id=\"sourceuri\" name=\"sourceuri\" value=\"" . $source_uri . "\">";
@@ -66,6 +138,14 @@ function renderClarification($f3, $source_uri, $dest_uri, $query)
 	{
 		$content .= "<h2>Your Destination</h2>";
 		$content .= "<p>Your search query was ambiguous, please select from the following options.</p>";
+		$results = southamptonThingSearch($query);
+		$content .= "<div class=\"dest_select\">";
+		foreach($results as $result)
+		{
+			//print($result['title'] . " - " . $result['uri'] . "<br>");
+			$content .= "<input id=\"searchuri\" type=\"radio\" name=\"searchuri\" value=\"" . $result['uri'] . "\">" . $result['title'];
+		}
+		$content .= "</div>";
 	} else {
 		$content .= "<input type=\"hidden\" id=\"searchuri\" name=\"searchuri\" value=\"" . $dest_uri . "\">";
 	}

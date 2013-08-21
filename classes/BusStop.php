@@ -17,6 +17,34 @@ class BusStop
 		return $this->rdf->label();
 	}
 
+	public function routes()
+	{
+		function routeSort($a, $b)
+		{
+			return(strnatcmp($a['code'], $b['code']));
+		}
+
+		$data = get_stop_data( $this->stop_code, 1 );
+		$ret = array();
+		if( $data == null )
+		{
+			return(array());
+		}
+		@$routes = $data['routes'];
+		if(!(is_array($routes)))
+		{
+			$routes = array();
+		}
+		foreach($routes as $uri => $info)
+		{
+			$item = $info;
+			$item['uri'] = $uri;
+			$ret[] = $item;
+		}
+		usort($ret, "routeSort");
+		return($ret);
+	}
+
 	public function toJson($max_rows = 5)
 	{
 		$data = get_stop_data( $this->stop_code, $max_rows );

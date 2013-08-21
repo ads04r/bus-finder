@@ -12,7 +12,19 @@ function updateTimes() {
 			var htmlcode = "";
 			for(var i = 0; i < stopCount; i++) {
 				s = stops[i];
-				htmlcode = htmlcode + '<tr><td>' + s.name + '</td><td>' + s.dest + "</td><td>" + s.time + "</td></tr>"
+				var veh = '';
+				if(s.vehicle) {
+					veh = s.vehicle;
+				}
+				htmlcode = htmlcode + "<tr>"
+				htmlcode = htmlcode + '<td class="time">' + s.time + '</td>'
+				htmlcode = htmlcode + '<td class="routeid">' + s.name + '</td><td>' + s.dest + '</td>'
+				if(veh.length > 0){
+					htmlcode = htmlcode + '<td class="timetype"></td>'
+				} else {
+					htmlcode = htmlcode + '<td class="timetype">(Scheduled)</td>'
+				}
+				htmlcode = htmlcode + "</tr>"
 			}
 			if(htmlcode == '') {
 				htmlcode = "<p>Error fetching data.</p>";

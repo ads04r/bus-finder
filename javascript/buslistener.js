@@ -22,7 +22,7 @@ function BusListener( stops, callback, logFn )
 	this.munging = false;
 	this.remunge = false;
 	this.getStop = function( code ) { 
-		var url = "/bus-stop/"+code+".json?max=20";
+		var url = "/bus-stop/"+code+".json?max=30";
 		logFn( "ajax url: "+url);
 		bl.data["timeouts"][code]=((new Date()).getTime()/1000) + 60; // default
 		$.getJSON( url, function(info) {
