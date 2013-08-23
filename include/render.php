@@ -74,6 +74,15 @@ function busStop($f3, $params)
 
 function busRoute($f3, $params)
 {
+	$id = $params['routecode'];
+
+	$f3->set('TEMP', '/tmp');
+	$f3->set('page_title', "Route");
+	$f3->set('page_content', '');
+	//$f3->set('page_object', $area);
+	$f3->set('page_template', './templates/route.html');
+	$template = new Template;
+	echo $template->render($f3->get('brand_file'));
 }
 
 function busArea($f3, $params)

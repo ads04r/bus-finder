@@ -66,6 +66,14 @@ function renderSearchResults($f3, $source_uri, $dest_uri, $format)
 	$stops2 = nearbyStops($dest_uri);
 	$routes = crossRoutes($stops1, $stops2);
 
+	$query = "SELECT * WHERE { <" . $source_uri . "> <http://www.w3.org/2000/01/rdf-schema#label> ?source . <" . $dest_uri . "> <http://www.w3.org/2000/01/rdf-schema#label> ?dest . } LIMIT 1";
+	$result = sparql_get($f3->get('sparql_endpoint'), $query);
+	if(count($result) > 0)
+	{
+		$r = $result[0];
+		$f3->set('page_title', $r['source'] . " to " . $r['dest']);
+	}
+
 	if(strcmp($format, "json") == 0)
 	{
 		print(json_encode($routes));
