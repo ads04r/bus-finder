@@ -11,24 +11,26 @@
     <F3:repeat group="{{ @page_object->routes() }}" value="{{ @route }}">
       <tr>
         <td class="routeid">{{ @route['code'] }}</td>
-        <td><a href='{{ @route['uri'] }}'>{{ @route['label'] }}</a><br><small>Service operated by {{ @route['operator'] }}</small></td>
+        <td><a href='{{ @route['url'] }}'>{{ @route['label'] }}</a><br><small>Service operated by {{ @route['operator'] }}</small></td>
       </tr>
     </F3:repeat>
   </table>
 </div>
 
 <h2>Other Views</h2>
-<p>We encourage re-use of our data. To this end we provide machine readable versions of this page in various formats.</p>
+<p>There are other, less 'webby' versions of this page available, if you want to view it on a different device, such as a smartphone or a public display screen.</p>
 <div class="bus_stopviews">
+</div>
+
+<h2>Get the Data!</h2>
+<p>We encourage re-use of data. To this end we provide machine readable versions of this page in various formats.</p>
 <ul>
   <li> <a href="/bus-stop/{{ @page_object->stopCode() }}.ttl">Turtle</a> - Turtle is a representation of RDF, the standard format for linked open data.</li>
   <li> <a href="/bus-stop/{{ @page_object->stopCode() }}.rdf">RDF/XML</a> - RDF, represented in XML.</li>
   <li> <a href="/bus-stop/{{ @page_object->stopCode() }}.json">JSON</a> - JavaScript Object Notation, useful when writing web applications.</li>
 </ul>
-</div>
-
-<h2>Get the Data!</h2>
 <p>
   If you prefer, you can visit the University of Southampton's <a href="http://data.southampton.ac.uk/">Data Site</a> to access the raw data used in the building
   of this site. Here you will find many more datasets in the same format, and a SPARQL endpoint for querying the data from the web.
 </p>
+<p>Finally, if you produce something cool using the data available from this site, please <a href="mailto:opendata@southampton.ac.uk">let&nbsp;us&nbsp;know</a>!</p>

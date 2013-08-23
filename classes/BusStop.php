@@ -39,6 +39,7 @@ class BusStop
 		{
 			$item = $info;
 			$item['uri'] = $uri;
+			$item['url'] = "/bus-route/" . preg_replace("|(.*)/([^/]*)|", "$2", $uri) . ".html";
 			$ret[] = $item;
 		}
 		usort($ret, "routeSort");
