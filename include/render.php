@@ -75,11 +75,31 @@ function busStop($f3, $params)
 function busRoute($f3, $params)
 {
 	$id = $params['routecode'];
+	$br = new BusRoute($id, $f3->get('sparql_endpoint'));
+	@$format = $params['format'];
+	if(strcmp($format, "kml") == 0)
+	{
+		header("Content-type: application/xml");
+		print($br->toKml());
+		exit();
+	}
+	if(strcmp($format, "rdf") == 0)
+	{
+		header("Content-type: application/rdf+xml");
+		print($br->toRdf());
+		exit();
+	}
+	if(strcmp($format, "ttl") == 0)
+	{
+		header("Content-type: text/plain");
+		print($br->toTtl());
+		exit();
+	}
 
 	$f3->set('TEMP', '/tmp');
-	$f3->set('page_title', "Route");
+	$f3->set('page_title', $br->label());
 	$f3->set('page_content', '');
-	//$f3->set('page_object', $area);
+	$f3->set('page_object', $br);
 	$f3->set('page_template', './templates/route.html');
 	$template = new Template;
 	echo $template->render($f3->get('brand_file'));

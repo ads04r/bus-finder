@@ -15,6 +15,7 @@ $f3->set('sparql_endpoint', "http://sparql.data.southampton.ac.uk/");
 // Classes
 
 include_once("./classes/BusStop.php");
+include_once("./classes/BusRoute.php");
 include_once("./classes/Place.php");
 include_once("./classes/Area.php");
 
