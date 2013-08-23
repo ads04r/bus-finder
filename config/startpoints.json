@@ -113,7 +113,7 @@
    },
    "station" : {
       "lat" : "50.9075",
-      "stops" : [],
+      "stops" : ["1980SNA09196","1980SN12518A","1980SN120518","1980SNA19709","1980SN120519","1980SN120520"],
       "title" : "Southampton Central Station",
       "lon" : "5.4141",
       "uri" : "http://id.southampton.ac.uk/point-of-service/rail-sou"
@@ -127,7 +127,7 @@
    },
    "airport" : {
       "lat" : "50.950775",
-      "stops" : [],
+      "stops" : ["1900HA030200","1900HA030201","1900HA030184","1900HA030183","1900HAA09424"],
       "title" : "Southampton Airport (Parkway)",
       "lon" : "5.362974",
       "uri" : "http://id.southampton.ac.uk/point-of-service/rail-soa"
