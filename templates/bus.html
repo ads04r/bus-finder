@@ -24,10 +24,7 @@
 
 </head>
 
-<check if="{{ @page_title=='' }}"><true><body style="background-image: url(/graphics/background3.jpg);"></true><false><body></false></check>
-
-<include href="./templates/search.html" />
-<include href="./templates/campuslist.html" />
+<body>
 
 <div id="footer">
 <ul>
@@ -37,6 +34,12 @@
 <li><a href="http://data.southampton.ac.uk/dataset/bus-info.html">Get the Data</a></li>
 </ul>
 </div>
+
+<check if="{{ @page_title=='' }}"><true><div id="background" style="background-image: url(/graphics/background3.jpg);"></true><false><div id="background"></false></check>
+
+<include href="./templates/search.html" />
+<include href="./templates/campuslist.html" />
+
 
 <check if="{{ @page_title=='' }}"><true>
 <div id="main" style="top: 345px;">
@@ -55,6 +58,7 @@
 <false>{{ @page_content | raw }}</false>
 </cneck>
 
+</div>
 </div>
 </div>
 </body>

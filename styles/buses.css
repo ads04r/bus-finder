@@ -2,14 +2,21 @@ html,body {
 	font-family: Georgia, serif;
 	font-size: 1em;
 	line-height: 1.4;
+	margin: 0px;
+	padding: 0px;
+	background-color: #333333;
 }
 
-body {
+div#background {
 	background-image: url("/graphics/altbackground.jpg");
 	background-repeat: no-repeat;
 	background-position: top;
 	background-size: 100%;
-	background-color: #333333;
+	max-width: 1280px;
+	min-width: 850px;
+	min-height: 785px;
+	position: relative;
+	margin: 0px auto;	
 }
 
 div#footer {
