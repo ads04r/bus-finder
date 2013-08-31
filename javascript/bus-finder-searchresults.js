@@ -1,4 +1,5 @@
 var bl;
+var routes;
 
 function drawStops( data )
 {
@@ -11,7 +12,24 @@ function drawStops( data )
 	{
 		var jny = data["journeys"][i];
 		var label = jny[0]["name"]+" to "+jny[0]["dest"];
-		if(jny.length > 1)
+
+		var rtok = 0;
+		for(var key in routes)
+		{
+			if(routes.hasOwnProperty(key))
+			{
+				var rt = routes[key];
+				var rtcode = rt['id'] + ' ';
+				var clen = rtcode.length;
+				var compare = jny[0]["name"].substring(0, clen) + " ";
+				if(compare == rtcode)
+				{
+					rtok = 1;
+				}
+			}
+		}
+
+		if((jny.length > 1) & (rtok == 1))
 		{
 			for( var j=0;j<jny.length;j++ )
 			{
@@ -60,6 +78,7 @@ $(document).ready(function() {
 		url: url,
 		dataType: "json",
 		success: function(data) {
+			routes = data['routes'];
 			var stops = data['stops'];
 			var title = "Search";
 			create(title, stops);
