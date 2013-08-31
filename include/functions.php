@@ -2,6 +2,25 @@
 
 $sparql_endpoint = "http://sparql.data.southampton.ac.uk/";
 
+function getLabel($uri)
+{
+	global $sparql_endpoint;
+
+	$sparql = "
+SELECT ?label WHERE {
+    <" . $uri . "> <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+} LIMIT 1
+	";
+        $result = sparql_get(   $sparql_endpoint, $sparql);
+	$r = array();
+	if(count($result) > 0)
+	{
+		return($result[0]['label']);
+	}
+
+	return("");
+}
+
 function getLocation($uri)
 {
 	global $sparql_endpoint;

@@ -23,21 +23,35 @@ class Search
 		return "Buses to " . $this->dest_label;
 	}
 
+	public function getRoutes()
+	{
+		return $this->routes;
+	}
+
+	public function getStops()
+	{
+		$stops = array();
+		$stops['start'] = $this->source_stops;
+		$stops['end'] = $this->dest_stops;
+
+		return($stops);
+	}
+
 	public function toJson()
 	{
 		$output = array();
 
-		$output['routes'] = $self->routes;
+		$output['routes'] = $this->routes;
 		$output['stops'] = array();
-		$output['stops']['start'] = $self->source_stops;
-		$output['stops']['end'] = $self->dest_stops;
+		$output['stops']['start'] = $this->source_stops;
+		$output['stops']['end'] = $this->dest_stops;
 		$output['locations'] = array();
 		$output['locations']['start'] = array();
 		$output['locations']['end'] = array();
-		$output['locations']['start']['uri'] = $self->source_uri;
-		$output['locations']['end']['uri'] = $self->dest_uri;
-		$output['locations']['start']['label'] = $self->source_label;
-		$output['locations']['end']['label'] = $self->dest_label;
+		$output['locations']['start']['uri'] = $this->source_uri;
+		$output['locations']['end']['uri'] = $this->dest_uri;
+		$output['locations']['start']['label'] = $this->source_label;
+		$output['locations']['end']['label'] = $this->dest_label;
 
 		return(json_encode($output));
 	}
@@ -51,25 +65,23 @@ class Search
 		$cachefile = "./cache/" . $this->hash . ".json";
 		if(file_exists($cachefile))
 		{
-			$json = json_decode(file_get_contents($cachefile));
+			$json = json_decode(file_get_contents($cachefile), true);
 
 			$this->source_label = $json['locations']['start']['label'];
-			$this->end_label = $json['locations']['end']['label'];
+			$this->dest_label = $json['locations']['end']['label'];
 			$this->source_stops = $json['stops']['start'];
 			$this->dest_stops = $json['stops']['end'];
 			$this->routes = $json['routes'];
 		}
 		else
 		{
-			$g = new Graphite();
-			$g->load($start);
-			$g->load($end);
-			$this->source_label = "" . $g->resource($start)->label();
-			$this->dest_label = "" . $g->resource($end)->label();
+			$this->source_label = getLabel($start);
+			$this->dest_label = getLabel($end);
 
 			$this->source_stops = nearbyStops($start);
 			$this->dest_stops = nearbyStops($end);
-			$this->routes = crossRoutes($this->source_stops, $this->dest_stops);
+			$routes = crossRoutes($this->source_stops, $this->dest_stops);
+			$this->routes = $routes['routes'];
 
 			$fp = fopen($cachefile, "w");
 			fwrite($fp, $this->toJson());

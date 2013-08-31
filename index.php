@@ -18,6 +18,7 @@ include_once("./classes/BusStop.php");
 include_once("./classes/BusRoute.php");
 include_once("./classes/Place.php");
 include_once("./classes/Area.php");
+include_once("./classes/Search.php");
 
 // Render functions
 

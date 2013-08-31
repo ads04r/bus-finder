@@ -62,9 +62,12 @@ function nearbyStops($uri)
 
 function renderSearchResults($f3, $source_uri, $dest_uri, $format)
 {
-	$stops1 = nearbyStops($source_uri);
-	$stops2 = nearbyStops($dest_uri);
-	$routes = crossRoutes($stops1, $stops2);
+	$search = new Search($source_uri, $dest_uri);
+
+	$stops = $search->getStops();
+	$stops1 = $stops['start'];
+	$stops2 = $stops['end'];
+	$routes = $search->getRoutes();
 
 	$query = "SELECT * WHERE { <" . $source_uri . "> <http://www.w3.org/2000/01/rdf-schema#label> ?source . <" . $dest_uri . "> <http://www.w3.org/2000/01/rdf-schema#label> ?dest . } LIMIT 1";
 	$result = sparql_get($f3->get('sparql_endpoint'), $query);
@@ -77,18 +80,21 @@ function renderSearchResults($f3, $source_uri, $dest_uri, $format)
 
 	if(strcmp($format, "json") == 0)
 	{
+		print($search->toJson());
+		exit();
+
 		$routes['stops'] = array_merge($stops1, $stops2);
 		print(json_encode($routes));
 		exit();
 	}
 
-	if(count($routes['routes']) == 0)
+	if(count($routes) == 0)
 	{
 		renderRouteless($f3);
 		exit();
 	}
 
-	foreach($routes['routes'] as $uri => $route)
+	foreach($routes as $uri => $route)
 	{
 		//$content .= $route['operator'] . " " . $route['id'] . "<br>";
 	}

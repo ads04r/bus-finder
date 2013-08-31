@@ -1,5 +1,7 @@
 var bl;
 var routes;
+var stops_start;
+var stops_end;
 
 function drawStops( data )
 {
@@ -31,21 +33,27 @@ function drawStops( data )
 
 		if((jny.length > 1) & (rtok == 1))
 		{
-			for( var j=0;j<jny.length;j++ )
+			var firststop = jny[0]["stop"];
+			var finalstop = jny[(jny.length - 1)]["stop"];
+
+			if(($.inArray(firststop, stops_start) > -1) & ($.inArray(finalstop, stops_end) > -1))
 			{
-				var stop = data["stops"][jny[j]["stop"]];
-	
-				if( j==0 )
+				for( var j=0;j<jny.length;j++ )
 				{
-					h += "<h2>"+label+"</h2>";
-					h += "<div>";
-				}
-	
-				h += '<div class="entry"><a href="/bus-stop/' + stop['code'] + '.html"><h3>' + stop['label'] + '</h3></a><div class="time">' + jny[j]["time"] + '</div></div>';
-	
-				if( j==(jny.length - 1) )
-				{
-					h += "</div>";
+					var stop = data["stops"][jny[j]["stop"]];
+		
+					if( j==0 )
+					{
+						h += "<h2>"+label+"</h2>";
+						h += "<div>";
+					}
+		
+					h += '<div class="entry"><a href="/bus-stop/' + stop['code'] + '.html"><h3>' + stop['label'] + '</h3></a><div class="time">' + jny[j]["time"] + '</div></div>';
+		
+					if( j==(jny.length - 1) )
+					{
+						h += "</div>";
+					}
 				}
 			}
 		}
@@ -79,7 +87,10 @@ $(document).ready(function() {
 		dataType: "json",
 		success: function(data) {
 			routes = data['routes'];
-			var stops = data['stops'];
+			var stops_arr = data['stops'];
+			stops_start = stops_arr['start'];
+			stops_end = stops_arr['end'];
+			var stops = stops_arr['start'].concat(stops_arr['end']);
 			var title = "Search";
 			create(title, stops);
 		},
