@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+	    <title>Bus Finder - University of Southampton</title><meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1"/>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <link rel="stylesheet" type="text/css" href="/resources/datasotonacuk-theme/jquery-ui-1.9.0.custom.css"></link>
+	    <link rel="stylesheet" type="text/css" href="/resources/jquery-mobile/jquery.mobile-1.2.0.css"></link>
+	    <script src="/resources/jquery/jquery-1.8.2.js"></script>
+	    <script src="/resources/jquery/jquery-ui-1.9.0.custom.js"></script>
+	    <script src="/resources/jquery-mobile/jquery.mobile-1.2.0.min.js" type="text/javascript"></script>
+	    <script src="bus-finder.js"></script>
+    </head>
+    <body>
+
+<check if="{{ @page_content=='' }}">
+<true>
+
+	<check if="{{ @page_template=='' }}">
+	<true>
+
+        <div data-role="page" id="page1">
+            <div data-theme="a" data-role="header">
+                <h3 id="header">Bus Finder</h3>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup">
+                        <input name="bussearch" id="bussearch" placeholder="Where do you want to go?" value="" type="search" data-mini="true" />
+			<input name="latitude" id="latitude" type="hidden" value="" />
+			<input name="longitude" id="longitude" type="hidden" value="" />
+                    </fieldset>
+                </div>
+            </div>
+            <div data-role="content" id="pagecontent">
+                <ul id="resultslist" data-role="listview" data-divider-theme="" data-inset="true"></ul>
+            </div>
+        </div>
+
+	</true>
+	<false>
+		<include href="{{ @page_template }}" />
+	</false>
+	</check>
+
+</true>
+<false>{{ @page_content | raw }}</false>
+</cneck>
+
+    </body>
+</html>
