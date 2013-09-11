@@ -7,9 +7,10 @@ http://bus.southampton.ac.uk/
 
 Credits
 -------
-Written by Ashley Smith.
-Live bus display Javascript views by Christopher Gutteridge.
-Based heavily on legacy code written by Ashley Browning and John Isger.
+* Written by Ashley Smith.
+* Live bus display Javascript views by Christopher Gutteridge.
+* Based heavily on legacy code written by Ashley Browning and John Isger.
 
 University of Southampton Open Data Service
+
 http://data.southampton.ac.uk/
