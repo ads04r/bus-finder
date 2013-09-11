@@ -328,3 +328,24 @@ div.searchstoplist h3 {
 div.searchstoplist p {
 	margin: 0px;
 }
+
+div.dest_select {
+	margin-bottom: 1.1em;
+}
+
+div.dest_select div.dest_option {
+	display: block;
+}
+
+div.dest_select input[type="radio"] {
+	visibility: hidden;
+}
+
+div.dest_select input[type="radio"]+label {
+	cursor: pointer;
+}
+
+div.dest_select input[type="radio"]:checked+label {
+	background-color: #FFFFFF;
+	font-weight: bold;
+}

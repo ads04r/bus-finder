@@ -196,10 +196,12 @@ function renderClarification($f3, $source_uri, $dest_uri, $query, $format)
 			$content .= "<h2>Your Destination</h2>";
 			$content .= "<p>Your search query was ambiguous, please select from the following options.</p>";
 			$content .= "<div class=\"dest_select\">";
+			$radio_id = 0;
 			foreach($results as $result)
 			{
 				//print($result['title'] . " - " . $result['uri'] . "<br>");
-				$content .= "<input id=\"searchuri\" type=\"radio\" name=\"searchuri\" value=\"" . $result['uri'] . "\">" . $result['title'];
+				$content .= "<div class=\"dest_option\"><input id=\"searchuri_" . $radio_id . "\" type=\"radio\" name=\"searchuri\" value=\"" . $result['uri'] . "\"><label for=\"searchuri_" . $radio_id . "\">" . $result['title'] . "</label></div>";
+				$radio_id++;
 			}
 			$content .= "</div>";
 		} else {

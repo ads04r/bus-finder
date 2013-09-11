@@ -6,6 +6,8 @@ $stops = json_decode(file_get_contents("./config/stops.json"), true);
 $routes = json_decode(file_get_contents("./config/routes.json"), true);
 
 print("<p>Welcome to bus.southampton.ac.uk, a service from the University of Southampton's Open Data team. This site combines various open datasets to provide a useful service for anyone wanting to use Southampton's bus network.</p>");
+print("<p>This site relies on live data provided by the council. Occasionally this goes down for maintenance, please bear with us. The bus finder feature should be unaffected by these outages.</p>");
+print("<p>Using a mobile device? Try <a href=\"http://bus.southampton.ac.uk/mobile\">bus.southampton.ac.uk/mobile</a> for a more optimised version!</p>");
 
 print("<h2>University Bus Information</h2>");
 print("<table class=\"headerlayout\">");
