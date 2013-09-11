@@ -349,3 +349,76 @@ div.dest_select input[type="radio"]:checked+label {
 	background-color: #FFFFFF;
 	font-weight: bold;
 }
+
+@media screen and (max-width: 900px) {
+
+	div#campusselect {
+		display: none;
+	}
+
+	div#main {
+		padding-left: 0px;
+	}
+
+	div#search {
+		top: 0px;
+	}
+
+	div#search .header {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 800px) {
+
+	div#background {
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		right: -100px;
+		background-position: right top;
+		min-width: 320px;
+		background-size: 850px;
+	}
+
+	div#search {
+		position: absolute;
+		left: 0px;
+	}
+
+	div#main {
+		position: absolute;
+		left: 0px;
+		right: 100px;
+		top: 100px !important;
+	}
+
+	div#main .content {
+		right: 0px;
+	}
+}
+
+@media screen and (max-width: 480px) {
+
+	div#footer {
+		display: none;
+	}
+
+	div#background {
+		background-size: 425px;
+		right: -50px;
+	}
+
+	div#main {
+		right: 50px;
+	}
+
+	div#main div.header {
+		height: 30px;
+	}
+
+	div#main div.header h1 {
+		font-size: 1.4em;
+		line-height: 1em;
+	}
+}
