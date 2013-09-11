@@ -301,3 +301,30 @@ table.bustimetable td.timetype {
 	font-size: 0.6em;
 }
 
+span.search_mode_select {
+	cursor: pointer;
+}
+
+span.search_mode_select:hover {
+	background-color: rgba(64, 64, 64, 0.8);
+	color: #FFFFFF;
+}
+
+div.searchstoplist {
+	background-color: #FFFFFF;
+	padding: 5px;
+	margin-bottom: 15px;
+	width: 50%;
+}
+
+div.searchstoplist h3 {
+	font-weight: normal;
+	margin-top: 0px;
+	padding: 0px;
+	margin-bottom: 5px;
+	border-bottom: solid 1px #CFCFCF;
+}
+
+div.searchstoplist p {
+	margin: 0px;
+}

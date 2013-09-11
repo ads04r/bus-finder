@@ -1,1 +1,5 @@
 <div style="background-image: url({{ @page_object->mapImage() }}); background-position: center; width: 100%; height: 480px;">&nbsp;</div>
+<h2>Route Stops</h2>
+<F3:repeat group="{{ @page_object->stops() }}" value="{{ @stop }}">
+	<p><a href="/bus-stop/{{ @stop['id'] }}.html">{{ @stop['name'] }}</a></p>
+</F3:repeat>

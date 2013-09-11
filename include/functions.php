@@ -37,15 +37,56 @@ SELECT ?lat ?lon WHERE {
 	{
 		$r['lat'] = $result[0]['lat'];
 		$r['lon'] = $result[0]['lon'];
+	} else {
+		$config = json_decode(file_get_contents("./config/startpoints.json"), true);
+		foreach($config as $point)
+		{
+			if(strcmp($uri, $point['uri']) == 0)
+			{
+				$r['lat'] = $point['lat'];
+				$r['lon'] = $point['lon'];
+				return($r);
+			}
+		}
 	}
 
+	return($r);
+}
+
+function getAllStopsOnRoute($route)
+{
+	global $sparql_endpoint;
+
+	$sparql = "
+SELECT DISTINCT ?route_number ?order ?bus_stop ?stop_name WHERE {
+    <http://id.southampton.ac.uk/bus-route/" . $route . "> <http://www.w3.org/2004/02/skos/core#notation> ?route_number .
+    <http://id.southampton.ac.uk/bus-route/" . $route . "> <http://vocab.org/transit/terms/routeStop> ?stopid .
+    ?stopid <http://vocab.org/transit/terms/sequence> ?order .
+    ?stopid <http://vocab.org/transit/terms/stop> ?bus_stop .
+    ?bus_stop <http://www.w3.org/2000/01/rdf-schema#label> ?stop_name .
+} ORDER BY ASC(?order)
+	";
+        $result = sparql_get(   $sparql_endpoint, $sparql);
+	$r = array();
+
+	if( isset($result) )
+	{
+		foreach($result as $stop) {
+			$uri = $stop['bus_stop'];
+			$item = array();
+			$item['uri'] = $uri;
+			$item['name'] = $stop['stop_name'];
+			$item['route'] = $stop['route_number'];
+			$r[] = $item;
+		}
+	}
 	return($r);
 }
 
 function getStopsOnRoute($route, $start, $end)
 {
 	global $sparql_endpoint;
-	
+
 	$sparql = "
 SELECT DISTINCT ?route_number ?order ?bus_stop ?stop_name WHERE {
     <http://id.southampton.ac.uk/bus-route/" . $route . "> <http://www.w3.org/2004/02/skos/core#notation> ?route_number .

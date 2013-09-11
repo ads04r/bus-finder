@@ -28,17 +28,20 @@ class BusRoute
 
 	public function stops()
 	{
-		function stop_sort($a, $b)
+		if(!(function_exists("stop_sort")))
 		{
-			if($a['seq'] < $b['seq'])
+			function stop_sort($a, $b)
 			{
-				return -1;
+				if($a['seq'] < $b['seq'])
+				{
+					return -1;
+				}
+				if($a['seq'] > $b['seq'])
+				{
+					return 1;
+				}
+				return 0;
 			}
-			if($a['seq'] > $b['seq'])
-			{
-				return 1;
-			}
-			return 0;
 		}
 
 		$stops = array();

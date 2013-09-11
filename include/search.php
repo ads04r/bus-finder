@@ -105,6 +105,7 @@ function renderSearchResults($f3, $source_uri, $dest_uri, $format)
 	$f3->set('search_results', $routes);
 	$f3->set('search_start', $stops1);
 	$f3->set('search_end', $stops2);
+	$f3->set('page_object', $search);
 	$f3->set('page_template', "./templates/searchresults.html");
 	$template = new Template;
 	echo $template->render($f3->get('brand_file'));

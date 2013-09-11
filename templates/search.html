@@ -6,7 +6,7 @@
 <div>
 <input type="text" name="searchfield" id="searchfield">
 <input type="hidden" name="searchuri" id="searchuri" value="">
-<check if="{{ @page_template == './templates/area.html' }}">
+<check if="{{ ((@page_template == './templates/area.html') | (@page_template == './templates/stop.html')) }}">
 	<true><input type="hidden" name="sourceuri" id="sourceuri" value="{{ @page_object->uri() }}"></true>
 	<false><input type="hidden" name="sourceuri" id="sourceuri" value=""></false>
 </check>

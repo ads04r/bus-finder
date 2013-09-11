@@ -1,6 +1,6 @@
 <?php
 
-function renderPage($f3, $page)
+function renderPage($f3, $page, $mobile=0)
 {
 	$filename = "./docs/" . $page . ".php";
 	if(!(file_exists($filename)))
@@ -9,7 +9,12 @@ function renderPage($f3, $page)
 		exit();
 	}
 	$f3->set('TEMP', '/tmp');
-	$f3->set('menu_file', $f3->get('brand_file'));
+	if($mobile == 1)
+	{
+		$f3->set('menu_file', $f3->get('mobile_brand_file'));
+	} else {
+		$f3->set('menu_file', $f3->get('brand_file'));
+	}
 	$f3->set('page_title','Southampton Bus Information');
 	ob_start();
 	include($filename);
@@ -17,12 +22,26 @@ function renderPage($f3, $page)
 	ob_end_clean();
 	$f3->set('page_content', $content);
 	$template = new Template;
-	echo $template->render($f3->get('brand_file'));
+	if($mobile == 1)
+	{
+		echo $template->render($f3->get('mobile_brand_file'));
+	} else {
+		echo $template->render($f3->get('brand_file'));
+	}
 }
 
 function homePage($f3)
 {
 	renderPage($f3, "home");
+}
+
+function mobileHomePage($f3)
+{
+	// TODO: Change this!
+	header("Location: http://data.southampton.ac.uk/bus-finder/?view=mob");
+	exit();
+
+	renderPage($f3, "mobile", 1);
 }
 
 function otherPage($f3, $params)

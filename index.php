@@ -10,6 +10,7 @@ $f3->set('page_template', "");
 // Website settings
 
 $f3->set('brand_file', "./templates/bus.html");
+$f3->set('mobile_brand_file', "./templates/mobile.html");
 $f3->set('sparql_endpoint', "http://sparql.data.southampton.ac.uk/");
 
 // Classes
@@ -28,6 +29,7 @@ include_once("./include/search.php");
 // Routes
 
 $f3->route("GET /", "homePage");
+$f3->route("GET /mobile", "mobileHomePage");
 $f3->route("GET /area/@areaid.@format", "busArea");
 $f3->route("GET /bus-route/@routecode.@format", "busRoute");
 $f3->route("GET /bus-stop/@stopcode.@format", "busStop");

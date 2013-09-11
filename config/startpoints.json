@@ -12,17 +12,18 @@
          "1980SN120128"
       ],
       "title" : "Highfield Campus",
-      "lon" : "5.39680",
+      "lon" : "-1.39680",
       "uri" : "http://id.southampton.ac.uk/site/1"
    },
    "avenue" : {
       "lat" : "50.928652",
       "stops" : [
          "1980SNA13670",
-         "1980SNA09299"
+         "1980SNA09299",
+         "1980SN121055"
       ],
       "title" : "Avenue Campus",
-      "lon" : "5.40375",
+      "lon" : "-1.40375",
       "uri" : "http://id.southampton.ac.uk/site/3"
    },
    "sgh" : {
@@ -38,112 +39,112 @@
          "1980SN120084"
       ],
       "title" : "General Hospital",
-      "lon" : "5.43541225",
+      "lon" : "-1.43541225",
       "uri" : "http://id.southampton.ac.uk/site/18"
    },
    "connaught" : {
       "lat" : "50.937965",
       "stops" : [],
       "title" : "Connaught Hall",
-      "lon" : "5.374632",
+      "lon" : "-1.374632",
       "uri" : "http://id.southampton.ac.uk/site/63"
    },
    "wsa" : {
       "lat" : "51.065765",
       "stops" : [],
       "title" : "Winchester School of Art",
-      "lon" : "5.30954",
+      "lon" : "-1.30954",
       "uri" : "http://id.southampton.ac.uk/site/4"
    },
    "bencraft" : {
       "lat" : "50.945885",
       "stops" : [],
       "title" : "Bencraft Hall",
-      "lon" : "5.390811",
+      "lon" : "-1.390811",
       "uri" : "http://id.southampton.ac.uk/site/62"
    },
    "noc" : {
       "lat" : "50.8927263",
       "stops" : [],
       "title" : "Oceanography Centre",
-      "lon" : "5.3946555",
+      "lon" : "-1.3946555",
       "uri" : "http://id.southampton.ac.uk/site/6"
    },
    "stoneham" : {
       "lat" : "50.9369483",
       "stops" : [],
       "title" : "Stoneham Hall",
-      "lon" : "5.3765588",
+      "lon" : "-1.3765588",
       "uri" : "http://id.southampton.ac.uk/site/65"
    },
    "monty" : {
       "lat" : "50.938297",
       "stops" : [],
       "title" : "Montefiore Hall",
-      "lon" : "5.377164",
+      "lon" : "-1.377164",
       "uri" : "http://id.southampton.ac.uk/site/64"
    },
    "southhill" : {
       "lat" : "50.94146",
       "stops" : [],
       "title" : "South Hill Hall",
-      "lon" : "5.402248",
+      "lon" : "-1.402248",
       "uri" : "http://id.southampton.ac.uk/site/58"
    },
    "highfieldhall" : {
       "lat" : "50.930084",
       "stops" : [],
       "title" : "Highfield Hall",
-      "lon" : "5.402286",
+      "lon" : "-1.402286",
       "uri" : "http://id.southampton.ac.uk/site/56"
    },
    "chilworth" : {
       "lat" : "50.962158",
       "stops" : [],
       "title" : "The University of Southampton Science Park",
-      "lon" : "5.424618",
+      "lon" : "-1.424618",
       "uri" : "http://id.southampton.ac.uk/site/5"
    },
    "belgrave" : {
       "lat" : "50.9309864",
       "stops" : [],
       "title" : "Belgrave Industrial Site",
-      "lon" : "5.3840253",
+      "lon" : "-1.3840253",
       "uri" : "http://id.southampton.ac.uk/site/45"
    },
    "station" : {
       "lat" : "50.9075",
       "stops" : ["1980SNA09196","1980SN12518A","1980SN120518","1980SNA19709","1980SN120519","1980SN120520"],
       "title" : "Southampton Central Station",
-      "lon" : "5.4141",
+      "lon" : "-1.4141",
       "uri" : "http://id.southampton.ac.uk/point-of-service/rail-sou"
    },
    "chamberlain" : {
       "lat" : "50.941608",
       "stops" : [],
       "title" : "Chamberlain Hall",
-      "lon" : "5.403273",
+      "lon" : "-1.403273",
       "uri" : "http://id.southampton.ac.uk/site/59"
    },
    "airport" : {
       "lat" : "50.950775",
       "stops" : ["1900HA030200","1900HA030201","1900HA030184","1900HA030183","1900HAA09424"],
       "title" : "Southampton Airport (Parkway)",
-      "lon" : "5.362974",
+      "lon" : "-1.362974",
       "uri" : "http://id.southampton.ac.uk/point-of-service/rail-soa"
    },
    "gleneyre" : {
       "lat" : "50.943504",
       "stops" : [],
       "title" : "Glen Eyre Hall",
-      "lon" : "5.401615",
+      "lon" : "-1.401615",
       "uri" : "http://id.southampton.ac.uk/site/57"
    },
    "erasmus" : {
       "lat" : "51.0687982",
       "stops" : [],
       "title" : "Erasmus Park",
-      "lon" : "5.3000948",
+      "lon" : "-1.3000948",
       "uri" : "http://id.southampton.ac.uk/site/70"
    },
    "boldrewood" : {

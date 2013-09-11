@@ -3,6 +3,10 @@ var routes;
 var stops_start;
 var stops_end;
 
+var tabs = Array();
+tabs[0] = 'route_info';
+tabs[1] = 'route_stops';
+
 function drawStops( data )
 {
 	var h = "";
@@ -68,7 +72,40 @@ function create(title, stops)
 	bl = BusListener( stops, drawStops, function( msg ) { ; } );
 }
 
+function showTab(ix)
+{
+	var c = tabs.length;
+	for(var i = 0; i < c; i++)
+	{
+		var id = tabs[i].replace('route_', 'tab_');
+		
+		if(ix == i) {
+			$("." + tabs[i]).css('display', 'block');
+			$("#" + id).css('background-color', 'rgb(127,127,127,0.5)');
+		} else {
+			$("." + tabs[i]).css('display', 'none');
+			$("#" + id).css('background-color', '');
+		}
+	}
+}
+
 $(document).ready(function() {
+
+	showTab(0);
+	$('.search_mode_select').click(function()
+	{
+		var tab_id = $(this).attr('id'); // .replace('tab_', 'route_');
+		var i = 0;
+		$('.search_mode_select').each(function()
+		{
+			var cur_id = $(this).attr('id');
+			if(cur_id == tab_id)
+			{
+				showTab(i);
+			}
+			i = i + 1;
+		});
+	});
 
 	$('#searchfield').autocomplete({
 		source: "/search/autocomplete.json",
@@ -77,6 +114,13 @@ $(document).ready(function() {
 			var uri = ui.item.id;
 			$('#searchuri').attr('value', uri);
 		}
+	});
+
+	$('#refineform').find('select').change(function(data)
+	{
+		$('.route_info').html("<p>Refining search...</p>");
+		showTab(0);
+		$('#refineform').submit();
 	});
 
 	var url = document.URL.replace('.html?', '.json?');

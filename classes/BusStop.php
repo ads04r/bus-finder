@@ -12,6 +12,11 @@ class BusStop
 		return $this->stop_code;
 	}
 
+	public function uri()
+	{
+		return $this->uri;
+	}
+
 	public function label()
 	{
 		return $this->rdf->label();

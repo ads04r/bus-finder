@@ -1,6 +1,32 @@
+<form action="/search/finder.html" method="GET" id="refineform" name="refineform">
+<h4>From <select name="sourceuri">
+	<F3:repeat group="{{ @page_object->GetStartPointSelect() }}" value="{{ @point }}">
+	<option value="{{ @point['uri'] }}">{{ @point['label'] }}</option>
+	</F3:repeat>
+</select></h4>
+<input type="hidden" id="searchuri" name="searchuri" value="{{ @page_object->uri() }}"/>
+</form>
 <p>
-	<nobr><span id="tab_info">Route(s) Detail</span> | <span id="tab_stops">Live Times</span></nobr>
+	<nobr><span class="search_mode_select" id="tab_info">Route(s) Detail</span> | <span class="search_mode_select" id="tab_stops">Live Times</span></nobr>
 </p>
 <div class="route_info">
+
+	<F3:repeat group="{{ @page_object->getRoutes() }}" value="{{ @route }}">
+
+		<h2>{{ @route['id'] }} - {{ @route['operator'] }}</h2>
+		<p>Get on at {{ @page_object->getStopName($route['stops'][0]) }}</p>
+		<p>Get off after {{ (count($route['stops']) - 1) }} stops, at {{ @page_object->getStopName($route['stops'][count($route['stops']) - 1]) }}</p>
+
+		<div class="searchstoplist">
+		<h3>Route Stops</h3>
+		<F3:repeat group="{{ @route['stops'] }}" value="{{ @stop }}">
+
+			<p><a href="/bus-stop/{{ @stop }}.html">{{ @page_object->getStopName(@stop) }}</a></p>
+
+		</F3:repeat>
+		</div>
+
+	</F3:repeat>
+
 </div>
 <div class="route_stops"></div>
