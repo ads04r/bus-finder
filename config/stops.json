@@ -2,5 +2,25 @@
 	{
 		"id" : "1980HAA13668",
 		"name" : "Southampton Uni Interchange"
+	},
+	{
+		"id" : "1980SN120520",
+		"name" : "Central Train Station"
+	},
+	{
+		"id" : "1980SNA09300",
+		"name" : "Glen Eyre Halls"
+	},
+	{
+		"id" : "1980SN120161",
+		"name" : "Montefiore House"
+	},
+	{
+		"name" : "General Hospital",
+		"id" : "1980SN120068"
+	},
+	{
+		"name" : "National Oceanography Centre",
+		"id" : "1980HAA13579"
 	}
 ]
