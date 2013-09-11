@@ -3,3 +3,20 @@
 <F3:repeat group="{{ @page_object->stops() }}" value="{{ @stop }}">
 	<p><a href="/bus-stop/{{ @stop['id'] }}.html">{{ @stop['name'] }}</a></p>
 </F3:repeat>
+
+<h2>Other Views</h2>
+<p>There are other, less 'webby' versions of this page available, if you want to view it on a different device, such as a smartphone or a public display screen. These are coming soon, but for now please see the <a href="http://data.southampton.ac.uk/bus-route/{{ @page_object->routeCode() }}.html">old version of this page</a>, which is still available as part of data.southampton.ac.uk.</p>
+
+<div class="bus_routeviews">
+</div>
+
+<h2>Get the Data!</h2>
+<p>We encourage re-use of data. To this end we provide machine readable versions of this page in various formats.</p>
+<ul>
+	<li> <a href="/bus-route/{{ @page_object->routeCode() }}.ttl">Turtle</a> - Turtle is a representation of RDF, the standard format for linked open data.</li>
+	<li> <a href="/bus-route/{{ @page_object->routeCode() }}.rdf">RDF/XML</a> - RDF, represented in XML.</li>
+</ul>
+<p>
+	If you prefer, you can visit the University of Southampton's <a href="http://data.southampton.ac.uk/">Data Site</a> to access the raw data used in the building of this site. Here you will find many more datasets in the same format, and a SPARQL endpoint for querying the data from the web.
+</p>
+<p>Finally, if you produce something cool using the data available from this site, please <a href="mailto:opendata@southampton.ac.uk">let&nbsp;us&nbsp;know</a>!</p>
