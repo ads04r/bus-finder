@@ -114,6 +114,12 @@ function busRoute($f3, $params)
 		print($br->toTtl());
 		exit();
 	}
+	if(strcmp($format, "json") == 0)
+	{
+		header("Content-type: text/plain");
+		print($br->toJson());
+		exit();
+	}
 
 	$f3->set('TEMP', '/tmp');
 	$f3->set('page_title', $br->label());

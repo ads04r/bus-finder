@@ -69,6 +69,12 @@ class BusRoute
 	public function toJson()
 	{
 		$data = array();
+
+		$data['id'] = (int) $this->route_code;
+		$data['uri'] = $this->uri;
+		$data['number'] = "" . $this->rdf->get("skos:notation");
+		$data['operator'] = "" . $this->rdf->get("http://id.southampton.ac.uk/ns/busRouteOperator")->label();
+		$data['stops'] = $this->stops();
 		return(json_encode($data));
 	}
 
