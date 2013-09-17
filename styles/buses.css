@@ -350,6 +350,10 @@ div.dest_select input[type="radio"]:checked+label {
 	font-weight: bold;
 }
 
+table.credits td {
+	vertical-align: top;
+}
+
 @media screen and (max-width: 900px) {
 
 	div#campusselect {
