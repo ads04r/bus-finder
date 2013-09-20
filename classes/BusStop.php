@@ -105,10 +105,20 @@ class BusStop
 
 	public function mapImage()
 	{
-		$lat = $this->rdf->get("geo:lat");
-		$lon = $this->rdf->get("geo:long");
+		$ll = $this->latLon();
+		$lat = $ll['lat'];
+		$lon = $ll['lon'];
 
 		return("http://bus.southampton.ac.uk/graphics/staticmaplite/staticmap.php?center=" . $lat . "," . $lon . "&zoom=17&size=720x200&markers=" . $lat . "," . $lon . ",ol-marker-gold");
+	}
+
+	public function latLon()
+	{
+		$lat = (float) ("" . $this->rdf->get("geo:lat"));
+		$lon = (float) ("" . $this->rdf->get("geo:long"));
+		$ll = array('lat'=>$lat, 'lon'=>$lon);
+
+		return($ll);
 	}
 
 	function __construct($new_stop_code, $endpoint)

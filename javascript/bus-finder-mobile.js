@@ -1,4 +1,5 @@
-function geoLocate() {
+function geoLocate() 
+{
 	navigator.geolocation.getCurrentPosition(
 		function(position) {
 			$('#latitude').attr('value', position.coords.latitude);
@@ -7,27 +8,36 @@ function geoLocate() {
 	);
 }
 
-$(document).ready(function() {
+function showPage(new_active)
+{
+	$('.routepageselect').each(function() {
+		var id = "page_" + $(this).attr('data-tab-class');
+		if(id == new_active)
+		{
+			$('#' + id).css('display', 'block');
+		}
+		else
+		{
+			$('#' + id).css('display', 'none');
+		}
+	});
+}
 
-	if(($('#searchfield').length != 0) | ($('#routes-list').length != 0)) {
+function setUpTabs() 
+{
+	$(".routepageselect").click(function() {
+		var new_active = 'page_' + $(this).attr('data-tab-class');
+		showPage(new_active);
+	});
+}
 
-		// Desktop version
+$(document).bind("pageinit", function()
+{
+	setUpTabs();
+});
 
-		$('#searchfield').autocomplete({
-			source: "autocomplete.json",
-			minLength: 3,
-			select: function(event, ui) {
-				var uri = ui.item.id;
-				$('#searchuri').attr('value', uri);
-			}
-		});
-		$('#routes-list').accordion({
-			autoHeight: false,
-			collapsible: true
-		});
-
-	} else {
-
+$(document).ready(function() 
+{
 		// Mobile version
 
 		geoLocate();
@@ -38,9 +48,9 @@ $(document).ready(function() {
 				var lon = $("#longitude").attr('value');
 				var html = '';
 				if ((lat.length > 0) & (lon.length > 0)) {
-					var url = './search.json?lat=' + lat + '&lon=' + lon + '&q=' + encodeURIComponent(squery);
+					var url = './search/mobile.json?lat=' + lat + '&lon=' + lon + '&q=' + encodeURIComponent(squery);
 				} else {
-					var url = './search.json?q=' + encodeURIComponent(squery);
+					var url = './search/mobile.json?q=' + encodeURIComponent(squery);
 				}
 				$.getJSON(url, function(data) {
 					var lasttitle = '';
@@ -49,7 +59,7 @@ $(document).ready(function() {
 						var title = val['title'];
 						var uri = val['uri'];
 						if(lasttitle != title) {
-							html = html + '<li data-theme="c"><a href="route.html?view=mob&uri=' + encodeURIComponent(uri) + '&lat=' + lat + '&lon=' + lon + '" data-transition="slide">' + title + '</a></li>';
+							html = html + '<li data-theme="c"><a href="/search/mobile.html?uri=' + encodeURIComponent(uri) + '&lat=' + lat + '&lon=' + lon + '" data-transition="slide">' + title + '</a></li>';
 						}
 						lasttitle = title;
 					});
@@ -58,7 +68,4 @@ $(document).ready(function() {
 				});
 			}
 		});
-
-	}
-
 });

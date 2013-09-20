@@ -37,10 +37,6 @@ function homePage($f3)
 
 function mobileHomePage($f3)
 {
-	// TODO: Change this!
-	header("Location: http://data.southampton.ac.uk/bus-finder/?view=mob");
-	exit();
-
 	renderPage($f3, "mobile", 1);
 }
 
@@ -89,6 +85,48 @@ function busStop($f3, $params)
 	$f3->set('page_template', './templates/stop.html');
 	$template = new Template;
 	echo $template->render($f3->get('brand_file'));
+}
+
+function mobileBusStop($f3, $params)
+{
+	$bs = new BusStop($params['stopcode'], $f3->get('sparql_endpoint'));
+	@$format = $params['format'];
+	if(strcmp($format, "kml") == 0)
+	{
+		header("Content-type: application/xml");
+		print($bs->toKml());
+		exit();
+	}
+	if(strcmp($format, "rdf") == 0)
+	{
+		header("Content-type: application/rdf+xml");
+		print($bs->toRdf());
+		exit();
+	}
+	if(strcmp($format, "ttl") == 0)
+	{
+		header("Content-type: text/plain");
+		print($bs->toTtl());
+		exit();
+	}
+	if(strcmp($format, "json") == 0)
+	{
+		header("Content-type: text/plain");
+		$maxrows = 5;
+		if(array_key_exists("maxrows", $params))
+		{
+			$maxrows = (int) $params['maxrows'];
+		}
+		print($bs->toJson($maxrows));
+		exit();
+	}
+	$f3->set('TEMP', '/tmp');
+	$f3->set('page_title',$bs->label());
+	$f3->set('page_content', '');
+	$f3->set('page_object', $bs);
+	$f3->set('page_template', './templates/stop_mobile.html');
+	$template = new Template;
+	echo $template->render($f3->get('mobile_brand_file'));
 }
 
 function busRoute($f3, $params)

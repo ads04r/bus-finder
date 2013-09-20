@@ -26,19 +26,33 @@ include_once("./classes/Search.php");
 include_once("./include/render.php");
 include_once("./include/search.php");
 
+function mobileHomePageRedirect($f3)
+{
+        // TODO: Change this!
+        header("Location: http://data.southampton.ac.uk/bus-finder/?view=mob");
+        exit();
+
+        renderPage($f3, "mobile", 1);
+}
+
 // Routes
 
 $f3->route("GET /", "homePage");
-$f3->route("GET /mobile", "mobileHomePage");
+$f3->route("GET /mobile", "mobileHomePageRedirect");
+$f3->route("GET /mobile2", "mobileHomePage");
 $f3->route("GET /area/@areaid.@format", "busArea");
 $f3->route("GET /bus-route/@routecode.@format", "busRoute");
 $f3->route("GET /bus-stop/@stopcode.@format", "busStop");
 $f3->route("GET /bus-stop/@stopcode.@format?max=@maxrows", "busStop");
+$f3->route("GET /bus-stop-mobile/@stopcode.@format", "mobileBusStop");
 $f3->route("GET /place/@fhrs.@format", "place");
 $f3->route("GET /@pagename.html", "otherPage");
 $f3->route("GET /search/autocomplete.json?term=@query", "autocompleteJson");
 $f3->route("GET /search/finder.html", "searchPage");
 $f3->route("GET /search/finder.@format?@argv", "searchPage");
+$f3->route("GET /search/mobile.html?@argv", "mobileSearchPage");
+$f3->route("GET /search/mobile.json?@terms", "mobileAutocompleteJson");
+$f3->route("GET /search/mobile-route.@format?@terms", "mobileRoutePage");
 $f3->route("GET *", function($f3) { $f3->error(404); });
 
 $f3->run();

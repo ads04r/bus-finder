@@ -41,6 +41,208 @@ function searchPage($f3, $params)
 	renderClarification($f3, $sourceuri, $searchuri, $searchfield, $format);
 }
 
+function mobileErrorPage($f3)
+{
+}
+
+function mobileRoutePage($f3, $params)
+{
+	function middle($val1, $val2)
+	{
+		if($val1 < $val2)
+		{
+			return ($val1 + (($val2 - $val1) / 2));
+		} else {
+			return ($val2 + (($val1 - $val2) / 2));
+		}
+	}
+
+	$stops = getStopsOnRoute($_GET['route'], "http://id.southampton.ac.uk/bus-stop/" . $_GET['begin'], "http://id.southampton.ac.uk/bus-stop/" . $_GET['end']);
+	if(count($stops) <= 2)
+	{
+		mobileErrorPage($f3);
+		exit();
+	}
+	$first_stop = new BusStop(preg_replace("|(.*)/([^/]*)|", "$2", $stops[0]['uri']), $f3->get('sparql_endpoint'));
+	$last_stop = new BusStop(preg_replace("|(.*)/([^/]*)|", "$2", $stops[(count($stops) - 1)]['uri']), $f3->get('sparql_endpoint'));
+	$lat = (float) $_GET['lat'];
+	$lon = (float) $_GET['lon'];
+
+	$f3->set('TEMP', '/tmp');
+	$f3->set('menu_file', $f3->get('mobile_brand_file'));
+	$f3->set('page_title','Bus Route');
+	$content = '<div data-role="page" id="page1"><div data-theme="a" data-role="header">
+                <h3 id="header">Bus Route</h3>
+                <div data-role="navbar" id="navbar">
+                     <ul>
+                        <li><a href="#" class="ui-btn-active routepageselect" data-tab-class="tab1">Stops</a></li>
+                        <li><a href="#" class="routepageselect" data-tab-class="tab2">Maps</a></li>
+                        <li><a href="#" class="routepageselect" data-tab-class="tab3">Live Times</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div data-role="content" id="pagecontent">';
+
+	$content .= "<div id=\"page_tab1\">";
+	$content .= "<ul data-role=\"listview\" data-divider-theme=\"b\" data-inset=\"true\">";
+	foreach($stops as $stop)
+	{
+		$content .= "<li data-theme=\"c\"><a href=\"/bus-stop-mobile/" . preg_replace("|(.*)/([^/]*)|", "$2", $stop['uri']) . ".html\" data-transition=\"slide\">" . $stop['name'] . "</a></li>";
+	}
+	$content .= "</ul>";
+	$content .= "</div>";
+
+	$content .= "<div id=\"page_tab2\" style=\"display: none;\">";
+	$first_ll = $first_stop->latLon();
+	$last_ll = $last_stop->latLon();
+	$dest_ll = getLocation($_GET['uri']);
+
+	$content .= "<h3 align=\"center\">Current location to bus</h3><div style=\"display: block; width: 100%; height: 300px; background-position: center; background-repeat: no-repeat; background-image:url(http://bus.southampton.ac.uk/graphics/staticmaplite/staticmap.php?center=" . middle($first_ll['lat'], $lat) . "," . middle($first_ll['lon'], $lon) . "&zoom=16&size=720x300&markers=" . $lat . "," . $lon . ",ol-marker-green|" . $first_ll['lat'] . "," . $first_ll['lon'] . ",ol-marker);\"></div>";
+	$content .= "<h3 align=\"center\">Bus to destination</h3><div style=\"display: block; width: 100%; height: 300px; background-position: center; background-repeat: no-repeat; background-image:url(http://bus.southampton.ac.uk/graphics/staticmaplite/staticmap.php?center=" . middle($last_ll['lat'], $dest_ll['lat']) . "," . middle($last_ll['lon'], $dest_ll['lon']) . "&zoom=16&size=720x300&markers=" . $dest_ll['lat'] . "," . $dest_ll['lon'] . ",ol-marker-green|" . $last_ll['lat'] . "," . $last_ll['lon'] . ",ol-marker);\">";
+	$content .= "</div>";
+
+	$content .= "<div id=\"page_tab3\" style=\"display: none;\">";
+	$content .= "</div>";
+
+	$content .= "</div></div>";
+
+	$f3->set('page_content', $content);
+	$template = new Template;
+	echo $template->render($f3->get('mobile_brand_file'));
+}
+
+function mobileSearchPage($f3, $params)
+{
+	function mobile_route_search($a, $b)
+	{
+		$da = (int) $a['dist'];
+		$db = (int) $b['dist'];
+		if($da < $db)
+		{
+			return -1;
+		}
+		if($da > $db)
+		{
+			return 1;
+		}
+		$ca = count($a['stops']);
+		$cb = count($b['stops']);
+		if($ca < $cb)
+		{
+			return -1;
+		}
+		if($ca > $cb)
+		{
+			return 1;
+		}
+		return 0;
+	}
+
+	@$lat = (float) $_GET['lat'];
+	@$lon = (float) $_GET['lon'];
+	@$target_uri = $_GET['uri'];
+
+	if(strlen($target_uri) == 0)
+	{
+		exit();
+	}
+
+	if(($lat == 0) | ($lon == 0))
+	{
+		$lat = 50.934189;
+		$lon = -1.395685;
+	}
+
+	$neareststops_target = nearestStops($target_uri);
+	$neareststops = nearestBusStops($lat, $lon);
+
+	$routes = findBusRoutes($lat, $lon, $target_uri);
+
+	if(count($routes) > 0)
+	{
+		usort($routes, "sortByDistance");
+
+		$best_get_on_stop = $routes[0]['get_on']['uri'];
+		$stop_lat = (float) $routes[0]['get_on']['lat'];
+		$stop_lon = (float) $routes[0]['get_on']['lon'];
+
+		$routes2 = $routes;
+		$routes = array();
+		foreach($routes2 as $route)
+		{
+			if(strcmp($best_get_on_stop, $route['get_on']['uri']) == 0)
+			{
+				$routes[] = $route;
+			}
+		}
+		if($stop_lat > $lat)
+		{
+			$clat = (($stop_lat - $lat) / 2) + $lat;
+		}
+		else
+		{
+			$clat = (($lat - $stop_lat) / 2) + $stop_lat;
+		}
+		if($stop_lon > $lon)
+		{
+			$clon = (($stop_lon - $lon) / 2) + $lon;
+		}
+		else
+		{
+			$clon = (($lon - $stop_lon) / 2) + $stop_lon;
+		}
+		$mapcentre = $clat . "," . $clon;
+	} else {
+		$mapcentre = $lat . "," . $lon;
+	}
+
+	$mapurl = "https://maps.googleapis.com/maps/api/staticmap?size=288x200&scale=1&markers=" . urlencode("color:red|" . $stop_lat . "," . $stop_lon) . "&markers=" . urlencode("color:green|" . $lat . "," . $lon) . "&sensor=false";
+
+	$f3->set('TEMP', '/tmp');
+	$f3->set('menu_file', $f3->get('mobile_brand_file'));
+	$f3->set('page_title','Bus Search');
+	$content = '<div data-role="page" id="page1"><div data-theme="a" data-role="header">
+                <h3 id="header">Bus Search</h3>
+            </div>
+            <div data-role="content" id="pagecontent">';
+
+	$old_routes = $routes;
+	$routes = array();
+	foreach($old_routes as $route)
+	{
+		$route['number'] = $route['id'];
+		$route['id'] = (int) preg_replace("|(.*)/([^/]*)|", "$2", $route['uri']);
+		$route['stops'] = getStopsOnRoute($route['id'], $route['get_on']['uri'], $route['get_off']['uri']);
+		$routes[] = $route;
+	}
+	usort($routes, "mobile_route_search");
+	$done = array();
+	$content .= "<ul data-role=\"listview\" data-inset=\"true\">";
+	foreach($routes as $route)
+	{
+		if(in_array($route['id'], $done))
+		{
+			continue;
+		}
+		$content .= "<li><a href=\"/search/mobile-route.html?uri=" . urlencode($_GET['uri']) . "&begin=" . preg_replace("|(.*)/([^/]*)|", "$2", $route['get_on']['uri']) . "&end=" . preg_replace("|(.*)/([^/]*)|", "$2", $route['get_off']['uri']) . "&route=" . $route['id'] . "&lat=" . $lat . "&lon=" . $lon . "\">";
+		$content .= "<h3>" . $route['number'] . " from " . $route['get_on']['title'] . "</h3>";
+		$content .= "<p><strong>Alight at " . $route['get_off']['title'] . "</strong></p>";
+		$content .= "<p>Total walking distance: " . $route['dist'] . "m (approx)</p>";
+		$content .= "<p>Route stops: " . (count($route['stops']) - 1) . "</p>";
+		//$content .= "<p class=\"ui-li-aside\"><strong>" . $route['number'] . "</strong></p>";
+		$content .= "</a></li>";
+		$done[] = $route['id'];
+	}
+	$content .= "</ul>";
+
+	$content .= "</div></div>";
+
+	$f3->set('page_content', $content);
+	$template = new Template;
+	echo $template->render($f3->get('mobile_brand_file'));
+
+}
+
 function nearbyStops($uri)
 {
 	$areas = getAreas();
@@ -247,3 +449,23 @@ function autocompleteJson($f3, $params)
 	exit();
 }
 
+function mobileAutoCompleteJson($f3, $params)
+{
+	header("Content-type: text/plain");
+
+	if(array_key_exists("q", $_GET))
+	{
+		$query = $_GET['q'];
+	} else {
+		$query = "";
+	}
+
+	$results = southamptonThingSearch($query);
+
+	if((array_key_exists("lat", $_GET)) & (array_key_exists("lon", $_GET)))
+	{
+                usort($results, "locSort");
+	}
+
+	print(json_encode($results));
+}

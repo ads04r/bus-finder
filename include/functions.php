@@ -35,16 +35,16 @@ SELECT ?lat ?lon WHERE {
 	$r = array();
 	if(count($result) > 0)
 	{
-		$r['lat'] = $result[0]['lat'];
-		$r['lon'] = $result[0]['lon'];
+		$r['lat'] = (float) ("" . $result[0]['lat']);
+		$r['lon'] = (float) ("" . $result[0]['lon']);
 	} else {
 		$config = json_decode(file_get_contents("./config/startpoints.json"), true);
 		foreach($config as $point)
 		{
 			if(strcmp($uri, $point['uri']) == 0)
 			{
-				$r['lat'] = $point['lat'];
-				$r['lon'] = $point['lon'];
+				$r['lat'] = (float) ("" . $point['lat']);
+				$r['lon'] = (float) ("" . $point['lon']);
 				return($r);
 			}
 		}

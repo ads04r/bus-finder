@@ -1,0 +1,12 @@
+<div data-role="page" id="page1"><div data-theme="a" data-role="header">
+	<h3 id="header">{{ @page_title }}</h3>
+</div>
+<div data-role="content" id="pagecontent">
+
+	<div style="background-image: url({{ @page_object->mapImage() }}); background-position: center; width: 100%; height: 200px; background-repeat: no-repeat;">&nbsp;</div>
+
+	<h2>Upcoming buses</h2>
+	<p>Bus times courtesy of the council, and are live unless stated otherwise.</p>
+	<div class="bus_timetable" id="{{ @page_object->stopCode() }}"><noscript><p>Please enable Javascript to see the live times.</p></noscript></div>
+
+</div>
