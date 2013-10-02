@@ -160,7 +160,7 @@ class Search
 		$this->dest_uri = $end;
 		$this->hash = md5($start . "\n" . $end);
 
-		$cachefile = "./cache/" . $this->hash . ".json";
+		$cachefile = "./cache/journeys/" . $this->hash . ".json";
 		/*
 		if(file_exists($cachefile))
 		{
