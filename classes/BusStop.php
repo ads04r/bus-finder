@@ -6,6 +6,7 @@ class BusStop
 	private $rdf;
 	private $uri;
 	private $rdesc;
+	private $cache;
 
 	public function stopCode()
 	{
@@ -63,6 +64,11 @@ class BusStop
 
 	public function toKml()
 	{
+		if(file_exists($this->cache . ".kml"))
+		{
+			return(file_get_contents($this->cache . ".kml"));
+		}
+
 		ob_start();
 		$err = $this->rdesc->handleFormat("kml");
 		$kml = ob_get_contents();
@@ -77,6 +83,11 @@ class BusStop
 
 	public function toRdf()
 	{
+		if(file_exists($this->cache . ".rdf"))
+		{
+			return(file_get_contents($this->cache . ".rdf"));
+		}
+
 		ob_start();
 		$err = $this->rdesc->handleFormat("rdf");
 		$rdfxml = ob_get_contents();
@@ -91,6 +102,11 @@ class BusStop
 
 	public function toTtl()
 	{
+		if(file_exists($this->cache . ".ttl"))
+		{
+			return(file_get_contents($this->cache . ".ttl"));
+		}
+
 		ob_start();
 		$err = $this->rdesc->handleFormat("ttl");
 		$rdfttl = ob_get_contents();
@@ -123,23 +139,50 @@ class BusStop
 
 	function __construct($new_stop_code, $endpoint)
 	{
-
-		$graph = new Graphite();
-		$graph->ns("naptan", "http://vocab.org/transit/terms/");
-		$graph->ns("soton", "http://id.southampton.ac.uk/ns/");
 		$this->stop_code = $new_stop_code;
 		$this->uri = "http://id.southampton.ac.uk/bus-stop/" . $new_stop_code;
 
-		$resource = $graph->resource($this->uri);
-		$this->rdesc = $resource->prepareDescription();
-		$this->rdesc->addRoute( "*" );
-		$this->rdesc->addRoute( "*/rdf:type" );
-		$this->rdesc->addRoute( "*/rdfs:label" );
-		$this->rdesc->addRoute( "-naptan:stop/*" );
-		$this->rdesc->addRoute( "-naptan:stop/naptan:route/*" );
-		$this->rdesc->addRoute( "-naptan:stop/naptan:route/soton:busRouteOperator/*" );
-		$n = $this->rdesc->loadSPARQL($endpoint);
+		$this->cache = "./cache/stops/" . $new_stop_code;
+		if(file_exists($this->cache . ".ttl"))
+		{
+			$graph = new Graphite();
+			$graph->load($this->cache . ".ttl");
 
-		$this->rdf = $this->rdesc->toGraph()->resource($this->uri);
+			$this->rdf = $graph->resource($this->uri);
+		}
+
+		else
+		{
+			$graph = new Graphite();
+			$graph->ns("naptan", "http://vocab.org/transit/terms/");
+			$graph->ns("soton", "http://id.southampton.ac.uk/ns/");
+
+			$resource = $graph->resource($this->uri);
+			$this->rdesc = $resource->prepareDescription();
+			$this->rdesc->addRoute( "*" );
+			$this->rdesc->addRoute( "*/rdf:type" );
+			$this->rdesc->addRoute( "*/rdfs:label" );
+			$this->rdesc->addRoute( "-naptan:stop/*" );
+			$this->rdesc->addRoute( "-naptan:stop/naptan:route/*" );
+			$this->rdesc->addRoute( "-naptan:stop/naptan:route/soton:busRouteOperator/*" );
+			$n = $this->rdesc->loadSPARQL($endpoint);
+
+			$this->rdf = $this->rdesc->toGraph()->resource($this->uri);
+
+			$data = $this->toTtl();
+			$fp = fopen($this->cache . ".ttl", 'w');
+			fwrite($fp, $data);
+			fclose($fp);
+
+			$data = $this->toRdf();
+			$fp = fopen($this->cache . ".rdf", 'w');
+			fwrite($fp, $data);
+			fclose($fp);
+
+			$data = $this->toKml();
+			$fp = fopen($this->cache . ".kml", 'w');
+			fwrite($fp, $data);
+			fclose($fp);
+		}
 	}
 }
