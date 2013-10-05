@@ -41,6 +41,7 @@ $f3->route("GET /", "homePage");
 $f3->route("GET /mobile", "mobileHomePageRedirect");
 $f3->route("GET /mobile2", "mobileHomePage");
 $f3->route("GET /area/@areaid.@format", "busArea");
+$f3->route("GET /area-publicdisplay/@areaid.@format", "publicdisplayBusArea");
 $f3->route("GET /bus-route/@routecode.@format", "busRoute");
 $f3->route("GET /bus-stop/@stopcode.@format", "busStop");
 $f3->route("GET /bus-stop/@stopcode.@format?max=@maxrows", "busStop");
