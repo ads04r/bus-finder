@@ -57,6 +57,17 @@ function mobileRoutePage($f3, $params)
 		}
 	}
 
+	$format = @$params['format'];
+	if(strcmp($format, "json") == 0)
+	{
+
+		$source_uri = "http://id.southampton.ac.uk/bus-stop/" . preg_replace("/[^A-Za-z0-9]/", "", @$_GET['begin']);
+		$dest_uri = "http://id.southampton.ac.uk/bus-stop/" . preg_replace("/[^A-Za-z0-9]/", "", @$_GET['end']);
+		$search = new Search($source_uri, $dest_uri);
+		print($search->toJson());
+		exit();
+	}
+
 	$stops = getStopsOnRoute($_GET['route'], "http://id.southampton.ac.uk/bus-stop/" . $_GET['begin'], "http://id.southampton.ac.uk/bus-stop/" . $_GET['end']);
 	if(count($stops) <= 2)
 	{
@@ -77,7 +88,7 @@ function mobileRoutePage($f3, $params)
                      <ul>
                         <li><a href="#" class="ui-btn-active routepageselect" data-tab-class="tab1">Stops</a></li>
                         <li><a href="#" class="routepageselect" data-tab-class="tab2">Maps</a></li>
-                        <li><a href="#" class="routepageselect" data-tab-class="tab3">Live Times</a></li>
+                        <li><a href="#" class="routepageselect" data-tab-class="tab3">Timetable</a></li>
                     </ul>
                 </div>
             </div>
@@ -99,12 +110,13 @@ function mobileRoutePage($f3, $params)
 
 	$content .= "<h3 align=\"center\">Current location to bus</h3><div style=\"display: block; width: 100%; height: 300px; background-position: center; background-repeat: no-repeat; background-image:url(http://bus.southampton.ac.uk/graphics/staticmaplite/staticmap.php?center=" . middle($first_ll['lat'], $lat) . "," . middle($first_ll['lon'], $lon) . "&zoom=16&size=720x300&markers=" . $lat . "," . $lon . ",ol-marker-green|" . $first_ll['lat'] . "," . $first_ll['lon'] . ",ol-marker);\"></div>";
 	$content .= "<h3 align=\"center\">Bus to destination</h3><div style=\"display: block; width: 100%; height: 300px; background-position: center; background-repeat: no-repeat; background-image:url(http://bus.southampton.ac.uk/graphics/staticmaplite/staticmap.php?center=" . middle($last_ll['lat'], $dest_ll['lat']) . "," . middle($last_ll['lon'], $dest_ll['lon']) . "&zoom=16&size=720x300&markers=" . $dest_ll['lat'] . "," . $dest_ll['lon'] . ",ol-marker-green|" . $last_ll['lat'] . "," . $last_ll['lon'] . ",ol-marker);\">";
-	$content .= "</div>";
+	$content .= "</div></div>";
 
 	$content .= "<div id=\"page_tab3\" style=\"display: none;\">";
+	$content .= "<div id=\"mobile_live_times\"></div>";
 	$content .= "</div>";
 
-	$content .= "</div></div>";
+	$content .= "</div>";
 
 	$f3->set('page_content', $content);
 	$template = new Template;
@@ -149,8 +161,8 @@ function mobileSearchPage($f3, $params)
 
 	if(($lat == 0) | ($lon == 0))
 	{
-		$lat = 50.934189;
-		$lon = -1.395685;
+		$lat = 50.93626;
+		$lon = -1.39684;
 	}
 
 	$neareststops_target = nearestStops($target_uri);

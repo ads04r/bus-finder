@@ -1,3 +1,121 @@
+var bl;
+var routes;
+var stops_start;
+var stops_end;
+
+function updateTimes() {
+	var stopId = $('.bus_timetable').attr('id');
+	var url = "/bus-stop/" + stopId + ".json";
+	$.ajax({
+		async: false,
+		url: url,
+		dataType: "json",
+		success: function(json) {
+			var dataAge = json['age'];
+			var stops = json['stops'];
+			var stopCount = stops.length;
+			var htmlcode = "";
+			for(var i = 0; i < stopCount; i++) {
+				s = stops[i];
+				var veh = '';
+				if(s.vehicle) {
+					veh = s.vehicle;
+				}
+				htmlcode = htmlcode + "<tr>"
+				htmlcode = htmlcode + '<td class="time">' + s.time + '</td>'
+				htmlcode = htmlcode + '<td class="routeid">' + s.name + '</td><td>' + s.dest + '</td>'
+				if(veh.length > 0){
+					htmlcode = htmlcode + '<td class="timetype"></td>'
+				} else {
+					htmlcode = htmlcode + '<td class="timetype">(Scheduled)</td>'
+				}
+				htmlcode = htmlcode + "</tr>"
+			}
+			if(htmlcode == '') {
+				htmlcode = "<p>Error fetching data.</p>";
+			} else {
+				htmlcode = '<table class="bustimetable">' + htmlcode + "</table>";
+			}
+			$('.bus_timetable').html(htmlcode);
+			if(dataAge < 30) {
+				setTimeout(updateTimes, ((30 - dataAge) * 1000));
+			} else {
+				setTimeout(updateTimes, 30000);
+			}
+		},
+		error: function() {
+		}
+	});
+}
+
+function drawStops( data )
+{
+	var h = "";
+
+	var count = 0;
+	for (var i in data["stops"]) { if (data["stops"].hasOwnProperty(i)) { count++; }}
+
+	for( var i=0; i<data["journeys"].length; i++ )
+	{
+		var jny = data["journeys"][i];
+		var label = jny[0]["name"]+" to "+jny[0]["dest"];
+
+		var rtok = 0;
+		for(var key in routes)
+		{
+			if(routes.hasOwnProperty(key))
+			{
+				var rt = routes[key];
+				var rtcode = rt['id'] + ' ';
+				var clen = rtcode.length;
+				var compare = jny[0]["name"].substring(0, clen) + " ";
+				if(compare == rtcode)
+				{
+					rtok = 1;
+				}
+			}
+		}
+
+		if((jny.length > 1) & (rtok == 1))
+		{
+			var firststop = jny[0]["stop"];
+			var finalstop = jny[(jny.length - 1)]["stop"];
+
+			if(($.inArray(firststop, stops_start) > -1) & ($.inArray(finalstop, stops_end) > -1))
+			{
+				for( var j=0;j<jny.length;j++ )
+				{
+					var stop = data["stops"][jny[j]["stop"]];
+		
+					if( j==0 )
+					{
+						h += "<h2>"+label+"</h2>";
+						h += "<table>";
+					}
+		
+					h += '<tr>'
+					h += '<td>' + jny[j]["time"] + '</td>';
+					h += '<td><a href="/bus-stop-mobile/' + stop['code'] + '.html"><strong>' + stop['label'] + '</strong></a></td>'
+					h += '</tr>'
+		
+					if( j==(jny.length - 1) )
+					{
+						h += "</table>";
+					}
+				}
+			}
+		}
+	}
+
+	$("#mobile_live_times").html( h );
+}
+
+function create(title, stops)
+{
+	$("#mobile_live_times").html("<h2>Loading bus data...</h2>");
+	bl = BusListener( stops, drawStops, function( msg ) { ; } );
+}
+
 function geoLocate() 
 {
 	navigator.geolocation.getCurrentPosition(
@@ -31,14 +149,15 @@ function setUpTabs()
 	});
 }
 
-$(document).bind("pageinit", function()
+$(document).bind("pageshow", function()
 {
-	setUpTabs();
-});
 
-$(document).ready(function() 
-{
-		// Mobile version
+		if($('div.bus_timetable').length > 0)
+		{
+			updateTimes();
+		}
+
+		setUpTabs();
 
 		geoLocate();
 		$("#bussearch").on("change", function(event, ui) {
@@ -68,4 +187,26 @@ $(document).ready(function()
 				});
 			}
 		});
+
+		if($('#mobile_live_times').length > 0)
+		{
+			var url = document.URL.replace('.html?', '.json?');
+
+			$.ajax({
+				type: "GET",
+				url: url,
+				dataType: "json",
+				success: function(data) {
+					routes = data['routes'];
+					var stops_arr = data['stops'];
+					stops_start = stops_arr['start'];
+					stops_end = stops_arr['end'];
+					var stops = stops_arr['start'].concat(stops_arr['end']);
+					var title = "Search";
+					create(title, stops);
+				},
+				error: function() {
+				}
+			});
+		}
 });

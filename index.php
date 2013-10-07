@@ -26,20 +26,10 @@ include_once("./classes/Search.php");
 include_once("./include/render.php");
 include_once("./include/search.php");
 
-function mobileHomePageRedirect($f3)
-{
-        // TODO: Change this!
-        header("Location: http://data.southampton.ac.uk/bus-finder/?view=mob");
-        exit();
-
-        renderPage($f3, "mobile", 1);
-}
-
 // Routes
 
 $f3->route("GET /", "homePage");
-$f3->route("GET /mobile", "mobileHomePageRedirect");
-$f3->route("GET /mobile2", "mobileHomePage");
+$f3->route("GET /mobile", "mobileHomePage");
 $f3->route("GET /area/@areaid.@format", "busArea");
 $f3->route("GET /area-publicdisplay/@areaid.@format", "publicdisplayBusArea");
 $f3->route("GET /bus-route/@routecode.@format", "busRoute");
