@@ -11,7 +11,8 @@ $f3->set('page_template', "");
 
 $f3->set('brand_file', "./templates/bus.html");
 $f3->set('mobile_brand_file', "./templates/mobile.html");
-$f3->set('sparql_endpoint', "http://sparql.data.southampton.ac.uk/");
+//$f3->set('sparql_endpoint', "http://sparql.data.southampton.ac.uk/");
+$f3->set('sparql_endpoint', "http://edward:8002/");
 
 // Classes
 

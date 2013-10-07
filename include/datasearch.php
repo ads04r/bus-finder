@@ -91,12 +91,16 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX geo:  <http://www.w3.org/2003/01/geo/wgs84_pos#>
 
-SELECT DISTINCT *
+
+SELECT DISTINCT ?uri ?title ?lat ?lon ?ds_uri ?dataset
 WHERE {
 {
-	?uri rdfs:label ?title .
-	?uri geo:lat ?lat .
-	?uri geo:long ?lon .
+  ?uri rdfs:label ?title .
+  ?uri geo:lat ?lat .
+  ?uri geo:long ?lon .
+  GRAPH ?g { ?uri ?p ?o . } .
+  OPTIONAL { ?ds_uri rdfs:label ?dataset .
+             ?ds_uri <http://rdfs.org/ns/void#dataDump> ?g . } .
 }
 FILTER regex(?title, \"" . $regex . "\")
 }
@@ -112,11 +116,16 @@ LIMIT 100
 			$r = array();
 			foreach($result as $triple)
 			{
+				$ds = array();
+				$ds['uri'] = $triple['ds_uri'];
+				$ds['title'] = $triple['dataset'];
+
 				$item = array();
 				$item['uri'] = $triple['uri'];
 				$item['title'] = $triple['title'];
 				$item['lat'] = $triple['lat'];
 				$item['lon'] = $triple['lon'];
+				$item['dataset'] = $ds;
 				$r[] = $item;
 			}
 		}

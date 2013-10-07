@@ -177,8 +177,9 @@ $(document).bind("pageshow", function()
 					$.each(data, function(key, val) {
 						var title = val['title'];
 						var uri = val['uri'];
+						var ds = val['dataset'];
 						if(lasttitle != title) {
-							html = html + '<li data-theme="c"><a href="/search/mobile.html?uri=' + encodeURIComponent(uri) + '&lat=' + lat + '&lon=' + lon + '" data-transition="slide">' + title + '</a></li>';
+							html = html + '<li data-theme="c"><a href="/search/mobile.html?uri=' + encodeURIComponent(uri) + '&lat=' + lat + '&lon=' + lon + '" data-transition="slide">' + title + '<br><span class="poi_source">Source: ' + ds['title'] + '</span></a></li>';
 						}
 						lasttitle = title;
 					});
