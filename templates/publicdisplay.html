@@ -17,6 +17,7 @@
 	<true><script type="text/javascript" src="/javascript/bus-finder-main.js"></script></true>
 	<false>
 		<check if="{{ @page_template=='./templates/stop.html' }}"><true><script type="text/javascript" src="/javascript/bus-finder-stop.js"></script></true></check>
+		<check if="{{ @page_template=='./templates/stop_publicdisplay.html' }}"><true><script type="text/javascript" src="/javascript/bus-finder-stop.js"></script></true></check>
 		<check if="{{ @page_template=='./templates/place.html' }}"><true><script type="text/javascript" src="/javascript/bus-finder-place.js"></script></true></check>
 		<check if="{{ @page_template=='./templates/area.html' }}"><true><script type="text/javascript" src="/javascript/bus-finder-area.js"></script></true></check>
 		<check if="{{ @page_template=='./templates/searchresults.html' }}"><true><script type="text/javascript" src="/javascript/bus-finder-searchresults.js"></script></true></check>
@@ -29,15 +30,11 @@
 
 <div id="background" style="background-image: url(/graphics/background4.jpg);">
 
-<check if="{{ @page_title=='' }}"><true>
-<div id="main" style="top: 345px;">
-</true><false>
-<div id="main">
-</false></check>
+<div id="main" style="padding-left: 0px;">
 
 <div class="header">
 <h1 id="listtitle"><check if="{{ @page_title=='' }}"><true>Southampton Bus Information</true><false>{{ @page_title }}</false></check></h1></div>
-<div class="content">
+<div class="content" style="font-size: 1.4em;">
 
 <check if="{{ @page_content=='' }}">
 <true>

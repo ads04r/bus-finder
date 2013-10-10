@@ -135,6 +135,49 @@ function mobileBusStop($f3, $params)
 	echo $template->render($f3->get('mobile_brand_file'));
 }
 
+function publicdisplayBusStop($f3, $params)
+{
+	$bs = new BusStop($params['stopcode'], $f3->get('sparql_endpoint'));
+	@$format = $params['format'];
+	if(strcmp($format, "kml") == 0)
+	{
+		header("Content-type: application/xml");
+		print($bs->toKml());
+		exit();
+	}
+	if(strcmp($format, "rdf") == 0)
+	{
+		header("Content-type: application/rdf+xml");
+		print($bs->toRdf());
+		exit();
+	}
+	if(strcmp($format, "ttl") == 0)
+	{
+		header("Content-type: text/plain");
+		print($bs->toTtl());
+		exit();
+	}
+	if(strcmp($format, "json") == 0)
+	{
+		header("Content-type: text/plain");
+		$maxrows = 5;
+		if(array_key_exists("maxrows", $params))
+		{
+			$maxrows = (int) $params['maxrows'];
+		}
+		print($bs->toJson($maxrows));
+		exit();
+	}
+
+	$f3->set('TEMP', '/tmp');
+	$f3->set('page_title',$bs->label());
+	$f3->set('page_content', '');
+	$f3->set('page_object', $bs);
+	$f3->set('page_template', './templates/stop_publicdisplay.html');
+	$template = new Template;
+	echo $template->render('./templates/publicdisplay.html');
+}
+
 function busRoute($f3, $params)
 {
 	$id = $params['routecode'];

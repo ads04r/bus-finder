@@ -11,7 +11,8 @@ $f3->set('page_template', "");
 
 $f3->set('brand_file', "./templates/bus.html");
 $f3->set('mobile_brand_file', "./templates/mobile.html");
-$f3->set('sparql_endpoint', "http://sparql.data.southampton.ac.uk/");
+//$f3->set('sparql_endpoint', "http://sparql.data.southampton.ac.uk/");
+$f3->set('sparql_endpoint', "http://edward:8002/sparql/");
 
 // Classes
 
@@ -37,6 +38,7 @@ $f3->route("GET /bus-route-mobile/@routecode.@format", "mobileBusRoute");
 $f3->route("GET /bus-stop/@stopcode.@format", "busStop");
 $f3->route("GET /bus-stop/@stopcode.@format?max=@maxrows", "busStop");
 $f3->route("GET /bus-stop-mobile/@stopcode.@format", "mobileBusStop");
+$f3->route("GET /bus-stop-publicdisplay/@stopcode.@format", "publicdisplayBusStop");
 $f3->route("GET /place/@fhrs.@format", "place");
 $f3->route("GET /@pagename.html", "otherPage");
 $f3->route("GET /search/autocomplete.json?term=@query", "autocompleteJson");
