@@ -159,7 +159,11 @@ $(document).bind("pageshow", function()
 
 		setUpTabs();
 
-		geoLocate();
+		if(($('#latitude').length > 0) & ($('#longitude').length > 0))
+		{
+			geoLocate();
+		}
+
 		$("#bussearch").on("change", function(event, ui) {
 			var squery = $("#bussearch").attr('value');
 			if (squery.length > 1) {

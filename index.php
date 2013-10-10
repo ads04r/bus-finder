@@ -11,8 +11,7 @@ $f3->set('page_template', "");
 
 $f3->set('brand_file', "./templates/bus.html");
 $f3->set('mobile_brand_file', "./templates/mobile.html");
-//$f3->set('sparql_endpoint', "http://sparql.data.southampton.ac.uk/");
-$f3->set('sparql_endpoint', "http://edward:8002/");
+$f3->set('sparql_endpoint', "http://sparql.data.southampton.ac.uk/");
 
 // Classes
 
@@ -34,6 +33,7 @@ $f3->route("GET /mobile", "mobileHomePage");
 $f3->route("GET /area/@areaid.@format", "busArea");
 $f3->route("GET /area-publicdisplay/@areaid.@format", "publicdisplayBusArea");
 $f3->route("GET /bus-route/@routecode.@format", "busRoute");
+$f3->route("GET /bus-route-mobile/@routecode.@format", "mobileBusRoute");
 $f3->route("GET /bus-stop/@stopcode.@format", "busStop");
 $f3->route("GET /bus-stop/@stopcode.@format?max=@maxrows", "busStop");
 $f3->route("GET /bus-stop-mobile/@stopcode.@format", "mobileBusStop");

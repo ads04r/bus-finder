@@ -1,0 +1,14 @@
+<div data-role="page" id="page1"><div data-theme="a" data-role="header">
+	<h3 id="header">{{ @page_title }}</h3>
+</div>
+<div data-role="content" id="pagecontent">
+
+<ul data-role="listview">
+<F3:repeat group="{{ @page_object->stops() }}" value="{{ @stop }}">
+	<li><a href="/bus-stop-mobile/{{ @stop['id'] }}.html">{{ @stop['name'] }}</a></li>
+</F3:repeat>
+</ul>
+
+
+</div>
+

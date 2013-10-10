@@ -42,7 +42,13 @@ function mobileHomePage($f3)
 
 function otherPage($f3, $params)
 {
-	renderPage($f3, $params['pagename']);
+	$page = $params['pagename'];
+	if(strcmp(substr($page, -7), "-mobile") == 0)
+	{
+		renderPage($f3, $page, 1);
+	} else {
+		renderPage($f3, $page);
+	}
 }
 
 function busStop($f3, $params)
@@ -166,6 +172,45 @@ function busRoute($f3, $params)
 	$f3->set('page_template', './templates/route.html');
 	$template = new Template;
 	echo $template->render($f3->get('brand_file'));
+}
+
+function mobileBusRoute($f3, $params)
+{
+	$id = $params['routecode'];
+	$br = new BusRoute($id, $f3->get('sparql_endpoint'));
+	@$format = $params['format'];
+	if(strcmp($format, "kml") == 0)
+	{
+		header("Content-type: application/xml");
+		print($br->toKml());
+		exit();
+	}
+	if(strcmp($format, "rdf") == 0)
+	{
+		header("Content-type: application/rdf+xml");
+		print($br->toRdf());
+		exit();
+	}
+	if(strcmp($format, "ttl") == 0)
+	{
+		header("Content-type: text/plain");
+		print($br->toTtl());
+		exit();
+	}
+	if(strcmp($format, "json") == 0)
+	{
+		header("Content-type: text/plain");
+		print($br->toJson());
+		exit();
+	}
+
+	$f3->set('TEMP', '/tmp');
+	$f3->set('page_title', $br->label());
+	$f3->set('page_content', '');
+	$f3->set('page_object', $br);
+	$f3->set('page_template', './templates/route_mobile.html');
+	$template = new Template;
+	echo $template->render($f3->get('mobile_brand_file'));
 }
 
 function busArea($f3, $params)
