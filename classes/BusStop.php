@@ -125,7 +125,7 @@ class BusStop
 		$lat = $ll['lat'];
 		$lon = $ll['lon'];
 
-		return("http://bus.southampton.ac.uk/graphics/staticmaplite/staticmap.php?center=" . $lat . "," . $lon . "&zoom=17&size=720x200&markers=" . $lat . "," . $lon . ",ol-marker-gold");
+		return("http://bus.southampton.ac.uk/graphics/staticmaplite/staticmap.php?center=" . $lat . "," . $lon . "&zoom=17&size=720x200&markers=" . $lat . "," . $lon . ",bus");
 	}
 
 	public function latLon()
