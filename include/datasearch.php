@@ -117,8 +117,10 @@ LIMIT 100
 			foreach($result as $triple)
 			{
 				$ds = array();
-				$ds['uri'] = $triple['ds_uri'];
-				$ds['title'] = $triple['dataset'];
+				$ds['uri'] = "";
+				$ds['title'] = "";
+				$ds['uri'] = @$triple['ds_uri'];
+				$ds['title'] = @$triple['dataset'];
 
 				$item = array();
 				$item['uri'] = $triple['uri'];
