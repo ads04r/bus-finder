@@ -120,6 +120,21 @@ class BusRoute
 		return("");
 	}
 
+	public function polyline()
+	{
+		$stops = $this->stops();
+		$ret = array();
+		foreach($stops as $stop)
+		{
+			$item = array();
+			$item[] = $stop['lat'];
+			$item[] = $stop['lon'];
+			$ret[] = $item;
+		}
+
+		return(json_encode($ret));
+	}
+
 	public function mapImage()
 	{
 		$stops = $this->stops(); $i = 0; $p = 0;

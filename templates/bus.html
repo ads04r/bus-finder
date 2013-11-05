@@ -20,6 +20,13 @@
 		<check if="{{ @page_template=='./templates/place.html' }}"><true><script type="text/javascript" src="/javascript/bus-finder-place.js"></script></true></check>
 		<check if="{{ @page_template=='./templates/area.html' }}"><true><script type="text/javascript" src="/javascript/bus-finder-area.js"></script></true></check>
 		<check if="{{ @page_template=='./templates/searchresults.html' }}"><true><script type="text/javascript" src="/javascript/bus-finder-searchresults.js"></script></true></check>
+		<check if="{{ @page_template=='./templates/route.html' }}"><true>
+			<script src="/javascript/leaflet/leaflet.js"></script>
+			<link rel="stylesheet" href="/javascript/leaflet/leaflet.css" />
+			 <!--[if lte IE 8]>
+			     <link rel="stylesheet" href="/javascript/leaflet/leaflet.ie.css" />
+			 <![endif]-->
+		</true></check>
 	</false>
 </check>
 

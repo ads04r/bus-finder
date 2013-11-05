@@ -1,4 +1,4 @@
-<div style="text-align: right; background-image: url({{ @page_object->mapImage() }}); background-position: center; width: 100%; height: 480px;"><a href="http://www.openstreetmap.org/"><img src="/graphics/osm_logo.png" width="60" height="20" border="0"></a></div>
+<div id="osm_route_map" style="width: 100%; height: 480px;"></div>
 <h2>Route Stops</h2>
 <F3:repeat group="{{ @page_object->stops() }}" value="{{ @stop }}">
 	<p><a href="/bus-stop/{{ @stop['id'] }}.html">{{ @stop['name'] }}</a></p>
@@ -25,3 +25,15 @@
 	If you prefer, you can visit the University of Southampton's <a href="http://data.southampton.ac.uk/">Data Site</a> to access the raw data used in the building of this site. Here you will find many more datasets in the same format, and a SPARQL endpoint for querying the data from the web.
 </p>
 <p>Finally, if you produce something cool using the data available from this site, please <a href="mailto:opendata@southampton.ac.uk">let&nbsp;us&nbsp;know</a>!</p>
+
+<script language="JavaScript"><!--//
+
+var map = L.map('osm_route_map');
+L.tileLayer('http://kanga-cb15g11.ecs.soton.ac.uk/sum/{z}/{x}/{y}.png', {
+	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, augmented with <a href="http://data.southampton.ac.uk/">Southampton Open Data</a>. Imagery by Christopher Baines',
+	maxZoom: 18
+}).addTo(map);
+var polyline = L.polyline({{ @page_object->polyline() }}, {color: '#007275', weight:10, clickable:false}).addTo(map);
+map.fitBounds(polyline.getBounds());
+
+//--></script>
