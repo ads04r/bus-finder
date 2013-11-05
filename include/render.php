@@ -73,6 +73,11 @@ function busStop($f3, $params)
 		print($bs->toTtl());
 		exit();
 	}
+	if(strcmp($format, "raw") == 0)
+	{
+		print($bs->toRaw());
+		exit();
+	}
 	if(strcmp($format, "json") == 0)
 	{
 		header("Content-type: text/plain");
@@ -176,6 +181,49 @@ function publicdisplayBusStop($f3, $params)
 	$f3->set('page_template', './templates/stop_publicdisplay.html');
 	$template = new Template;
 	echo $template->render('./templates/publicdisplay.html');
+}
+
+function iframeBusStop($f3, $params)
+{
+	$bs = new BusStop($params['stopcode'], $f3->get('sparql_endpoint'));
+	@$format = $params['format'];
+	if(strcmp($format, "kml") == 0)
+	{
+		header("Content-type: application/xml");
+		print($bs->toKml());
+		exit();
+	}
+	if(strcmp($format, "rdf") == 0)
+	{
+		header("Content-type: application/rdf+xml");
+		print($bs->toRdf());
+		exit();
+	}
+	if(strcmp($format, "ttl") == 0)
+	{
+		header("Content-type: text/plain");
+		print($bs->toTtl());
+		exit();
+	}
+	if(strcmp($format, "json") == 0)
+	{
+		header("Content-type: text/plain");
+		$maxrows = 5;
+		if(array_key_exists("maxrows", $params))
+		{
+			$maxrows = (int) $params['maxrows'];
+		}
+		print($bs->toJson($maxrows));
+		exit();
+	}
+
+	$f3->set('TEMP', '/tmp');
+	$f3->set('page_title',$bs->label());
+	$f3->set('page_content', '');
+	$f3->set('page_object', $bs);
+	$f3->set('page_template', './templates/stop_iframe.html');
+	$template = new Template;
+	echo $template->render('./templates/iframe.html');
 }
 
 function busRoute($f3, $params)
@@ -316,6 +364,37 @@ function publicdisplayBusArea($f3, $params)
 	$f3->set('page_template', './templates/area.html');
 	$template = new Template;
 	echo $template->render('./templates/publicdisplay.html');
+}
+
+function iframeBusArea($f3, $params)
+{
+	$area = new Area($params['areaid'], $f3->get('sparql_endpoint'));
+	@$format = $params['format'];
+	if(strcmp($format, "rdf") == 0)
+	{
+		header("Content-type: application/rdf+xml");
+		print($area->toRdf());
+		exit();
+	}
+	if(strcmp($format, "ttl") == 0)
+	{
+		header("Content-type: text/plain");
+		print($area->toTtl());
+		exit();
+	}
+	if(strcmp($format, "json") == 0)
+	{
+		header("Content-type: text/plain");
+		print($area->toJson());
+		exit();
+	}
+	$f3->set('TEMP', '/tmp');
+	$f3->set('page_title',$area->label());
+	$f3->set('page_content', '');
+	$f3->set('page_object', $area);
+	$f3->set('page_template', './templates/area.html');
+	$template = new Template;
+	echo $template->render('./templates/iframe.html');
 }
 
 function place($f3, $params)

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><check if="{{ @page_title=='' }}"><true>Southampton Bus Information</true><false>{{ @page_title }} | Southampton Bus Information</false></check></title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+<meta http-equiv="Content-Language" content="English" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="shortcut icon" href="/favicon.png" />
+<script type="text/javascript" src="/javascript/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="/javascript/jquery-ui-1.9.2.custom.min.js"></script>
+<script type="text/javascript" src="/javascript/buslistener.js"></script>
+<script type="text/javascript" src="/javascript/datadumper.js"></script>
+
+<check if="{{ @page_title=='' }}">
+	<true><script type="text/javascript" src="/javascript/bus-finder-main.js"></script></true>
+	<false>
+		<check if="{{ @page_template=='./templates/stop.html' }}"><true><script type="text/javascript" src="/javascript/bus-finder-stop.js"></script></true></check>
+		<check if="{{ @page_template=='./templates/stop_iframe.html' }}"><true><script type="text/javascript" src="/javascript/bus-finder-stop.js"></script></true></check>
+		<check if="{{ @page_template=='./templates/stop_publicdisplay.html' }}"><true><script type="text/javascript" src="/javascript/bus-finder-stop.js"></script></true></check>
+		<check if="{{ @page_template=='./templates/place.html' }}"><true><script type="text/javascript" src="/javascript/bus-finder-place.js"></script></true></check>
+		<check if="{{ @page_template=='./templates/area.html' }}"><true><script type="text/javascript" src="/javascript/bus-finder-area-iframe.js"></script></true></check>
+		<check if="{{ @page_template=='./templates/searchresults.html' }}"><true><script type="text/javascript" src="/javascript/bus-finder-searchresults.js"></script></true></check>
+	</false>
+</check>
+
+</head>
+
+<body style="overflow: hidden;">
+
+<div id="background">
+
+<div id="main" style="padding-left: 0px;">
+
+<div class="content">
+
+<check if="{{ @page_content=='' }}">
+<true>
+<include href="{{ @page_template }}" />
+</true>
+<false>{{ @page_content | raw }}</false>
+</cneck>
+
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -32,17 +32,21 @@ include_once("./include/maptiles.php");
 // Routes
 
 $f3->route("GET /", "homePage");
-$f3->route("GET /mobile", "mobileHomePage");
 $f3->route("GET /area/@areaid.@format", "busArea");
-$f3->route("GET /area-publicdisplay/@areaid.@format", "publicdisplayBusArea");
 $f3->route("GET /bus-route/@routecode.@format", "busRoute");
-$f3->route("GET /bus-route-mobile/@routecode.@format", "mobileBusRoute");
 $f3->route("GET /bus-stop/@stopcode.@format", "busStop");
 $f3->route("GET /bus-stop/@stopcode.@format?max=@maxrows", "busStop");
-$f3->route("GET /bus-stop-mobile/@stopcode.@format", "mobileBusStop");
-$f3->route("GET /bus-stop-publicdisplay/@stopcode.@format", "publicdisplayBusStop");
 $f3->route("GET /place/@fhrs.@format", "place");
-$f3->route("GET /@pagename.html", "otherPage");
+
+$f3->route("GET /mobile", "mobileHomePage");
+$f3->route("GET /bus-route-mobile/@routecode.@format", "mobileBusRoute");
+$f3->route("GET /bus-stop-mobile/@stopcode.@format", "mobileBusStop");
+
+$f3->route("GET /area-publicdisplay/@areaid.@format", "publicdisplayBusArea");
+$f3->route("GET /area-iframe/@areaid.@format", "iframeBusArea");
+$f3->route("GET /bus-stop-publicdisplay/@stopcode.@format", "publicdisplayBusStop");
+$f3->route("GET /bus-stop-iframe/@stopcode.@format", "iframeBusStop");
+
 $f3->route("GET /search/autocomplete.json?term=@query", "autocompleteJson");
 $f3->route("GET /search/finder.html", "searchPage");
 $f3->route("GET /search/finder.@format?@argv", "searchPage");
@@ -52,6 +56,7 @@ $f3->route("GET /search/mobile-route.@format?@terms", "mobileRoutePage");
 
 $f3->route("GET /graphics/map/tiles/@z/@x/@y.png", "renderTile");
 
+$f3->route("GET /@pagename.html", "otherPage");
 $f3->route("GET *", function($f3) { $f3->error(404); });
 
 $f3->run();

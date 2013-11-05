@@ -1,6 +1,7 @@
 <?php
 
-$sparql_endpoint = "http://sparql.data.southampton.ac.uk/";
+//$sparql_endpoint = "http://sparql.data.southampton.ac.uk/";
+$sparql_endpoint = "http://edward:8002/sparql/";
 
 function getLabel($uri)
 {

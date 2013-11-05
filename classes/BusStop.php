@@ -62,6 +62,34 @@ class BusStop
 		return(json_encode($data));
 	}
 
+	public function toRaw($max_rows = 5)
+	{
+		$data = get_stop_data( $this->stop_code, $max_rows );
+		if( $data == null )
+		{
+			return "";
+		}
+
+		$html = "";
+		$html .= "<div id='BUSTIME' style='padding-right:10px;text-align:right'>&nbsp;</div>\n";
+		$html .= "<script>\n";
+		$html .= "busTimeFrom = (new Date()).getTime() - 1000*" . $data['age'] . ";\n";
+		$html .= "bstimer();\n";
+		$html .= "</script>\n";
+		$html .= "<table cellspacing='0' class='bus_display'>\n";
+		foreach($data['stops'] as $stop)
+		{
+			$html .= "<tr>";
+			$html .= "<td class='bus_display_cell_name'>" . $stop['name'] . "</td>";
+			$html .= "<td class='bus_display_cell_dest'>" . $stop['dest'] . "</td>";
+			$html .= "<td class='bus_display_cell_time'>" . $stop['time'] . "</td>";
+			$html .= "</tr>";
+		}
+		$html .= "</table>";
+
+		return($html);
+	}
+
 	public function toKml()
 	{
 		if(file_exists($this->cache . ".kml"))
