@@ -46,6 +46,10 @@ class BusStop
 			$item = $info;
 			$item['uri'] = $uri;
 			$item['url'] = "/bus-route/" . preg_replace("|(.*)/([^/]*)|", "$2", $uri) . ".html";
+			if(!(array_key_exists("operator", $item)))
+			{
+				$item['operator'] = "";
+			}
 			$ret[] = $item;
 		}
 		usort($ret, "routeSort");
@@ -54,10 +58,10 @@ class BusStop
 
 	public function toJson($max_rows = 5)
 	{
-		$data = get_stop_data( $this->stop_code, $max_rows );
+		$data = get_stop_data($this->stop_code, $max_rows);
 		if( $data == null )
 		{
-			$data= array( "error"=>array( "code"=>$bus_stops_error, "message"=>$bus_stops_error_msg ) );
+			$data = array();
 		}
 		return(json_encode($data));
 	}
