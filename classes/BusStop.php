@@ -61,18 +61,14 @@ class BusStop
 		$data = get_stop_data($this->stop_code, $max_rows);
 		if( $data == null )
 		{
-<<<<<<< HEAD
-			$data= array() );
-=======
 			$data = array();
->>>>>>> 4e3dba9b852610feb4b71268b11e5b640074203a
 		}
 		return(json_encode($data));
 	}
 
 	public function toRaw($max_rows = 5)
 	{
-		$data = get_stop_data($this->stop_code, $max_rows);
+		$data = get_stop_data( $this->stop_code, $max_rows );
 		if( $data == null )
 		{
 			return "";
