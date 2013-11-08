@@ -20,7 +20,7 @@ class BusStop
 
 	public function label()
 	{
-		return $this->rdf->label();
+		return "" . $this->rdf->label();
 	}
 
 	public function routes()
@@ -61,14 +61,18 @@ class BusStop
 		$data = get_stop_data($this->stop_code, $max_rows);
 		if( $data == null )
 		{
+<<<<<<< HEAD
+			$data= array() );
+=======
 			$data = array();
+>>>>>>> 4e3dba9b852610feb4b71268b11e5b640074203a
 		}
 		return(json_encode($data));
 	}
 
 	public function toRaw($max_rows = 5)
 	{
-		$data = get_stop_data( $this->stop_code, $max_rows );
+		$data = get_stop_data($this->stop_code, $max_rows);
 		if( $data == null )
 		{
 			return "";
@@ -115,24 +119,59 @@ class BusStop
 
 	public function toRdf()
 	{
-		if(file_exists($this->cache . ".rdf"))
-		{
-			return(file_get_contents($this->cache . ".rdf"));
-		}
-
-		ob_start();
-		$err = $this->rdesc->handleFormat("rdf");
-		$rdfxml = ob_get_contents();
-		ob_end_clean();
-
-		if($err)
-		{
-			return($rdfxml);
-		}
-		return("");
+		$g = new Graphite();
+		$g->addTurtle("", $this->generateTtl());
+		$g->addTurtle("", $this->generateTimesTtl());
+		return($g->serialize("RDFXML"));
 	}
 
 	public function toTtl()
+	{
+		$g = new Graphite();
+		$g->addTurtle("", $this->generateTtl());
+		$g->addTurtle("", $this->generateTimesTtl());
+		return($g->serialize("Turtle"));
+	}
+
+	private function generateTimesTtl()
+	{
+		$data = get_stop_data($this->stop_code, 5);
+		$stops = array();
+		if(array_key_exists("stops", $data))
+		{
+			$stops = $data['stops'];
+		}
+		$i = 1;
+		$g = new Graphite();
+		foreach($stops as $stop)
+		{
+			$dt = strtotime(date("Y-m-d") . " " . $stop['time'] . ":00");
+			$now = time();
+			if($dt < $now)
+			{
+				$dt = $dt + 86400; // Not all future times are today!
+			}
+
+			$g->addTriple("_:b" . $i, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://id.southampton.ac.uk/ns/TimetabledBusArrivalEvent");
+			$g->addTriple("_:b" . $i, "http://purl.org/dc/terms/source", "http://bus.southampton.ac.uk/bus-stop/" . $this->stop_code . ".ttl");
+			$g->addTriple("_:b" . $i, "http://purl.org/NET/c4dm/event.owl#place", "http://id.southampton.ac.uk/bus-stop/" . $this->stop_code);
+			$g->addTriple("_:b" . $i, "http://purl.org/NET/c4dm/event.owl#time", "_:b" . ($i + 1));
+			$g->addTriple("_:b" . $i, "http://id.southampton.ac.uk/ns/vehicleName", $stop['name'], "http://id.southampton.ac.uk/ns/bus-route-id-scheme");
+			$g->addTriple("_:b" . $i, "http://www.w3.org/2004/02/skos/core#notation", $stop['name'], "http://id.southampton.ac.uk/ns/bus-route-id-scheme");
+			$g->addTriple("_:b" . $i, "http://www.w3.org/2000/01/rdf-schema#label", $stop['name'] . ": " . $stop['dest'] . " - " . $stop['time'], "literal");
+			$g->addTriple("_:b" . $i, "http://id.southampton.ac.uk/ns/vehicleDestination", "_:b" . ($i + 2));
+
+			$g->addTriple("_:b" . ($i + 1), "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://purl.org/NET/c4dm/timeline.owl#Instant");
+			$g->addTriple("_:b" . ($i + 1), "http://purl.org/NET/c4dm/timeline.owl#at", date("c", $dt), "http://www.w3.org/2001/XMLSchema#dateTime");
+
+			$g->addTriple("_:b" . ($i + 2), "http://www.w3.org/2000/01/rdf-schema#label", $this->label(), "literal");
+
+			$i = $i + 3;
+		}
+		return($g->serialize("Turtle"));
+	}
+
+	private function generateTtl()
 	{
 		if(file_exists($this->cache . ".ttl"))
 		{
