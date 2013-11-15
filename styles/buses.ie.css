@@ -1,0 +1,24 @@
+div#main div.content h2 {
+	background: #ABABAB;
+}
+
+div#main div.content {
+	background: #D6D6D6;
+}
+
+div#search .content {
+	background: #D6D6D6;
+}
+
+div#campusselect .content {
+	background: #D6D6D6;
+}
+
+span.search_mode_select:hover {
+	background-color: #404040;
+}
+
+body, div#background {
+	background-color: #262626;
+}
+
