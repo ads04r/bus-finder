@@ -71,6 +71,7 @@ div#main div.header {
 	background-color: #FFFFFF;
 	font-size: 0.9em;
 	padding: 3px;
+	overflow: hidden;
 }
 
 h1,h2,h3 {

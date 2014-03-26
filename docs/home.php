@@ -25,7 +25,12 @@ print("</ul></td>");
 print("<td><ul>");
 foreach($routes as $route)
 {
-	print("<li><a href=\"" . $route['url'] . "\">" . $route['num'] . " to " . $route['dest'] . "</a></li>");
+	if(preg_match("/U[0-9][A-Za-z]$/", $route['num']) > 0)
+	{
+		print("<li><a href=\"/" . $route['num'] . "\">" . $route['num'] . " to " . $route['dest'] . "</a></li>");
+	} else {
+		print("<li><a href=\"" . $route['url'] . "\">" . $route['num'] . " to " . $route['dest'] . "</a></li>");
+	}
 }
 print("</ul></td>");
 print("</tr>");
