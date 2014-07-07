@@ -5,6 +5,12 @@ function resolver($f3)
 	$req = $f3->get('SERVER');
 	$accept = explode(",", $req['HTTP_ACCEPT']);
 	$uri = $f3->get('URI');
+
+	if(preg_match("/^(.*)\\.([a-zA-Z0-9]+)$/", $uri) > 0)
+	{
+		$f3->error(404);
+	}
+
 	foreach($accept as $type)
 	{
 		if(strcmp($type, "text/html") == 0)

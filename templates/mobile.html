@@ -10,7 +10,10 @@
 	    <script src="/javascript/jquery-ui-1.9.0.custom.js"></script>
 	    <script src="/javascript/jquery.mobile-1.2.0.min.js" type="text/javascript"></script>
 	    <script src="/javascript/buslistener.js"></script>
-            <script src="/javascript/bus-finder-mobile.js"></script>
+            <check if="{{ @page_template=='./templates/area_mobile.html' }}">
+		<true><script type="text/javascript" src="/javascript/bus-finder-area-mobile.js"></script></true>
+		<false><script src="/javascript/bus-finder-mobile.js"></script></false>
+            </check>
 
     </head>
     <body>

@@ -397,6 +397,37 @@ function iframeBusArea($f3, $params)
 	echo $template->render('./templates/iframe.html');
 }
 
+function mobileBusArea($f3, $params)
+{
+	$area = new Area($params['areaid'], $f3->get('sparql_endpoint'));
+	@$format = $params['format'];
+	if(strcmp($format, "rdf") == 0)
+	{
+		header("Content-type: application/rdf+xml");
+		print($area->toRdf());
+		exit();
+	}
+	if(strcmp($format, "ttl") == 0)
+	{
+		header("Content-type: text/plain");
+		print($area->toTtl());
+		exit();
+	}
+	if(strcmp($format, "json") == 0)
+	{
+		header("Content-type: text/plain");
+		print($area->toJson());
+		exit();
+	}
+	$f3->set('TEMP', '/tmp');
+	$f3->set('page_title',$area->label());
+	$f3->set('page_content', '');
+	$f3->set('page_object', $area);
+	$f3->set('page_template', './templates/area_mobile.html');
+	$template = new Template;
+	echo $template->render($f3->get('mobile_brand_file'));
+}
+
 function place($f3, $params)
 {
 	$fhrs = $params['fhrs'];
