@@ -19,7 +19,6 @@ function drawStops( data )
 				h += '<li data-role="list-divider">'+label+'</li>';
 			}
 
-			// h += '<li><a data-ajax="false" href="/bus-stop-mobile/' + stop['code'] + '.html">' + stop['label'] + ' <span class="ui-li-aside">' + jny[j]["time"] + '</span></a></li>';
 			h += '<li>' + stop['label'] + ' <span class="ui-li-aside">' + jny[j]["time"] + '</span></li>';
 
 		}
