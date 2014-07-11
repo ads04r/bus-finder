@@ -1,7 +1,7 @@
 <?php
 
 //$sparql_endpoint = "http://sparql.data.southampton.ac.uk/";
-$sparql_endpoint = "http://edward:8002/sparql/";
+$sparql_endpoint = "http://bella:8080/openrdf-sesame/repositories/data-soton";
 
 function getLabel($uri)
 {

@@ -27,7 +27,18 @@ class BusStop
 	{
 		function routeSort($a, $b)
 		{
-			return(strnatcmp($a['code'], $b['code']));
+			$cmp = strnatcmp($a['code'], $b['code']);
+			if($cmp != 0)
+			{
+				return($cmp);
+			}
+			if($a['stops'] < $b['stops']) {
+				return 1;
+			}
+			if($a['stops'] > $b['stops']) {
+				return -1;
+			}
+			return 0;
 		}
 
 		$data = get_stop_data( $this->stop_code, 1 );

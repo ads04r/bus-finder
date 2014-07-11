@@ -5,13 +5,13 @@
 <div class="bus_timetable" id="{{ @page_object->stopCode() }}"><noscript><p>Please enable Javascript to see the live times.</p></noscript></div>
 
 <h2>Routes</h2>
-<p>This is a list of all routes that serve this stop. Some routes may depend on time of day, or be affected by other factors such as road works.</p>
+<p>This is a list of all services that serve this stop. Most services have multiple routes, depending on the time of day.</p>
 <div class="bus_stoproutes">
   <table class="busroutetable">
     <F3:repeat group="{{ @page_object->routes() }}" value="{{ @route }}">
       <tr>
         <td class="routeid">{{ @route['code'] }}</td>
-        <td><a href='{{ @route['url'] }}'>{{ @route['label'] }}</a><br><small>Service operated by {{ @route['operator'] }}</small></td>
+        <td><a href='{{ @route['url'] }}'>{{ @route['label'] }}</a><br><small>{{ @route['stops'] }} stops | Service operated by {{ @route['operator'] }}</small></td>
       </tr>
     </F3:repeat>
   </table>

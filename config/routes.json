@@ -21,13 +21,6 @@
       "uri" : "http://id.southampton.ac.uk/bus-route/2077"
    },
    {
-      "dest" : "Swaythling",
-      "num" : "U1w",
-      "url" : "/bus-route/2078.html",
-      "id" : 2078,
-      "uri" : "http://id.southampton.ac.uk/bus-route/2078"
-   },
-   {
       "dest" : "Bassett Green",
       "num" : "U2B",
       "url" : "/bus-route/2079.html",
@@ -65,15 +58,15 @@
    {
       "dest" : "Shirley Warren, Midanbury",
       "num" : "U9",
-      "url" : "/bus-route/2031.html",
+      "url" : "/bus-route/2401d7fdf4ce2a9a4e021bfd47d50cf8.html",
       "id" : 2031,
-      "uri" : "http://id.southampton.ac.uk/bus-route/2031"
+      "uri" : "http://id.southampton.ac.uk/bus-route/2401d7fdf4ce2a9a4e021bfd47d50cf8"
    },
    {
       "dest" : "Midanbury, Shirley Warren",
       "num" : "U9",
-      "url" : "/bus-route/2082.html",
+      "url" : "/bus-route/689f5b0bb3085f6306a2e815a5473d42.html",
       "id" : 2082,
-      "uri" : "http://id.southampton.ac.uk/bus-route/2082"
+      "uri" : "http://id.southampton.ac.uk/bus-route/689f5b0bb3085f6306a2e815a5473d42"
    }
 ]
