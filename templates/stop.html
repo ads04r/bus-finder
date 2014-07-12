@@ -11,7 +11,7 @@
     <F3:repeat group="{{ @page_object->routes() }}" value="{{ @route }}">
       <tr>
         <td class="routeid">{{ @route['code'] }}</td>
-        <td><a href='{{ @route['url'] }}'>{{ @route['label'] }}</a><br><small>{{ @route['stops'] }} stops | Service operated by {{ @route['operator'] }}</small></td>
+        <td><a href='{{ @route['url'] }}'>{{ @route['label'] }}</a><br><small>{{ @route['stop_count'] }} stops | Service operated by {{ @route['operator'] }}</small></td>
       </tr>
     </F3:repeat>
   </table>

@@ -223,16 +223,22 @@ function mobileSearchPage($f3, $params)
 	foreach($old_routes as $route)
 	{
 		$route['number'] = $route['id'];
-		$route['id'] = (int) preg_replace("|(.*)/([^/]*)|", "$2", $route['uri']);
+		$route['id'] = preg_replace("|(.*)/([^/]*)|", "$2", $route['uri']);
 		$route['stops'] = getStopsOnRoute($route['id'], $route['get_on']['uri'], $route['get_off']['uri']);
 		$routes[] = $route;
 	}
 	usort($routes, "mobile_route_search");
 	$done = array();
 	$content .= "<ul data-role=\"listview\" data-inset=\"true\">";
+	$lastinfo = "";
 	foreach($routes as $route)
 	{
 		if(in_array($route['id'], $done))
+		{
+			continue;
+		}
+		$info = $route['number'] . $route['get_on']['uri'] . $route['get_off']['uri'];
+		if(strcmp($info, $lastinfo) == 0)
 		{
 			continue;
 		}
@@ -244,6 +250,7 @@ function mobileSearchPage($f3, $params)
 		//$content .= "<p class=\"ui-li-aside\"><strong>" . $route['number'] . "</strong></p>";
 		$content .= "</a></li>";
 		$done[] = $route['id'];
+		$lastinfo = $info;
 	}
 	$content .= "</ul>";
 

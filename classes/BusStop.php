@@ -32,10 +32,10 @@ class BusStop
 			{
 				return($cmp);
 			}
-			if($a['stops'] < $b['stops']) {
+			if($a['stop_count'] < $b['stop_count']) {
 				return 1;
 			}
-			if($a['stops'] > $b['stops']) {
+			if($a['stop_count'] > $b['stop_count']) {
 				return -1;
 			}
 			return 0;

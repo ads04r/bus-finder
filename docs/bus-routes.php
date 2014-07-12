@@ -17,11 +17,11 @@ function routeSort($a, $b)
 	{
 		return($desc);
 	}
-	if($a['stops'] < $b['stops'])
+	if($a['stop_count'] < $b['stop_count'])
 	{
 		return 1;
 	}
-	if($a['stops'] > $b['stops'])
+	if($a['stop_count'] > $b['stop_count'])
 	{
 		return -1;
 	}
