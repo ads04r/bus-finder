@@ -63,7 +63,7 @@ foreach($data_old as $item)
                 ";
                 $result = $db->query($query);
                 $data_info = $result->fetch_all();
-                $item['stops'] = count($data_info);
+                $item['stop_count'] = count($data_info);
                 $data[] = $item;
 }
 
