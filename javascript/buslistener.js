@@ -7,13 +7,23 @@ function BusListener( stops, callback, logFn )
 	bl = this;
 
 	function journeyTimeCompare(a,b) { 
-		// not dealing with midnight yet
+		var d = new Date();
+		var h = d.getHours() - 2;
+		d.setHours(h);
+		var timecmp = d.toTimeString().replace(/.*(\d{2}:\d{2})(:\d{2}).*/, "$1");
+		if( (a[0]["time"]<timecmp) & (b[0]["time"]>timecmp) ) { return 1; }
+		if( (a[0]["time"]>timecmp) & (b[0]["time"]<timecmp) ) { return -1; }
 		if( a[0]["time"]<b[0]["time"] ) { return -1; }
 		if( a[0]["time"]>b[0]["time"] ) { return 1; }
 		return 0;
 	};
-	function eventTimeCompare(a,b) { 
-		// not dealing with midnight yet
+	function eventTimeCompare(a,b) {
+		var d = new Date();
+		var h = d.getHours() - 2;
+		d.setHours(h);
+		var timecmp = d.toTimeString().replace(/.*(\d{2}:\d{2})(:\d{2}).*/, "$1");
+		if( (a["time"]<timecmp) & (b["time"]>timecmp) ) { return 1; }
+		if( (a["time"]>timecmp) & (b["time"]<timecmp) ) { return -1; }
 		if( a["time"]<b["time"] ) { return -1; }
 		if( a["time"]>b["time"] ) { return 1; }
 		return 0;
