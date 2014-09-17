@@ -10,6 +10,7 @@
 <script type="text/javascript" src="/javascript/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript" src="/javascript/buslistener.js"></script>
 <script type="text/javascript" src="/javascript/datadumper.js"></script>
+<check if="{{ isset(@GET.css) }}"> <link ref="stylesheet" type="text/css" href="{{ @GET.css }}" />
 
 <check if="{{ @page_title=='' }}">
 	<true><script type="text/javascript" src="/javascript/bus-finder-main.js"></script></true>
