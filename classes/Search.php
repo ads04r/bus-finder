@@ -79,6 +79,17 @@ class Search
 		return "From " . $this->source_label;
 	}
 
+	public function searchTitle($route_uri)
+	{
+
+		if(array_key_exists($route_uri, $this->routes))
+		{
+			$r = $this->routes[$route_uri];
+			return $r['id'] . " | " . $r['operator'];
+		}
+		return "Search Results";
+	}
+
 	public function toJson()
 	{
 		$output = array();

@@ -1,5 +1,46 @@
 <?php
 
+function ajaxSearchPage($f3, $params)
+{
+	$format = "";
+	if(array_key_exists("format", $params))
+	{
+		$format = $params['format'];
+	}
+	if(strlen($format) == 0)
+	{
+		$format = "html";
+	}
+
+	$sourceuri = "";
+	$searchuri = "";
+	$searchfield = "";
+	if(array_key_exists("sourceuri", $_GET))
+	{
+		$sourceuri = $_GET['sourceuri'];
+	}
+	if(array_key_exists("searchuri", $_GET))
+	{
+		$searchuri = $_GET['searchuri'];
+	}
+	if(array_key_exists("searchfield", $_GET))
+	{
+		$searchfield = $_GET['searchfield'];
+	}
+
+	if(count($_GET) == 0)
+	{
+		renderPage($f3, "search");
+		exit();
+	}
+
+	if(strcmp($format, "json") == 0)
+	{
+		header("Content-type: application/json");
+		renderClarification($f3, $sourceuri, $searchuri, $searchfield, $format);
+	}
+}
+
 function searchPage($f3, $params)
 {
 	$format = "";
@@ -11,6 +52,8 @@ function searchPage($f3, $params)
 	{
 		$format = "html";
 	}
+
+	if(strcmp($format, "json") == 0) { header("Content-type: application/json"); }
 
 	$sourceuri = "";
 	$searchuri = "";
@@ -58,12 +101,21 @@ function mobileRoutePage($f3, $params)
 	}
 
 	$format = @$params['format'];
+	$source_uri = "http://id.southampton.ac.uk/bus-stop/" . preg_replace("/[^A-Za-z0-9]/", "", @$_GET['begin']);
+	$dest_uri = "http://id.southampton.ac.uk/bus-stop/" . preg_replace("/[^A-Za-z0-9]/", "", @$_GET['end']);
+	$route_uri = "http://id.southampton.ac.uk/bus-route/" . $_GET['route'];
+	$search = new Search($source_uri, $dest_uri);
+	$title = $search->searchTitle($route_uri);
+	$route_id = "";
+	if(strlen(stristr($title, "|")) > 0)
+	{
+		$route_id = preg_replace("/([^\\|]+)\\|(.*)/", "$1", $title);
+	}
+
 	if(strcmp($format, "json") == 0)
 	{
+		header("Content-type: application/json");
 
-		$source_uri = "http://id.southampton.ac.uk/bus-stop/" . preg_replace("/[^A-Za-z0-9]/", "", @$_GET['begin']);
-		$dest_uri = "http://id.southampton.ac.uk/bus-stop/" . preg_replace("/[^A-Za-z0-9]/", "", @$_GET['end']);
-		$search = new Search($source_uri, $dest_uri);
 		print($search->toJson());
 		exit();
 	}
@@ -83,7 +135,7 @@ function mobileRoutePage($f3, $params)
 	$f3->set('menu_file', $f3->get('mobile_brand_file'));
 	$f3->set('page_title','Bus Route');
 	$content = '<div data-role="page" id="page1"><div data-theme="a" data-role="header">
-                <h3 id="header">Bus Route</h3>
+                <h3 id="header">' . $title . '</h3>
                 <div data-role="navbar" id="navbar">
                      <ul>
                         <li><a href="#" class="ui-btn-active routepageselect" data-tab-class="tab1">Stops</a></li>
@@ -92,6 +144,7 @@ function mobileRoutePage($f3, $params)
                     </ul>
                 </div>
             </div>
+            <div id="route_id" style="display: none;">' . trim($route_id) . '</div>
             <div data-role="content" id="pagecontent">';
 
 	$content .= "<div id=\"page_tab1\">";

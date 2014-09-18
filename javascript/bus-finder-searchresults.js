@@ -7,6 +7,46 @@ var tabs = Array();
 tabs[0] = 'route_info';
 tabs[1] = 'route_stops';
 
+function drawStops_new( data )
+{
+	var h = "";
+
+	var count = 0;
+	for (var i in data["stops"]) { if (data["stops"].hasOwnProperty(i)) { count++; }}
+
+	for( var i=0; i<data["journeys"].length; i++ )
+	{
+		var jny = data["journeys"][i];
+		var label = jny[0]["name"]+" to "+jny[0]["dest"];
+
+		for( var j=0;j<jny.length;j++ )
+		{
+			var stop = data["stops"][jny[j]["stop"]];
+			var firststop = jny[0]["stop"];
+			var finalstop = jny[(jny.length - 1)]["stop"];
+
+			if(($.inArray(firststop, stops_start) > -1) & ($.inArray(finalstop, stops_end) > -1))
+			{
+
+				if( j==0 )
+				{
+					h += "<h2>"+label+"</h2>";
+					h += "<div>";
+				}
+		
+				h += '<div class="entry"><a href="/bus-stop/' + stop['code'] + '.html"><h3>' + stop['label'] + '</h3></a><div class="time">' + jny[j]["time"] + '</div></div>';
+		
+				if( j==(jny.length - 1) )
+				{
+					h += "</div>";
+				}
+			}
+		}
+	}
+
+	$("#main").find(".route_stops").html( h );
+}
+
 function drawStops( data )
 {
 	var h = "";
@@ -35,7 +75,7 @@ function drawStops( data )
 			}
 		}
 
-		if((jny.length > 1) & (rtok == 1))
+		if((jny.length > 1) & (rtok < 3))
 		{
 			var firststop = jny[0]["stop"];
 			var finalstop = jny[(jny.length - 1)]["stop"];
@@ -91,7 +131,7 @@ function showTab(ix)
 
 $(document).ready(function() {
 
-	showTab(0);
+	showTab(1);
 	$('.search_mode_select').click(function()
 	{
 		var tab_id = $(this).attr('id'); // .replace('tab_', 'route_');

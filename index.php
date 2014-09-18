@@ -13,7 +13,7 @@ $f3->set('brand_file', "./templates/bus.html");
 $f3->set('mobile_brand_file', "./templates/mobile.html");
 //$f3->set('sparql_endpoint', "http://sparql.data.southampton.ac.uk/");
 //$f3->set('sparql_endpoint', "http://edward:8002/sparql/");
-$f3->set('sparql_endpoint', "http://marbles:8080/openrdf-sesame/repositories/data-soton");
+$f3->set('sparql_endpoint', "http://bella:8080/openrdf-sesame/repositories/data-soton");
 $f3->set('map_url', "http://kanga-cb15g11.ecs.soton.ac.uk/sum/[Z]/[X]/[Y].png");
 
 // Classes
@@ -54,11 +54,13 @@ $f3->route("GET /bus-stop-publicdisplay/@stopcode.@format", "publicdisplayBusSto
 $f3->route("GET /bus-stop-iframe/@stopcode.@format", "iframeBusStop");
 
 $f3->route("GET /search/autocomplete.json?term=@query", "autocompleteJson");
-$f3->route("GET /search/finder.html", "searchPage");
-$f3->route("GET /search/finder.@format?@argv", "searchPage");
 $f3->route("GET /search/mobile.html?@argv", "mobileSearchPage");
 $f3->route("GET /search/mobile.json?@terms", "mobileAutocompleteJson");
 $f3->route("GET /search/mobile-route.@format?@terms", "mobileRoutePage");
+$f3->route("GET /search/finder.html", "searchPage");
+$f3->route("GET /search/finder.@format?@argv", "searchPage");
+$f3->route("GET /search/finder2.html", "ajaxSearchPage");
+$f3->route("GET /search/finder2.@format?@argv", "ajaxSearchPage");
 
 $f3->route("GET /graphics/map/tiles/@z/@x/@y.png", "renderTile");
 

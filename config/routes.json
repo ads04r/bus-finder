@@ -35,13 +35,6 @@
       "uri" : "http://id.southampton.ac.uk/bus-route/2027"
    },
    {
-      "dest" : "Bassett",
-      "num" : "U6",
-      "url" : "/bus-route/2080.html",
-      "id" : 2080,
-      "uri" : "http://id.southampton.ac.uk/bus-route/2080"
-   },
-   {
       "dest" : "Southampton City Centre, Docks (Soton)",
       "num" : "U6C",
       "url" : "/bus-route/2029.html",

@@ -2,6 +2,7 @@ var bl;
 var routes;
 var stops_start;
 var stops_end;
+var routeid;
 
 function updateTimes() {
 	var stopId = $('.bus_timetable').attr('id');
@@ -60,6 +61,9 @@ function drawStops( data )
 		var jny = data["journeys"][i];
 		var label = jny[0]["name"]+" to "+jny[0]["dest"];
 
+		//console.log("Checking... " + routeid + " vs " + label);
+		if(label.substring(0, (routeid.length + 1)) != routeid + ' ') { continue; }
+
 		var rtok = 0;
 		for(var key in routes)
 		{
@@ -102,6 +106,7 @@ function drawStops( data )
 					{
 						h += "</table>";
 					}
+
 				}
 			}
 		}
@@ -112,6 +117,8 @@ function drawStops( data )
 
 function create(title, stops)
 {
+	routeid = $("div#route_id").text();
+
 	$("#mobile_live_times").html("<h2>Loading bus data...</h2>");
 	bl = BusListener( stops, drawStops, function( msg ) { ; } );
 }
@@ -151,7 +158,6 @@ function setUpTabs()
 
 $(document).bind("pageshow", function()
 {
-
 		if($('div.bus_timetable').length > 0)
 		{
 			updateTimes();

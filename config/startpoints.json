@@ -44,6 +44,27 @@
       "lon" : "-1.43541225",
       "uri" : "http://id.southampton.ac.uk/site/18"
    },
+   "citygateway" : {
+      "lat" : "50.94001",
+      "stops" : [
+         "1980SN120150",
+         "1980SN120148",
+         "1980SN120149",
+         "1980SN120151",
+         "1980SNA90913",
+         "1980SN12151A"
+      ],
+      "title" : "City Gateway",
+      "lon" : "-1.37833",
+      "uri" : "http://id.southampton.ac.uk/site/80"
+   },
+   "mayflower" : {
+      "lat" : "50.908455",
+      "stops" : [],
+      "title" : "Mayflower Halls",
+      "lon" : "-1.409361",
+      "uri" : "http://id.southampton.ac.uk/site/81"
+   },
    "connaught" : {
       "lat" : "50.937965",
       "stops" : [],
