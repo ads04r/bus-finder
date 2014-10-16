@@ -33,6 +33,7 @@ function renderTile($f3, $params)
 		}
 	}
 
+	header("Cache-control: max-age=86400"); 
 	header("Content-type: image/png");
 	print($png);
 	exit();

@@ -174,14 +174,21 @@
       "lat" : "50.9372223",
       "stops" : [],
       "title" : "Boldrewood Campus",
-      "lon" : "5.4046552",
+      "lon" : "-1.4046552",
       "uri" : "http://id.southampton.ac.uk/site/2"
    },
    "hartleygrove" : {
       "lat" : "50.940693",
       "stops" : [],
       "title" : "Hartley Grove",
-      "lon" : "5.401696",
+      "lon" : "-1.401696",
       "uri" : "http://id.southampton.ac.uk/site/60"
+   },
+   "libertypoint" : {
+      "lat" : "50.911566176923074",
+      "stops" : [],
+      "title" : "Liberty Point",
+      "lon" : "-1.4004329846153847",
+      "uri" : "http://id.southampton.ac.uk/point-of-service/liberty-point"
    }
 }

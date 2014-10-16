@@ -40,6 +40,19 @@ class Search
 
 	public function getStartPointSelect()
 	{
+		function startpointsort($a, $b)
+		{
+			if(strcmp($a['uri'], "http://id.southampton.ac.uk/site/1") == 0)
+			{
+				return -1;
+			}
+			if(strcmp($b['uri'], "http://id.southampton.ac.uk/site/1") == 0)
+			{
+				return 1;
+			}
+			return(strcmp($a['title'], $b['title']));
+		}
+
 		$points = array();
 
 		$item = array();
@@ -49,6 +62,7 @@ class Search
 		$points[] = $item;
 
 		$json = json_decode(file_get_contents("./config/startpoints.json"), true);
+		usort($json, "startpointsort");
 		foreach($json as $id=>$place)
 		{
 			$item = array();

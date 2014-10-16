@@ -51,6 +51,41 @@ function otherPage($f3, $params)
 	}
 }
 
+function busOperator($f3, $params)
+{
+	$op = new BusOperator($params['noc'], $f3->get('sparql_endpoint'));
+	@$format = $params['format'];
+	if(strcmp($format, "rdf") == 0)
+	{
+		header("Content-type: application/rdf+xml");
+		print($op->toRdf());
+		exit();
+	}
+	if(strcmp($format, "ttl") == 0)
+	{
+		header("Content-type: text/plain");
+		print($op->toTtl());
+		exit();
+	}
+	if(strcmp($format, "json") == 0)
+	{
+		header("Content-type: application/json");
+		$json = array();
+		$json['id'] = $op->id();
+		$json['name'] = $op->label();
+		$json['routes'] = $op->routes();
+		print(json_encode($json));
+		exit();
+	}
+	$f3->set('TEMP', '/tmp');
+	$f3->set('page_title',$op->label());
+	$f3->set('page_content', '');
+	$f3->set('page_object', $op);
+	$f3->set('page_template', './templates/operator.html');
+	$template = new Template;
+	echo $template->render($f3->get('brand_file'));
+}
+
 function busStop($f3, $params)
 {
 	$bs = new BusStop($params['stopcode'], $f3->get('sparql_endpoint'));

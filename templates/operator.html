@@ -1,0 +1,20 @@
+<F3:repeat group="{{ @page_object->routes() }}" value="{{ @route }}">
+
+	<h2>{{ @route['id'] }}</h2>
+
+	<table>
+
+		<F3:repeat group="{{ @route['routes'] }}" value="{{ @r }}">
+
+			<tr>
+				<td>
+					<h3><a href="{{ @r['uri'] }}">{{ @r['label'] }}</a></h3>
+					<p>{{ @r['stops']}} stops</p>
+				</td>
+			</tr>
+
+		</F3:repeat>
+	
+	</table>
+
+</F3:repeat>

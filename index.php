@@ -20,6 +20,7 @@ $f3->set('map_url', "http://kanga-cb15g11.ecs.soton.ac.uk/sum/[Z]/[X]/[Y].png");
 
 include_once("./classes/BusStop.php");
 include_once("./classes/BusRoute.php");
+include_once("./classes/Operator.php");
 include_once("./classes/Place.php");
 include_once("./classes/Area.php");
 include_once("./classes/Search.php");
@@ -41,6 +42,7 @@ $f3->route("GET /area/@areaid.@format", "busArea");
 $f3->route("GET /bus-route/@routecode.@format", "busRoute");
 $f3->route("GET /bus-stop/@stopcode.@format", "busStop");
 $f3->route("GET /bus-stop/@stopcode.@format?max=@maxrows", "busStop");
+$f3->route("GET /bus-operator/@noc.@format", "busOperator");
 $f3->route("GET /place/@fhrs.@format", "place");
 
 $f3->route("GET /mobile", "mobileHomePage");
