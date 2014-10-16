@@ -129,6 +129,10 @@ div#main div.content div.entry h3 {
 	margin-bottom: 3px;
 }
 
+div#main div.content div.entry h3 .action {
+	font-size: 60%;
+}
+
 div#main div.content div.entry a {
 	float: left;
 	font-size: 1.5em;

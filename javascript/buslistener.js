@@ -1,5 +1,24 @@
 function BusListener( stops, callback, logFn )
 {
+	this.stopactions = {};
+	if( !Array.isArray(stops) )
+	{
+		// if the first param isn't an array,
+		// assume it's an object instead
+		var newstops = [];
+		for( var i=0;i<stops['start'].length;++i )
+		{
+			newstops.push( stops['start'][i] );
+			this.stopactions[ stops['start'][i] ] = "start";
+		}
+		for( var i=0;i<stops['end'].length;++i )
+		{
+			newstops.push( stops['end'][i] );
+			this.stopactions[ stops['end'][i] ] = "end";
+		}
+		stops=newstops;
+	}
+       
 	if( logFn == undefined ) { logFn = function( x) {;}; }
 	this.stops = stops;
 	this.callback = callback;
@@ -70,6 +89,7 @@ function BusListener( stops, callback, logFn )
 				{
 					var event = bl.data["stops"][code]["stops"][k];
 					event["stop"] = code;
+					event["action"] = this.stopactions[code];
 					event["jid"] = event["name"]+":"+event["dest"]+":"+event["journey"];
 					events.push( event );
 					if( journeys[ event["jid"] ] == undefined )

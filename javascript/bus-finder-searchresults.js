@@ -27,7 +27,6 @@ function drawStops_new( data )
 
 			if(($.inArray(firststop, stops_start) > -1) & ($.inArray(finalstop, stops_end) > -1))
 			{
-
 				if( j==0 )
 				{
 					h += "<h2>"+label+"</h2>";
@@ -50,7 +49,6 @@ function drawStops_new( data )
 function drawStops( data )
 {
 	var h = "";
-
 	var count = 0;
 	for (var i in data["stops"]) { if (data["stops"].hasOwnProperty(i)) { count++; }}
 
@@ -85,14 +83,23 @@ function drawStops( data )
 				for( var j=0;j<jny.length;j++ )
 				{
 					var stop = data["stops"][jny[j]["stop"]];
-		
+					var action = stop.stops[0]['action'];
 					if( j==0 )
 					{
 						h += "<h2>"+label+"</h2>";
 						h += "<div>";
 					}
 		
-					h += '<div class="entry"><a href="/bus-stop/' + stop['code'] + '.html"><h3>' + stop['label'] + '</h3></a><div class="time">' + jny[j]["time"] + '</div></div>';
+					h += '<div class="entry"><a href="/bus-stop/' + stop['code'] + '.html"><h3>';
+					if( action=="start" )
+					{
+						h+="<span class='action'>Get on at</span> ";
+					}
+					if( action=="end" )
+					{
+						h+="<span class='action'>Get off at</span> ";
+					}
+					h += stop['label'] + '</h3></a><div class="time">' + jny[j]["time"] + '</div></div>';
 		
 					if( j==(jny.length - 1) )
 					{
@@ -103,6 +110,7 @@ function drawStops( data )
 		}
 	}
 
+//h+= "<div>"+JSON.stringify(data)+"</div>";
 	$("#main").find(".route_stops").html( h );
 }
 
@@ -176,7 +184,7 @@ $(document).ready(function() {
 			stops_end = stops_arr['end'];
 			var stops = stops_arr['start'].concat(stops_arr['end']);
 			var title = "Search";
-			create(title, stops);
+			create(title, stops_arr);
 		},
 		error: function() {
 		}
