@@ -14,7 +14,7 @@ $f3->set('mobile_brand_file', "./templates/mobile.html");
 //$f3->set('sparql_endpoint', "http://sparql.data.southampton.ac.uk/");
 //$f3->set('sparql_endpoint', "http://edward:8002/sparql/");
 $f3->set('sparql_endpoint', "http://bella:8080/openrdf-sesame/repositories/data-soton");
-$f3->set('map_url', "http://kanga-cb15g11.ecs.soton.ac.uk/sum/[Z]/[X]/[Y].png");
+$f3->set('map_url', "http://tiles.map.southampton.ac.uk/map/[Z]/[X]/[Y].png");
 
 // Classes
 

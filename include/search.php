@@ -218,10 +218,9 @@ function mobileSearchPage($f3, $params)
 		$lon = -1.39684;
 	}
 
+	$routes = findBusRoutes($lat, $lon, $target_uri);
 	$neareststops_target = nearestStops($target_uri);
 	$neareststops = nearestBusStops($lat, $lon);
-
-	$routes = findBusRoutes($lat, $lon, $target_uri);
 
 	if(count($routes) > 0)
 	{

@@ -272,6 +272,15 @@ function findBusRoutes($lat, $lon, $target_uri)
 	$neareststops_target = nearestStops($target_uri);
 	$neareststops = nearestBusStops($lat, $lon);
 
+	/*
+	header("Content-type: text/plain");
+	print($lat . "," . $lon . "\n");
+	print($target_uri . "\n");
+	var_dump($neareststops_target);
+	var_dump($neareststops);
+	exit();
+	*/
+
 	$routes = array();
 
 	foreach($neareststops as $s1)
@@ -389,6 +398,25 @@ SELECT DISTINCT ?o ?v ?seq WHERE {
 }
 
 function nearestBusStops($lat, $lon)
+{
+	$url = "http://api.bus.southampton.ac.uk/latlon/" . $lat . "/" . $lon . "/stops";
+	$data = json_decode(file_get_contents($url), true);
+	$ret = array();
+	foreach($data as $stop)
+	{
+		$item = array();
+		$item['title'] = $stop['label'];
+		$item['lon'] = $stop['longitude'];
+		$item['lat'] = $stop['latitude'];
+		$item['uri'] = "http://id.southampton.ac.uk/bus-stop/" . $stop['id'];
+		$item['dist'] = ((int) (distance(((float) $item['lat']), ((float) $item['lon']), $lat, $lon, 'K') * 1000));
+		$item['routes'] = busRoutes($item['uri']);
+		$ret[] = $item;
+	}
+	return($ret);
+}
+
+function nearestBusStops_old($lat, $lon)
 {
 	global $sparql_endpoint;
 	
