@@ -36,7 +36,11 @@
                 </div>
             </div>
             <div data-role="content" id="pagecontent">
-                <ul id="resultslist" data-role="listview" data-divider-theme="d" data-inset="true"></ul>
+                <ul id="resultslist" data-role="listview" data-divider-theme="d" data-inset="true">
+<repeat group="{{ @unilink_routes }}" value="{{ @route }}" counter="{{ @i }}">
+<li data-theme="c"><a href="http://bus.southampton.ac.uk/bus-route-mobile/{{ preg_replace("|^(.*)/([^/]+)$|", "$2", @route['route']) }}.html" data-transition="slide">{{ @route['notation'] }}<br><span class="poi_source">{{ @route['label'] }}</span></a></li>
+</repeat>
+		</ul>
             </div>
         </div>
 

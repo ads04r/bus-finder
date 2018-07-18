@@ -80,6 +80,7 @@ $lastoperator = "";
 $lastnotation = "";
 $lastlabel = "";
 print("<ul data-role=\"listview\" data-divider-theme=\"d\">");
+$json = array();
 foreach( $data as $row )
 {
         $operator = $row['operator'];
@@ -100,7 +101,15 @@ foreach( $data as $row )
         $lastoperator = $operator;
 	$lastnotation = $notation;
 	$lastlabel = $label;
+
+	if(preg_match("/^U[1269][A-Z]?/", $row['notation']) == 0) { continue; }
+
+	$json[] = $row;
 }
 print("</ul>");
+
+$fp = fopen("./cache/unilink.json", "w");
+fwrite($fp, json_encode($json));
+fclose($fp);
 
 print("</div>");

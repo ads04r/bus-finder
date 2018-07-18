@@ -4,7 +4,7 @@ include_once("./include/datasearch.php");
 include_once("./include/functions.php");
 
 $f3 = require("fatfree/lib/base.php");
-$f3->set('DEBUG', true);
+$f3->set('DEBUG', false);
 $f3->set('page_template', "");
 
 // Website settings

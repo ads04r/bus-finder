@@ -122,8 +122,13 @@ class BusRoute
 
 	public function polyline()
 	{
+		$url = "http://api.bus.southampton.ac.uk/route/" . $this->route_code . "/points";
+		$ret = json_decode(file_get_contents($url), true);
+		if(!(is_array($ret))) { $ret = array(); }
+
+		if(count($ret) > 0) { return(json_encode($ret)); }
+
 		$stops = $this->stops();
-		$ret = array();
 		foreach($stops as $stop)
 		{
 			$item = array();

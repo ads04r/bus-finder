@@ -69,7 +69,14 @@ class BusStop
 
 	public function toJson($max_rows = 5)
 	{
-		$data = get_stop_data($this->stop_code, $max_rows);
+		if($max_rows > 5)
+		{
+			$data = get_stop_data_jmw($this->stop_code, $max_rows);
+		}
+		else
+		{
+			$data = get_stop_data($this->stop_code, $max_rows);
+		}
 		if( $data == null )
 		{
 			$data = array();

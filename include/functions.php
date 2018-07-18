@@ -448,7 +448,8 @@ SELECT DISTINCT * WHERE {
                 }
 
 	usort($r, "sortByDistance");
-    $rr = array_slice($r, 0, 15);
+	if(!(is_array($r))) { $r = array(); }
+	$rr = array_slice($r, 0, 15);
 	$r = array();
 	foreach($rr as $item)
 	{

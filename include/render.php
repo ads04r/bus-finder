@@ -32,11 +32,21 @@ function renderPage($f3, $page, $mobile=0)
 
 function homePage($f3)
 {
+	function sort_routes($a, $b) { return(strcmp($a['notation'], $b['notation'])); }
+
+	$unilink_routes = json_decode(file_get_contents("./cache/unilink.json"), true);
+	usort($unilink_routes, 'sort_routes');
+	$f3->set('unilink_routes', $unilink_routes);
 	renderPage($f3, "home");
 }
 
 function mobileHomePage($f3)
 {
+	function sort_routes($a, $b) { return(strcmp($a['notation'], $b['notation'])); }
+
+	$unilink_routes = json_decode(file_get_contents("./cache/unilink.json"), true);
+	usort($unilink_routes, 'sort_routes');
+	$f3->set('unilink_routes', $unilink_routes);
 	renderPage($f3, "mobile", 1);
 }
 
@@ -115,7 +125,7 @@ function busStop($f3, $params)
 	}
 	if(strcmp($format, "json") == 0)
 	{
-		header("Content-type: text/plain");
+		header("Content-type: application/json");
 		$maxrows = 5;
 		if(array_key_exists("maxrows", $params))
 		{
@@ -286,7 +296,7 @@ function busRoute($f3, $params)
 	}
 	if(strcmp($format, "json") == 0)
 	{
-		header("Content-type: text/plain");
+		header("Content-type: application/json");
 		print($br->toJson());
 		exit();
 	}
