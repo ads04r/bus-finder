@@ -1,0 +1,3 @@
+[submodule "fatfree"]
+	path = fatfree
+	url = git@github.com:bcosca/fatfree.git
