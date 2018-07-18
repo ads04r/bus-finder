@@ -1,5 +1,7 @@
 <?php
 
+include_once("./lib/arc2/ARC2.php");
+include_once("./lib/graphite/Graphite.php");
 include_once("./include/datasearch.php");
 include_once("./include/functions.php");
 

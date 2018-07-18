@@ -86,7 +86,6 @@ function busOperator($f3, $params)
 		print(json_encode($json));
 		exit();
 	}
-	$f3->set('TEMP', '/tmp');
 	$f3->set('page_title',$op->label());
 	$f3->set('page_content', '');
 	$f3->set('page_object', $op);
@@ -133,7 +132,6 @@ function busStop($f3, $params)
 		print($bs->toJson($maxrows));
 		exit();
 	}
-	$f3->set('TEMP', '/tmp');
 	$f3->set('page_title',$bs->label());
 	$f3->set('page_content', '');
 	$f3->set('page_object', $bs);
@@ -175,7 +173,6 @@ function mobileBusStop($f3, $params)
 		print($bs->toJson($maxrows));
 		exit();
 	}
-	$f3->set('TEMP', '/tmp');
 	$f3->set('page_title',$bs->label());
 	$f3->set('page_content', '');
 	$f3->set('page_object', $bs);
@@ -218,7 +215,6 @@ function publicdisplayBusStop($f3, $params)
 		exit();
 	}
 
-	$f3->set('TEMP', '/tmp');
 	$f3->set('page_title',$bs->label());
 	$f3->set('page_content', '');
 	$f3->set('page_object', $bs);
@@ -261,7 +257,6 @@ function iframeBusStop($f3, $params)
 		exit();
 	}
 
-	$f3->set('TEMP', '/tmp');
 	$f3->set('page_title',$bs->label());
 	$f3->set('page_content', '');
 	$f3->set('page_object', $bs);
@@ -300,7 +295,6 @@ function busRoute($f3, $params)
 		exit();
 	}
 
-	$f3->set('TEMP', '/tmp');
 	$f3->set('page_title', $br->label());
 	$f3->set('page_content', '');
 	$f3->set('page_object', $br);
@@ -339,7 +333,6 @@ function mobileBusRoute($f3, $params)
 		exit();
 	}
 
-	$f3->set('TEMP', '/tmp');
 	$f3->set('page_title', $br->label());
 	$f3->set('page_content', '');
 	$f3->set('page_object', $br);
@@ -370,7 +363,6 @@ function busArea($f3, $params)
 		print($area->toJson());
 		exit();
 	}
-	$f3->set('TEMP', '/tmp');
 	$f3->set('page_title',$area->label());
 	$f3->set('page_content', '');
 	$f3->set('page_object', $area);
@@ -401,7 +393,6 @@ function publicdisplayBusArea($f3, $params)
 		print($area->toJson());
 		exit();
 	}
-	$f3->set('TEMP', '/tmp');
 	$f3->set('page_title',$area->label());
 	$f3->set('page_content', '');
 	$f3->set('page_object', $area);
@@ -432,7 +423,6 @@ function iframeBusArea($f3, $params)
 		print($area->toJson());
 		exit();
 	}
-	$f3->set('TEMP', '/tmp');
 	$f3->set('page_title',$area->label());
 	$f3->set('page_content', '');
 	$f3->set('page_object', $area);
@@ -463,7 +453,6 @@ function mobileBusArea($f3, $params)
 		print($area->toJson());
 		exit();
 	}
-	$f3->set('TEMP', '/tmp');
 	$f3->set('page_title',$area->label());
 	$f3->set('page_content', '');
 	$f3->set('page_object', $area);
@@ -496,7 +485,6 @@ function place($f3, $params)
 		print($p->toJson());
 		exit();
 	}
-	$f3->set('TEMP', '/tmp');
 	$f3->set('page_title',$p->label());
 	$f3->set('page_content', '');
 	$f3->set('page_object', $p);
