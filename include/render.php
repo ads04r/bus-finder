@@ -8,7 +8,6 @@ function renderPage($f3, $page, $mobile=0)
 		$f3->error(404);
 		exit();
 	}
-	$f3->set('TEMP', '/tmp');
 	if($mobile == 1)
 	{
 		$f3->set('menu_file', $f3->get('mobile_brand_file'));
