@@ -94,30 +94,12 @@ class BusRoute
 
 	public function toRdf()
 	{
-		ob_start();
-		$err = $this->rdesc->handleFormat("rdf");
-		$rdfxml = ob_get_contents();
-		ob_end_clean();
-
-		if($err)
-		{
-			return($rdfxml);
-		}
-		return("");
+		return($this->rdesc->serialize("RDFXML"));
 	}
 
 	public function toTtl()
 	{
-		ob_start();
-		$err = $this->rdesc->handleFormat("ttl");
-		$rdfttl = ob_get_contents();
-		ob_end_clean();
-
-		if($err)
-		{
-			return($rdfttl);
-		}
-		return("");
+		return($this->rdesc->serialize("Turtle"));
 	}
 
 	public function polyline()
@@ -205,21 +187,65 @@ class BusRoute
 	function __construct($new_route_code, $endpoint)
 	{
 
-		$graph = new Graphite();
-		$graph->ns("naptan", "http://vocab.org/transit/terms/");
-		$graph->ns("soton", "http://id.southampton.ac.uk/ns/");
+		$g = new Graphite();
+		$g->ns("naptan", "http://vocab.org/transit/terms/");
+		$g->ns("soton", "http://id.southampton.ac.uk/ns/");
+		$g->ns("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#");
+		$g->ns("oo", "http://purl.org/openorg/");
 		$this->route_code = $new_route_code;
 		$this->uri = "http://id.southampton.ac.uk/bus-route/" . $new_route_code;
 
-		$resource = $graph->resource($this->uri);
-		$this->rdesc = $resource->prepareDescription();
-		$this->rdesc->addRoute( "*" );
-		$this->rdesc->addRoute( "*/rdf:type" );
-		$this->rdesc->addRoute( "*/rdfs:label" );
-		$this->rdesc->addRoute( "naptan:routeStop/*" );
-		$this->rdesc->addRoute( "naptan:routeStop/naptan:stop/*" );
-		$n = $this->rdesc->loadSPARQL($endpoint);
+		$data = json_decode(file_get_contents("http://api.bus.dev.southampton.ac.uk/route/" . $new_route_code), true);
+		$stops = json_decode(file_get_contents("http://api.bus.dev.southampton.ac.uk/route/" . $new_route_code . "/stops"), true);
 
-		$this->rdf = $this->rdesc->toGraph()->resource($this->uri);
+		$noc_uri = "http://id.southampton.ac.uk/bus-operator/" . $data['operator']['noc'];
+
+		$g->t($this->uri, "rdf:type", "soton:BusRoute");
+		$g->t($this->uri, "rdf:type", "naptan:BusRoute");
+		$g->t($this->uri, "rdf:type", "soton:BusRoute" . ucwords(strtolower($data['direction'])));
+		$g->t($this->uri, "rdfs:label", $data['description'], "literal");
+		$g->t($this->uri, "skos:notation", $data['number'], "soton:bus-route-id-scheme");
+		$g->t($this->uri, "foaf:page", "http://bus.southampton.ac.uk/bus-route/" . $new_route_code . ".html");
+		$g->t($this->uri, "soton:busRouteOperator", $noc_uri);
+		$g->t($this->uri, "naptan:agency", $noc_uri);
+
+		$g->t($noc_uri, "rdf:type", "soton:BusOperator");
+		$g->t($noc_uri, "rdf:type", "naptan:Agency");
+		$g->t($noc_uri, "rdfs:label", $data['operator']['name'], "literal");
+
+		$i = 1;
+		foreach($stops as $stop)
+		{
+			$stop_uri = "http://id.southampton.ac.uk/bus-stop/" . $stop['id'];
+			$route_stop_uri = "http://id.southampton.ac.uk/bus-route/" . $new_route_code . "/" . $i . "-" . $stop['id'];
+			$g->t($this->uri, "naptan:routeStop", $route_stop_uri);
+
+			$g->t($route_stop_uri, "rdf:type", "soton:BusRouteStop");
+			$g->t($route_stop_uri, "rdf:type", "naptan:RouteStop");
+			$g->t($route_stop_uri, "soton:busRouteSequenceNumber", $i, "xsd:nonNegativeInteger");
+			$g->t($route_stop_uri, "soton:busStoppingAt", $stop_uri);
+			$g->t($route_stop_uri, "soton:inBusRoute", $this->uri);
+			$g->t($route_stop_uri, "naptan:sequence", $i, "xsd:nonNegativeInteger");
+			$g->t($route_stop_uri, "naptan:stop", $stop_uri);
+			$g->t($route_stop_uri, "naptan:route", $this->uri);
+
+			$g->t($stop_uri, "rdf:type", "http://transport.data.gov.uk/def/naptan/BusStop");
+			$g->t($stop_uri, "rdf:type", "naptan:Stop");
+			$g->t($stop_uri, "rdfs:label", $stop['commonname'], "literal");
+			$g->t($stop_uri, "oo:mapIcon", "http://data.southampton.ac.uk/map-icons/Transportation/bus.png");
+			$g->t($stop_uri, "geo:lat", $stop['latitude'], "xsd:float");
+			$g->t($stop_uri, "geo:long", $stop['longitude'], "xsd:float");
+			$g->t($stop_uri, "skos:notation", $stop['id'], "soton:bus-stop-id-scheme");
+			$g->t($stop_uri, "foaf:page", "http://bus.southampton.ac.uk/bus-stop/" . $stop['id'] . ".html");
+			$g->t($stop_uri, "soton:liveBusTimes", "http://bus.southampton.ac.uk/bus-stop/" . $stop['id'] . ".json");
+			$g->t($stop_uri, "soton:mobilePage", "http://bus.southampton.ac.uk/bus-stop-mobile/" . $stop['id'] . ".html");
+
+			$i++;
+		}
+
+		$resource = $g->resource($this->uri);
+
+		$this->rdesc = $g;
+		$this->rdf = $resource;
 	}
 }
